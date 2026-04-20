@@ -1,0 +1,61 @@
+Package: mSigSpectra
+Type: Package
+Title: Build Mutational-Spectrum Catalogs from VCF Files
+Version: 0.0.1
+Authors@R: c(person(given = "Steve",
+                    family = "Rozen",
+                    role = c("aut", "cre"),
+                    email = "steverozen@pm.me"),
+             person(given = "Nanhai",
+                    family = "Jiang",
+                    role = "aut"),
+             person(given = "Arnoud",
+                    family = "Boot",
+                    role = "aut"),
+             person(given = "Mo",
+                    family = "Liu",
+                    role = "aut"),
+             person(given = "Yang",
+                    family = "Wu",
+                    role = "aut"),
+             person(given = c("Mi", "Ni"),
+                    family = "Huang",
+                    role = "aut"),
+             person(given = c("Jia", "Geng"),
+                    family = "Chang",
+                    role = "aut"))
+Description: Reads variant call files (VCFs) in a caller-agnostic way,
+    annotates variants with flanking sequence context and transcriptional
+    strand, and builds mutational-spectrum catalogs (SBS, DBS, indel) at
+    several resolutions (SBS96/192/1536, DBS78/136/144, ID83/89/166/476)
+    and in both counts and density representations. Successor to the
+    numerical core of the 'ICAMS' package with plotting, Shiny, and PDF
+    reporting removed; plotting is provided separately by 'mSigPlot'.
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+Language: en-US
+biocViews:
+Imports: Biostrings,
+    BSgenome,
+    data.table,
+    GenomeInfoDb,
+    GenomicRanges,
+    IRanges,
+    lifecycle,
+    Rcpp,
+    stats,
+    stringi,
+    utils
+Depends: R (>= 4.1)
+LinkingTo: Rcpp
+RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)
+Suggests:
+    BSgenome.Hsapiens.1000genomes.hs37d5,
+    BSgenome.Hsapiens.UCSC.hg38,
+    BSgenome.Mmusculus.UCSC.mm10,
+    vcfppR,
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3

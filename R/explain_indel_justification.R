@@ -18,11 +18,8 @@ explain_indel_justification = function(
     ),
     " ========="
   )
-  i_or_d = ifelse(is_ins, "i", "d")
-  message("Prior to justifying")
-  show_indel(long_str, short_str, pos_before, i_or_d)
-  message("After justifying")
-  show_indel(long_str, short_str, pos_after, i_or_d)
+  message("Prior to justifying: pos = ", pos_before)
+  message("After justifying:   pos = ", pos_after)
   message(
     "After justifying the ",
     ifelse(is_ins, "inserted", "deleted"),

@@ -7,11 +7,9 @@
 #' for additional information on deletion mutation classification.
 #'
 #' This function first handles deletions in homopolymers, then
-#' handles deletions in simple repeats with
-#' longer repeat units, (e.g. \code{CACACACA}, see
-#' \code{\link{FindMaxRepeatDel}}),
-#' and if the deletion is not in a simple repeat,
-#' looks for microhomology (see \code{\link{FindDelMH}}).
+#' handles deletions in simple repeats with longer repeat units (e.g.
+#' `CACACACA`), and if the deletion is not in a simple repeat,
+#' looks for microhomology.
 #'
 #' @param context The sequence surrounding the indel PRIOR to the insertion
 #' or deletion.

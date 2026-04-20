@@ -63,12 +63,83 @@ annotate_vcf <- function(vcf, ref_genome,
                            seq_context_width, name_of_vcf),
     DBS = annotate_dbs_vcf(vcf, ref_genome, trans_ranges,
                            seq_context_width, name_of_vcf),
-    ID  = stop(
-      "annotate_vcf(variant_type = 'ID') is not yet implemented in this port. ",
-      "Indel annotation requires the indel_justify / indel_categorize modules."
-    )
+    ID  = annotate_id_vcf(vcf, ref_genome, trans_ranges,
+                          seq_context_width, name_of_vcf)
   )
 }
+
+annotate_id_vcf <- function(vcf, ref_genome, trans_ranges,
+                            seq_context_width, name_of_vcf) {
+  # 1) Justify each indel (left-shifts canonical position, adds seq.context /
+  #    seq.context.width / pos_shift / updated REF, ALT, POS).
+  out <- suppressWarnings(justify_id_vcf(
+    vcf, ref.genome = ref_genome,
+    name.of.VCF = name_of_vcf,
+    explain_indels = 0
+  ))
+  ann <- data.table::as.data.table(out$annotated.vcf)
+  if (nrow(ann) == 0L) return(ann)
+
+  # 2) Categorize each justified indel into COSMIC_83 / Koh_89 / Koh_476 strings.
+  cats <- categorize_indels_in_vcf(ann)
+  ann[, `:=`(
+    COSMIC_83 = cats$COSMIC_83,
+    Koh_89    = cats$Koh_89,
+    Koh_476   = cats$Koh_476
+  )]
+
+  # 3) Optional transcript-strand annotation (for stranded ID catalogs, if added
+  #    in the future).
+  trans_ranges <- infer_trans_ranges(ref_genome, trans_ranges)
+  if (!is.null(trans_ranges)) {
+    ann <- add_transcript_strand(
+      ann, ref_genome = ref_genome,
+      trans_ranges = trans_ranges, name_of_vcf = name_of_vcf
+    )
+  }
+  ann
+}
+
+# Row-wise categorizer: for each justified indel in `vcf`, call
+# categorize_1_justified_indel() and collect the three output strings.
+categorize_indels_in_vcf <- function(vcf) {
+  n <- nrow(vcf)
+  cosmic <- character(n); koh89 <- character(n); koh476 <- character(n)
+
+  for (i in seq_len(n)) {
+    ref <- vcf$REF[i]
+    alt <- vcf$ALT[i]
+    ctx <- vcf$seq.context[i]
+    cw  <- vcf$seq.context.width[i]
+    # Strip the common first base.
+    ins_or_del <- if (nchar(alt) < nchar(ref)) "d" else "i"
+    ins_or_del_seq <- if (ins_or_del == "d") {
+      substr(ref, 2L, nchar(ref))
+    } else {
+      substr(alt, 2L, nchar(alt))
+    }
+    pos_in_ctx <- cw + 2L   # position in seq.context just after the common base
+
+    r <- tryCatch(
+      categorize_1_justified_indel(
+        context = ctx,
+        ins_or_del = ins_or_del,
+        ins_or_del_seq = ins_or_del_seq,
+        pos = pos_in_ctx
+      ),
+      error = function(e) list(COSMIC_83 = NA_character_,
+                               Koh_89    = NA_character_,
+                               Koh_476   = NA_character_)
+    )
+    cosmic[i] <- r$COSMIC_83 %||% NA_character_
+    koh89[i]  <- r$Koh_89    %||% NA_character_
+    koh476[i] <- r$Koh_476   %||% NA_character_
+  }
+
+  list(COSMIC_83 = cosmic, Koh_89 = koh89, Koh_476 = koh476)
+}
+
+`%||%` <- function(a, b) if (is.null(a)) b else a
 
 annotate_sbs_vcf <- function(vcf, ref_genome, trans_ranges,
                              seq_context_width, name_of_vcf) {

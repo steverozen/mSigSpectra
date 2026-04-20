@@ -31,7 +31,6 @@
 #'
 #' @importFrom utils write.csv
 #'
-#' @importFrom dplyr bind_rows
 #'
 #' @return A list of elements:
 #'   * \code{annotated.vcf}: The original VCF data
@@ -47,16 +46,8 @@
 #' @export
 #'
 #' @examples
-#' file <- system.file("extdata",
-#'                     "vcf_to_test_justify_indels_in_id_vcf_with_contexts.csv",
-#'                     package = "ICAMS")
-#'
-#' stopifnot(file.exists(file))
-#'
-#' read.csv(file) |> dplyr::select(-seq.context.width, -seq.context) -> vcf_no_contexts
-#'
-#' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
-#'     justify_id_vcf(vcf_no_contexts, ref.genome = "hg19", explain_indels = 2)}
+#' # See tests/testthat/test_indel_classification.R for an end-to-end example
+#' # against a real Strelka ID VCF.
 #'
 justify_id_vcf <-
   function(

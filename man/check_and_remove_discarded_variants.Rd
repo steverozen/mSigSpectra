@@ -28,7 +28,7 @@ Removes:
 \item Non-standard chromosome names (or those outside
 \code{chr_names_to_process} when supplied).
 \item Substitutions of length > 2 (e.g. \code{ACT>TGA}).
-\item Complex indels (REF\link{1} != ALT\link{1}).
+\item Complex indels (\code{REF[1] != ALT[1]}).
 \item Wrong DBS rows where REF and ALT share a base at the same position.
 \item Variants whose REF base is not in \verb{\{A, C, G, T\}}.
 }

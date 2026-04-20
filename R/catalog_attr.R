@@ -7,7 +7,9 @@
   "136"  = "DBS136",
   "144"  = "DBS144",
   "83"   = "ID83",
+  "89"   = "ID89",
   "166"  = "ID166",
+  "476"  = "ID476",
   "1697" = "COMPOSITE"
 )
 
@@ -18,6 +20,7 @@
 
 # The `catalog.row.order` object uses key "ID" rather than "ID83"; map.
 .catalog_row_order_key <- function(type) {
+  # catalog.row.order uses "ID" for ID83; all other names are identical.
   if (type == "ID83") "ID" else type
 }
 

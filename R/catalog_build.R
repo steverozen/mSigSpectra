@@ -35,11 +35,152 @@ vcf_to_catalog <- function(annotated_vcf,
     return(vcf_to_sbs_catalog(annotated_vcf, type, ref_genome, region,
                               sample_name))
   }
+  if (type %in% c("DBS78", "DBS136", "DBS144")) {
+    return(vcf_to_dbs_catalog(annotated_vcf, type, ref_genome, region,
+                              sample_name))
+  }
+  if (type %in% c("ID83", "ID89", "ID476")) {
+    return(vcf_to_id_catalog(annotated_vcf, type, ref_genome, region,
+                             sample_name))
+  }
 
   stop(
-    "vcf_to_catalog(type = '", type, "') is not yet implemented in this port. ",
-    "Currently only SBS96 / SBS192 / SBS1536 are supported."
+    "vcf_to_catalog(type = '", type, "') is not yet implemented. ",
+    "Supported types: SBS96/192/1536, DBS78/136/144, ID83/89/476."
   )
+}
+
+# -----------------------------------------------------------------------------
+# DBS catalog builders
+# -----------------------------------------------------------------------------
+
+vcf_to_dbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
+  if (nrow(vcf) == 0L) {
+    return(empty_dbs_catalog(type, ref_genome, region, sample_name))
+  }
+
+  seq_col <- find_seq_context_col(vcf)
+  if (is.null(seq_col)) {
+    stop("Input VCF has no seq.<N>bases column; run annotate_vcf() first.")
+  }
+  half_width <- (nchar(vcf[[seq_col]][1]) - 1L) %/% 2L
+  center_pos <- half_width + 1L
+  quad_start <- center_pos - 1L
+  quad_end   <- center_pos + 2L
+
+  stopifnot(all(nchar(vcf$ALT) == 2L))
+  stopifnot(all(nchar(vcf$REF) == 2L))
+
+  # Drop rows with N in the tetranucleotide context
+  has_n <- grep("N", substr(vcf[[seq_col]], quad_start, quad_end))
+  if (length(has_n) > 0L) {
+    warning(
+      "In sample ", sample_name, ", ", length(has_n),
+      " DBS variants have tetranucleotide contexts containing N and were discarded."
+    )
+    vcf <- vcf[-has_n, ]
+  }
+  if (nrow(vcf) == 0L) {
+    return(empty_dbs_catalog(type, ref_genome, region, sample_name))
+  }
+
+  # Deduplicate by (CHROM, ALT, POS) -- one DBS can appear on multiple overlapping
+  # transcripts after annotation.
+  dedup <- unique(vcf, by = c("CHROM", "ALT", "POS"))
+
+  mat <- NULL
+  if (type == "DBS78") {
+    canon <- canonicalize_dbs(dedup$REF, dedup$ALT)
+    mat <- tabulate_to_catalog_matrix(
+      canon, mSigSpectra::catalog.row.order$DBS78, sample_name
+    )
+  } else if (type == "DBS136") {
+    quad <- canonicalize_quad(substr(dedup[[seq_col]], quad_start, quad_end))
+    mat <- tabulate_to_catalog_matrix(
+      quad, mSigSpectra::catalog.row.order$DBS136, sample_name
+    )
+  } else if (type == "DBS144") {
+    if (!all(c("trans.strand", "bothstrand") %in% colnames(dedup))) {
+      stop(
+        "vcf_to_catalog(type = 'DBS144') requires trans.strand + bothstrand; ",
+        "run annotate_vcf() with a valid trans_ranges first."
+      )
+    }
+    keep <- !is.na(dedup$trans.strand) & (dedup$bothstrand == FALSE)
+    sub <- dedup[keep, ]
+    if (nrow(sub) == 0L) {
+      return(empty_dbs_catalog(type, ref_genome, region, sample_name))
+    }
+    labels <- paste0(sub$REF, sub$ALT)
+    rev_labels <- revc_dbs144(labels)
+    labels_final <- ifelse(sub$trans.strand == "-", rev_labels, labels)
+    mat <- tabulate_to_catalog_matrix(
+      labels_final, mSigSpectra::catalog.row.order$DBS144, sample_name
+    )
+  }
+
+  as_catalog(mat, type = type, ref_genome = ref_genome, region = region)
+}
+
+# Reverse-complement DBS78 REF+ALT pairs whose orientation is non-canonical.
+canonicalize_dbs <- function(ref_vec, alt_vec) {
+  dbs <- paste0(ref_vec, alt_vec)
+  idx <- which(!(dbs %in% mSigSpectra::catalog.row.order$DBS78))
+  if (length(idx) == 0L) return(dbs)
+  dbs[idx] <- paste0(revc(ref_vec[idx]), revc(alt_vec[idx]))
+  stopifnot(all(dbs %in% mSigSpectra::catalog.row.order$DBS78))
+  dbs
+}
+
+# Reverse-complement DBS136 tetranucleotides whose orientation is non-canonical.
+canonicalize_quad <- function(quad) {
+  idx <- which(!(quad %in% mSigSpectra::catalog.row.order$DBS136))
+  if (length(idx) == 0L) return(quad)
+  quad[idx] <- revc(quad[idx])
+  stopifnot(all(quad %in% mSigSpectra::catalog.row.order$DBS136))
+  quad
+}
+
+empty_dbs_catalog <- function(type, ref_genome, region, sample_name) {
+  rns <- mSigSpectra::catalog.row.order[[type]]
+  m <- matrix(0, nrow = length(rns), ncol = 1L,
+              dimnames = list(rns, sample_name))
+  as_catalog(m, type = type, ref_genome = ref_genome, region = region)
+}
+
+# -----------------------------------------------------------------------------
+# ID catalog builder
+# -----------------------------------------------------------------------------
+
+# Turn an indel-annotated VCF (with COSMIC_83 / Koh_89 / Koh_476 columns as
+# produced by annotate_vcf(variant_type = "ID") + categorize_indels_in_vcf)
+# into a count matrix for the requested ID classification scheme.
+vcf_to_id_catalog <- function(vcf, type, ref_genome, region, sample_name) {
+  if (nrow(vcf) == 0L) {
+    rns <- mSigSpectra::catalog.row.order[[if (type == "ID83") "ID" else type]]
+    m <- matrix(0, nrow = length(rns), ncol = 1L,
+                dimnames = list(rns, sample_name))
+    return(as_catalog(m, type = type, ref_genome = ref_genome, region = region))
+  }
+
+  col <- switch(type, ID83 = "COSMIC_83", ID89 = "Koh_89", ID476 = "Koh_476")
+  if (!col %in% colnames(vcf)) {
+    stop(
+      "vcf_to_catalog(type = '", type, "') requires column '", col,
+      "' on the input; run annotate_vcf(variant_type = 'ID') first."
+    )
+  }
+
+  df <- as.data.frame(vcf)
+  res <- switch(
+    type,
+    ID83  = annot_vcf_to_83_catalog(df,  sample_id = sample_name),
+    ID89  = annot_vcf_to_89_catalog(df,  sample_id = sample_name),
+    ID476 = annot_vcf_to_476_catalog(df, sample_id = sample_name)
+  )
+  m <- as.matrix(res)
+  storage.mode(m) <- "numeric"
+  as_catalog(m, type = type, ref_genome = ref_genome, region = region)
 }
 
 # Build SBS96 / SBS192 / SBS1536 from an annotated SBS VCF. Returns a

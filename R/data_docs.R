@@ -74,6 +74,6 @@ if (getRversion() >= "2.15.1") {
     "minus1bs", "minus2bs", "plus1bs", "plus2bs",
     "pos_id", "R", "HIGH", "LOW", "Exp_Level", "exp.value", "exp.level",
     "COSMIC_83", "Koh_89", "Koh_476",
-    ".", ".orig_row"
+    ".", ".orig_row", "n_alt"
   ))
 }

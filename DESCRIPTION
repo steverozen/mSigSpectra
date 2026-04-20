@@ -45,6 +45,7 @@ Imports: Biostrings,
     Rcpp,
     S4Vectors,
     stats,
+    stringi,
     tools
 Depends: R (>= 4.1)
 LinkingTo: Rcpp

@@ -79,7 +79,7 @@ remove_rows_with_duplicated_chrom_and_pos <- function(df, name_of_vcf = NULL) {
 #' * Non-standard chromosome names (or those outside
 #'   `chr_names_to_process` when supplied).
 #' * Substitutions of length > 2 (e.g. `ACT>TGA`).
-#' * Complex indels (REF[1] != ALT[1]).
+#' * Complex indels (`REF[1] != ALT[1]`).
 #' * Wrong DBS rows where REF and ALT share a base at the same position.
 #' * Variants whose REF base is not in `{A, C, G, T}`.
 #'

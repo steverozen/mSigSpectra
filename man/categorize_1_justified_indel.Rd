@@ -37,11 +37,9 @@ See \url{https://github.com/steverozen/ICAMS/blob/v3.0.9-branch/data-raw/PCAWG7_
 for additional information on deletion mutation classification.
 
 This function first handles deletions in homopolymers, then
-handles deletions in simple repeats with
-longer repeat units, (e.g. \code{CACACACA}, see
-\code{\link{FindMaxRepeatDel}}),
-and if the deletion is not in a simple repeat,
-looks for microhomology (see \code{\link{FindDelMH}}).
+handles deletions in simple repeats with longer repeat units (e.g.
+\code{CACACACA}), and if the deletion is not in a simple repeat,
+looks for microhomology.
 }
 \examples{
 simplify = function(ll) unlist(ll[c("COSMIC_83", "Koh_89", "Koh_476")])

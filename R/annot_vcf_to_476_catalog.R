@@ -74,13 +74,13 @@ annot_vcf_to_476_catalog <- function(
   #   ) -> update_type_strings
   dt <- data.table::as.data.table(cleaner_vcf)
   mask <- dt$R >= 9 &
-    stringr::str_detect(
-      dt$Koh_476,
-      "Del\\(T\\)|Del\\(C\\)|Ins\\(C\\)|Ins\\(T\\)"
+    grepl(
+      "Del\\(T\\)|Del\\(C\\)|Ins\\(C\\)|Ins\\(T\\)",
+      dt$Koh_476
     )
   data.table::set(
     dt, which(mask), "Koh_476",
-    stringr::str_replace(dt$Koh_476[mask], "R\\d+", "R(9,)")
+    sub("R[0-9]+", "R(9,)", dt$Koh_476[mask])
   )
   update_type_strings <- dt
 

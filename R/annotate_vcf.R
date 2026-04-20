@@ -8,8 +8,7 @@
 #'   supplied or shipped for `ref_genome`).
 #' * `"DBS"`: same as SBS; downstream [vcf_to_catalog()] will require the
 #'   tetranucleotide context to be free of `N`.
-#' * `"ID"`: placeholder — indel annotation is handled by a separate
-#'   module ([annotate_id_vcf()]) that additionally runs indel
+#' * `"ID"`: placeholder — indel annotation will require indel
 #'   justification and repeat-context detection. Not yet implemented in
 #'   this port.
 #' * `"auto"`: classify each row by REF/ALT length and annotate each

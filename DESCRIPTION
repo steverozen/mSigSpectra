@@ -42,11 +42,10 @@ Imports: Biostrings,
     GenomeInfoDb,
     GenomicRanges,
     IRanges,
-    lifecycle,
     Rcpp,
+    S4Vectors,
     stats,
-    stringi,
-    utils
+    tools
 Depends: R (>= 4.1)
 LinkingTo: Rcpp
 RoxygenNote: 7.3.3

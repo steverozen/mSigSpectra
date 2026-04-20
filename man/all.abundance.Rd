@@ -18,8 +18,8 @@ then by catalog size as a string (\code{"78"}, \code{"96"}, \code{"136"}, \code{
 \code{"1536"}). Each leaf value is a named integer vector: k-mer → count.
 }
 \details{
-Used by \code{\link[=transform_catalog]{transform_catalog()}} to convert counts to density (mutations per
-megabase of context).
+Used to convert counts to density (mutations per megabase of context).
+See the planned \code{transform_catalog()} function (not yet ported).
 }
 \examples{
 all.abundance$BSgenome.Hsapiens.UCSC.hg38$transcript$`144`[1:5]

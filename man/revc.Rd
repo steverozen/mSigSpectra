@@ -13,7 +13,6 @@ revc(x)
 A character vector of reverse complements.
 }
 \description{
-Thin vectorized wrapper around
-\link[Biostrings:reverse]{Biostrings::reverseComplement()}. Handles IUPAC
-ambiguity codes.
+Thin vectorized wrapper around \code{Biostrings::reverseComplement()}.
+Handles IUPAC ambiguity codes.
 }

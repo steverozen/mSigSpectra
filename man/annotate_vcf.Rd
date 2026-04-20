@@ -45,8 +45,7 @@ transcript strand (\code{\link[=add_transcript_strand]{add_transcript_strand()}}
 supplied or shipped for \code{ref_genome}).
 \item \code{"DBS"}: same as SBS; downstream \code{\link[=vcf_to_catalog]{vcf_to_catalog()}} will require the
 tetranucleotide context to be free of \code{N}.
-\item \code{"ID"}: placeholder — indel annotation is handled by a separate
-module (\code{\link[=annotate_id_vcf]{annotate_id_vcf()}}) that additionally runs indel
+\item \code{"ID"}: placeholder — indel annotation will require indel
 justification and repeat-context detection. Not yet implemented in
 this port.
 \item \code{"auto"}: classify each row by REF/ALT length and annotate each

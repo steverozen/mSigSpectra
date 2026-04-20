@@ -46,8 +46,8 @@ NULL
 #' then by catalog size as a string (`"78"`, `"96"`, `"136"`, `"144"`, `"192"`,
 #' `"1536"`). Each leaf value is a named integer vector: k-mer → count.
 #'
-#' Used by [transform_catalog()] to convert counts to density (mutations per
-#' megabase of context).
+#' Used to convert counts to density (mutations per megabase of context).
+#' See the planned `transform_catalog()` function (not yet ported).
 #'
 #' @examples
 #' all.abundance$BSgenome.Hsapiens.UCSC.hg38$transcript$`144`[1:5]
@@ -73,6 +73,7 @@ if (getRversion() >= "2.15.1") {
     "delete.flag", "remark.for.DBS", "readthrough",
     "minus1bs", "minus2bs", "plus1bs", "plus2bs",
     "pos_id", "R", "HIGH", "LOW", "Exp_Level", "exp.value", "exp.level",
-    "COSMIC_83", "Koh_89", "Koh_476"
+    "COSMIC_83", "Koh_89", "Koh_476",
+    ".", ".orig_row"
   ))
 }

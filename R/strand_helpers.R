@@ -1,8 +1,7 @@
 #' Reverse complement a character vector of DNA strings
 #'
-#' Thin vectorized wrapper around
-#' [Biostrings::reverseComplement()][Biostrings::reverse]. Handles IUPAC
-#' ambiguity codes.
+#' Thin vectorized wrapper around `Biostrings::reverseComplement()`.
+#' Handles IUPAC ambiguity codes.
 #'
 #' @param x A character vector of DNA sequences.
 #'

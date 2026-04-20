@@ -20,5 +20,6 @@
 ## usethis namespace: start
 #' @useDynLib mSigSpectra, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
+#' @import data.table
 ## usethis namespace: end
 NULL

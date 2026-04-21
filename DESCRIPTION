@@ -55,7 +55,11 @@ Suggests:
     BSgenome.Hsapiens.1000genomes.hs37d5,
     BSgenome.Hsapiens.UCSC.hg38,
     BSgenome.Mmusculus.UCSC.mm10,
-    vcfppR,
+    knitr,
+    mSigPlot,
+    rmarkdown,
     testthat (>= 3.0.0),
+    vcfppR,
     withr
+VignetteBuilder: knitr
 Config/testthat/edition: 3

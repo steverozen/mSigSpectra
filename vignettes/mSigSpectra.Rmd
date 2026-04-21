@@ -1,0 +1,235 @@
+---
+title: "Reading VCFs and Building Mutational-Spectrum Catalogs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reading VCFs and Building Mutational-Spectrum Catalogs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  fig.width  = 8,
+  fig.height = 3.5,
+  dpi = 100,
+  out.width = "100%"
+)
+have_bsgenome <- nzchar(system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
+have_msigplot <- nzchar(system.file(package = "mSigPlot"))
+eval_all <- have_bsgenome && have_msigplot
+knitr::opts_chunk$set(eval = eval_all)
+```
+
+This vignette walks through the four-step **mSigSpectra** pipeline —
+`read_vcf` → `split_vcf` → `annotate_vcf` → `vcf_to_catalog` — using a
+real Strelka VCF that ships with the package. It then plots each
+catalog with [`mSigPlot`](https://github.com/steverozen/mSigPlot).
+
+If you do not have the BSgenome package or `mSigPlot` installed, the
+chunks below will be skipped at render time. To install:
+
+```r
+BiocManager::install("BSgenome.Hsapiens.1000genomes.hs37d5")
+remotes::install_github("steverozen/mSigPlot")
+```
+
+## 1. Load packages
+
+```{r load}
+library(mSigSpectra)
+library(mSigPlot)
+```
+
+## 2. Locate test VCFs
+
+Three example VCFs ship with the package: a Strelka SBS file, a Strelka
+indel file, and a Mutect file (all small subsets, GRCh37 / hg19).
+
+```{r files}
+sbs_file <- system.file(
+  "extdata", "Strelka-SBS-GRCh37", "Strelka.SBS.GRCh37.s1.vcf",
+  package = "mSigSpectra"
+)
+id_file <- system.file(
+  "extdata", "Strelka-ID-GRCh37", "Strelka.ID.GRCh37.s1.vcf",
+  package = "mSigSpectra"
+)
+mutect_file <- system.file(
+  "extdata", "Mutect-GRCh37", "Mutect.GRCh37.s1.vcf",
+  package = "mSigSpectra"
+)
+```
+
+## 3. Read the SBS VCF
+
+`read_vcf()` returns a `data.table` with whatever columns the VCF body
+contains. We pass `filter = "PASS"` to match the Strelka convention.
+
+```{r read-sbs}
+sbs_vcf <- read_vcf(sbs_file, filter = "PASS")
+nrow(sbs_vcf)
+head(sbs_vcf[, c("CHROM", "POS", "REF", "ALT", "FILTER")])
+```
+
+## 4. Split into SBS / DBS / ID sub-tables
+
+`split_vcf()` partitions rows by `REF`/`ALT` length alone. For a
+"pure SBS" VCF you would expect everything in `$SBS`, but Strelka's SBS
+caller can emit adjacent SBS pairs that the indel caller does not see;
+mSigSpectra **does not** merge them into DBSs (see "Gotchas" in the
+README) — they stay as SBSs.
+
+```{r split-sbs}
+sbs_split <- split_vcf(sbs_vcf, name_of_vcf = "Strelka.SBS.GRCh37.s1")
+sapply(sbs_split[c("SBS", "DBS", "ID")], nrow)
+```
+
+## 5. Annotate the SBS rows
+
+`annotate_vcf(variant_type = "SBS")` adds:
+
+* `seq.<N>bases` — the flanking sequence context (default `seq.21bases`).
+* For ref genomes with a shipped transcript-ranges table (GRCh37 /
+  GRCh38 / GRCm38), the transcript-strand columns
+  `trans.start.pos`, `trans.end.pos`, `trans.strand`,
+  `trans.Ensembl.gene.ID`, `trans.gene.symbol`, plus `bothstrand` and
+  `count` (number of overlapping transcripts).
+
+```{r annotate-sbs}
+sbs_ann <- annotate_vcf(sbs_split$SBS, ref_genome = "GRCh37",
+                        variant_type = "SBS")
+new_cols <- setdiff(colnames(sbs_ann), colnames(sbs_split$SBS))
+new_cols
+```
+
+## 6. Build SBS catalogs
+
+A catalog is a single-column numeric matrix with attributes (no S3
+class). One call per resolution.
+
+```{r build-sbs}
+cat96 <- vcf_to_catalog(sbs_ann, type = "SBS96", ref_genome = "GRCh37",
+                        region = "genome", sample_name = "s1")
+cat192 <- vcf_to_catalog(sbs_ann, type = "SBS192", ref_genome = "GRCh37",
+                         region = "transcript", sample_name = "s1")
+cat1536 <- vcf_to_catalog(sbs_ann, type = "SBS1536", ref_genome = "GRCh37",
+                          region = "genome", sample_name = "s1")
+
+dim(cat96)
+sum(cat96)
+catalog_attrs(cat96)
+```
+
+## 7. Plot SBS catalogs
+
+```{r plot-sbs96, fig.height=3.5}
+plot_SBS96(cat96, plot_title = "Strelka.SBS.GRCh37.s1 — SBS96")
+```
+
+```{r plot-sbs192, fig.height=4}
+plot_SBS192(cat192, plot_title = "Strelka.SBS.GRCh37.s1 — SBS192 (stranded)")
+```
+
+```{r plot-sbs1536, fig.height=8}
+plot_SBS1536(cat1536, plot_title = "Strelka.SBS.GRCh37.s1 — SBS1536")
+```
+
+## 8. Build and plot ID catalogs
+
+The Strelka indel VCF goes through the same pipeline, with
+`variant_type = "ID"`. The annotator left-justifies each indel,
+extracts the local repeat / microhomology context, and emits the three
+classification strings (`COSMIC_83`, `Koh_89`, `Koh_476`).
+
+```{r id-pipeline}
+id_vcf <- read_vcf(id_file, filter = "PASS")
+id_split <- split_vcf(id_vcf, name_of_vcf = "Strelka.ID.GRCh37.s1")
+id_ann <- annotate_vcf(id_split$ID, ref_genome = "GRCh37",
+                       variant_type = "ID")
+id_ann[1, c("CHROM", "POS", "REF", "ALT", "COSMIC_83", "Koh_89")]
+
+cat_id83 <- vcf_to_catalog(id_ann, type = "ID83", ref_genome = "GRCh37",
+                           region = "genome", sample_name = "s1")
+cat_id89 <- vcf_to_catalog(id_ann, type = "ID89", ref_genome = "GRCh37",
+                           region = "genome", sample_name = "s1")
+cat_id476 <- vcf_to_catalog(id_ann, type = "ID476", ref_genome = "GRCh37",
+                            region = "genome", sample_name = "s1")
+```
+
+```{r plot-id83, fig.height=3.5}
+plot_ID83(cat_id83, plot_title = "Strelka.ID.GRCh37.s1 — ID83")
+```
+
+```{r plot-id89, fig.height=4}
+plot_ID89(cat_id89, plot_title = "Strelka.ID.GRCh37.s1 — ID89")
+```
+
+```{r plot-id476, fig.height=10}
+plot_ID476(cat_id476, plot_title = "Strelka.ID.GRCh37.s1 — ID476")
+```
+
+## 9. Multiple samples in one call
+
+`vcfs_to_catalogs()` is a thin wrapper that reads, splits, annotates,
+and column-binds catalogs from a list of files.
+
+```{r batch}
+multi <- vcfs_to_catalogs(
+  files = c(sbs_file, mutect_file),
+  types = c("SBS96", "SBS192"),
+  ref_genome = "GRCh37",
+  region = "genome"
+)
+dim(multi$SBS96)
+colSums(multi$SBS96)
+```
+
+## 10. Counts ↔ density
+
+Convert from raw counts (per category) to mutation density (per
+megabase of context) using the shipped k-mer abundances:
+
+```{r density}
+cat96_density <- transform_catalog(cat96,
+                                   target_counts_or_density = "density")
+attr(cat96_density, "counts_or_density")
+```
+
+```{r plot-sbs96-density, fig.height=3.5}
+plot_SBS96(cat96_density,
+           plot_title = "Strelka.SBS.GRCh37.s1 — SBS96 (density)")
+```
+
+## 11. Collapse from finer to coarser resolutions
+
+```{r collapse}
+cat96_from_1536 <- collapse_catalog(cat1536, to = "SBS96")
+all.equal(as.numeric(cat96_from_1536[, 1]),
+          as.numeric(cat96[, 1]))
+```
+
+## 12. Catalog I/O
+
+ICAMS-native CSV is the default and only output format today;
+SigProfiler and COSMIC formats are supported on input.
+
+```{r io}
+out_path <- file.path(tempdir(), "Strelka.SBS.GRCh37.s1.SBS96.csv")
+write_catalog(cat96, out_path)
+cat96_back <- read_catalog(out_path, region = "genome")
+identical(as.numeric(cat96), as.numeric(cat96_back))
+```
+
+## See also
+
+* `?read_vcf` — the caller-agnostic reader.
+* `?annotate_vcf` — sequence context + transcript strand + (for ID)
+  indel justification + classification.
+* `?vcf_to_catalog` — single-call builder dispatching on `type`.
+* `?transform_catalog` / `?collapse_catalog` — counts ↔ density and
+  finer-to-coarser collapse.
+* `?check_and_remove_discarded_variants` — optional defensive QC.
+* The README's "Gotchas" section documents the cases this pipeline
+  intentionally leaves to the user.

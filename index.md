@@ -21,8 +21,7 @@ of scope.
 - [`split_vcf()`](https://steverozen.github.io/mSigSpectra/reference/split_vcf.md)
   — partitions a VCF into SBS / DBS / ID sub-tables by `REF`/`ALT`
   length alone.
-- [`annotate_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_vcf.md)
-  — adds flanking sequence context
+- `annotate_vcf()` — adds flanking sequence context
   ([`BSgenome::getSeq`](https://rdrr.io/pkg/Biostrings/man/getSeq.html)),
   transcript strand
   ([`GenomicRanges::findOverlaps`](https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html)

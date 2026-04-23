@@ -14,8 +14,12 @@
   : Convert an annotated indel VCF to a COSMIC 83-category catalog
 - [`annot_vcf_to_89_catalog()`](https://steverozen.github.io/mSigSpectra/reference/annot_vcf_to_89_catalog.md)
   : Convert an annotated indel VCF to a Koh 89-category catalog
-- [`annotate_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_vcf.md)
-  : Annotate a VCF with flanking sequence context and transcript strand
+- [`annotate_id_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_id_vcf.md)
+  : Annotate an in-memory ID (indel) VCF with sequence context,
+  transcript strand, and COSMIC / Koh indel categories
+- [`annotate_sbs_or_dbs_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_sbs_or_dbs_vcf.md)
+  : Annotate an SBS or DBS VCF with flanking sequence context and
+  transcript strand
 - [`as_catalog()`](https://steverozen.github.io/mSigSpectra/reference/as_catalog.md)
   : Turn a numeric matrix into a mutational-spectrum catalog
 - [`catalog.row.order`](https://steverozen.github.io/mSigSpectra/reference/catalog.row.order.md)

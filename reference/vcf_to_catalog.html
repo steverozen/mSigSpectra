@@ -11,7 +11,7 @@ stubs pending the DBS- and indel-specific ports."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mSigSpectra</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,9 +60,12 @@ stubs pending the DBS- and indel-specific ports.</p>
 
 
 <dl><dt id="arg-annotated-vcf">annotated_vcf<a class="anchor" aria-label="anchor" href="#arg-annotated-vcf"></a></dt>
-<dd><p>A VCF annotated by <code><a href="annotate_vcf.html">annotate_vcf()</a></code>. For SBS
-types, must contain a <code>seq.&lt;N&gt;bases</code> column and (for SBS192) a
-<code>trans.strand</code> / <code>bothstrand</code> column.</p></dd>
+<dd><p>A VCF annotated by <code><a href="annotate_sbs_or_dbs_vcf.html">annotate_sbs_or_dbs_vcf()</a></code>
+(for SBS / DBS types) or <code><a href="annotate_id_vcf.html">annotate_id_vcf()</a></code> (for ID types). May be
+the bare annotated <code>data.table</code> or the full
+<code>list(annotated.vcf, discarded.variants)</code> returned by either
+annotator. For SBS types the table must contain a <code>seq.&lt;N&gt;bases</code>
+column and (for SBS192) <code>trans.strand</code> / <code>bothstrand</code>.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>

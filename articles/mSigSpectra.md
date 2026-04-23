@@ -1,9 +1,10 @@
 # Reading VCFs and Building Mutational-Spectrum Catalogs
 
 This vignette walks through the four-step **mSigSpectra** pipeline —
-`read_vcf` → `split_vcf` → `annotate_vcf` → `vcf_to_catalog` — using a
-real Strelka VCF that ships with the package. It then plots each catalog
-with [`mSigPlot`](https://github.com/steverozen/mSigPlot).
+`read_vcf` → `split_vcf` → `annotate_sbs_or_dbs_vcf` / `annotate_id_vcf`
+→ `vcf_to_catalog` — using a real Strelka VCF that ships with the
+package. It then plots each catalog with
+[`mSigPlot`](https://github.com/steverozen/mSigPlot).
 
 If you do not have the BSgenome package or `mSigPlot` installed, the
 chunks below will be skipped at render time. To install:
@@ -79,7 +80,8 @@ sapply(sbs_split[c("SBS", "DBS", "ID")], nrow)
 
 ## 5. Annotate the SBS rows
 
-`annotate_vcf(variant_type = "SBS")` adds:
+[`annotate_sbs_or_dbs_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_sbs_or_dbs_vcf.md)
+adds:
 
 - `seq.<N>bases` — the flanking sequence context (default
   `seq.21bases`).
@@ -89,9 +91,12 @@ sapply(sbs_split[c("SBS", "DBS", "ID")], nrow)
   `trans.gene.symbol`, plus `bothstrand` and `count` (number of
   overlapping transcripts).
 
+It returns a list with `annotated.vcf` (the table below) and
+`discarded.variants` (always `NULL` for SBS / DBS).
+
 ``` r
-sbs_ann <- annotate_vcf(sbs_split$SBS, ref_genome = "GRCh37",
-                        variant_type = "SBS")
+sbs_ann <- annotate_sbs_or_dbs_vcf(sbs_split$SBS,
+                                   ref_genome = "GRCh37")$annotated.vcf
 new_cols <- setdiff(colnames(sbs_ann), colnames(sbs_split$SBS))
 new_cols
 #> [1] "seq.21bases"           "trans.start.pos"       "trans.end.pos"        
@@ -182,16 +187,19 @@ plot_SBS1536(cat1536, plot_title = "Strelka.SBS.GRCh37.s1 — SBS1536")
 
 ## 8. Build and plot ID catalogs
 
-The Strelka indel VCF goes through the same pipeline, with
-`variant_type = "ID"`. The annotator left-justifies each indel, extracts
-the local repeat / microhomology context, and emits the three
-classification strings (`COSMIC_83`, `Koh_89`, `Koh_476`).
+The Strelka indel VCF goes through
+[`annotate_id_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_id_vcf.md),
+which left-justifies each indel, extracts the local repeat /
+microhomology context, and emits the three classification strings
+(`COSMIC_83`, `Koh_89`, `Koh_476`). Like
+[`annotate_sbs_or_dbs_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_sbs_or_dbs_vcf.md)
+it returns a list of `annotated.vcf` + `discarded.variants`.
 
 ``` r
 id_vcf <- read_vcf(id_file, filter = "PASS")
 id_split <- split_vcf(id_vcf, name_of_vcf = "Strelka.ID.GRCh37.s1")
-id_ann <- annotate_vcf(id_split$ID, ref_genome = "GRCh37",
-                       variant_type = "ID")
+id_ann <- annotate_id_vcf(id_split$ID,
+                          ref_genome = "GRCh37")$annotated.vcf
 id_ann[1, c("CHROM", "POS", "REF", "ALT", "COSMIC_83", "Koh_89")]
 #>     CHROM     POS    REF    ALT COSMIC_83       Koh_89
 #>    <char>   <int> <char> <char>    <char>       <char>
@@ -268,9 +276,11 @@ identical(as.numeric(cat96), as.numeric(cat96_back))
 
 - [`?read_vcf`](https://steverozen.github.io/mSigSpectra/reference/read_vcf.md)
   — the caller-agnostic reader.
-- [`?annotate_vcf`](https://steverozen.github.io/mSigSpectra/reference/annotate_vcf.md)
-  — sequence context + transcript strand + (for ID) indel
-  justification + classification.
+- [`?annotate_sbs_or_dbs_vcf`](https://steverozen.github.io/mSigSpectra/reference/annotate_sbs_or_dbs_vcf.md)
+  — sequence context + transcript strand for SBS / DBS.
+- [`?annotate_id_vcf`](https://steverozen.github.io/mSigSpectra/reference/annotate_id_vcf.md)
+  — indel justification + classification (COSMIC 83 / Koh 89 /
+  Koh 476) + transcript strand.
 - [`?vcf_to_catalog`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
   — single-call builder dispatching on `type`.
 - [`?transform_catalog`](https://steverozen.github.io/mSigSpectra/reference/transform_catalog.md)

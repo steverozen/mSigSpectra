@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mSigSpectra</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
 <li>
 <code><a href="reference/split_vcf.html">split_vcf()</a></code> — partitions a VCF into SBS / DBS / ID sub-tables by <code>REF</code>/<code>ALT</code> length alone.</li>
 <li>
-<code><a href="reference/annotate_vcf.html">annotate_vcf()</a></code> — adds flanking sequence context (<code><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html" class="external-link">BSgenome::getSeq</a></code>), transcript strand (<code><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html" class="external-link">GenomicRanges::findOverlaps</a></code> against shipped GENCODE tables), and — for indels — left-justifies and categorizes them (COSMIC-83 / Koh-89 / Koh-476).</li>
+<code>annotate_vcf()</code> — adds flanking sequence context (<code><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html" class="external-link">BSgenome::getSeq</a></code>), transcript strand (<code><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html" class="external-link">GenomicRanges::findOverlaps</a></code> against shipped GENCODE tables), and — for indels — left-justifies and categorizes them (COSMIC-83 / Koh-89 / Koh-476).</li>
 <li>
 <code><a href="reference/vcf_to_catalog.html">vcf_to_catalog()</a></code> — produces a single catalog of any of these types: <code>SBS96</code>, <code>SBS192</code>, <code>SBS1536</code>, <code>DBS78</code>, <code>DBS136</code>, <code>DBS144</code>, <code>ID83</code>, <code>ID89</code>, <code>ID166</code>, <code>ID476</code>.</li>
 </ul>
@@ -94,7 +94,7 @@
 <span><span class="va">vcf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_vcf.html">read_vcf</a></span><span class="op">(</span><span class="st">"my_sample.vcf"</span>, filter <span class="op">=</span> <span class="st">"PASS"</span><span class="op">)</span></span>
 <span><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/split_vcf.html">split_vcf</a></span><span class="op">(</span><span class="va">vcf</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ann_sbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotate_vcf.html">annotate_vcf</a></span><span class="op">(</span><span class="va">parts</span><span class="op">$</span><span class="va">SBS</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh38"</span>,</span>
+<span><span class="va">ann_sbs</span> <span class="op">&lt;-</span> <span class="fu">annotate_vcf</span><span class="op">(</span><span class="va">parts</span><span class="op">$</span><span class="va">SBS</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh38"</span>,</span>
 <span>                        variant_type <span class="op">=</span> <span class="st">"SBS"</span><span class="op">)</span></span>
 <span><span class="va">sbs96</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">ann_sbs</span>, type <span class="op">=</span> <span class="st">"SBS96"</span>,</span>
 <span>                        ref_genome <span class="op">=</span> <span class="st">"GRCh38"</span>, region <span class="op">=</span> <span class="st">"genome"</span>,</span>

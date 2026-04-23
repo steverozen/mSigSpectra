@@ -22,9 +22,13 @@ vcf_to_catalog(
 - annotated_vcf:
 
   A VCF annotated by
-  [`annotate_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_vcf.md).
-  For SBS types, must contain a `seq.<N>bases` column and (for SBS192) a
-  `trans.strand` / `bothstrand` column.
+  [`annotate_sbs_or_dbs_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_sbs_or_dbs_vcf.md)
+  (for SBS / DBS types) or
+  [`annotate_id_vcf()`](https://steverozen.github.io/mSigSpectra/reference/annotate_id_vcf.md)
+  (for ID types). May be the bare annotated `data.table` or the full
+  `list(annotated.vcf, discarded.variants)` returned by either
+  annotator. For SBS types the table must contain a `seq.<N>bases`
+  column and (for SBS192) `trans.strand` / `bothstrand`.
 
 - type:
 

@@ -10,9 +10,9 @@ frame of mutation counts in the 89-category Koh classification scheme.
 annot_vcf_to_89_catalog(
   annot_vcf,
   sample_id = "no_sample_id_provided",
-  FILTER_PASS = FALSE,
+  FILTER_PASS = TRUE,
   do_message = FALSE,
-  clip_le_9 = FALSE
+  clip_le_9 = TRUE
 )
 ```
 

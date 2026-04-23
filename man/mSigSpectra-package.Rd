@@ -21,6 +21,15 @@ by explicit \code{attr(x, "type")} checks inside regular functions.
 Plotting is intentionally out of scope and is handled by the separate
 mSigPlot package.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/steverozen/mSigSpectra}
+  \item \url{https://steverozen.github.io/mSigSpectra/}
+  \item Report bugs at \url{https://github.com/steverozen/mSigSpectra/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Steve Rozen \email{steverozen@pm.me}
 

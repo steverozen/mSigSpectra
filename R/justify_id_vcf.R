@@ -184,8 +184,11 @@ justify_id_vcf <-
       df4.to.remove <- df3[mismatches, ]
       df4.to.remove$discarded.reason <-
         "ID variant whose REF alleles do not match the extracted sequence from ref.genome"
+      # df4.to.remove has extra columns added during processing (seq.context.width,
+      # seq.context, seq.to.check) that aren't on discarded.variants from earlier
+      # branches; fill = TRUE lets rbind pad the missing columns with NA.
       discarded.variants <-
-        rbind(discarded.variants, df4.to.remove)
+        rbind(discarded.variants, df4.to.remove, fill = TRUE)
     } else {
       df4 <- df3
     }

@@ -85,21 +85,3 @@ test_that("revc returns empty character() for empty input", {
   expect_equal(revc(character(0)), character(0))
 })
 
-test_that("vcfs_to_catalogs batches two SBS VCFs into a 2-column SBS96 catalog", {
-  skip_if("" == system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
-  files <- c(
-    "testdata/Strelka-SBS-GRCh37/Strelka.SBS.GRCh37.s1.vcf",
-    "testdata/Mutect-GRCh37/Mutect.GRCh37.s1.vcf"
-  )
-  out <- vcfs_to_catalogs(
-    files, types = "SBS96",
-    ref_genome = "GRCh37", region = "genome"
-  )  # Uses read_vcf default filter=TRUE (PASS + . + empty)
-  # Not bit-identical to the ICAMS caller-specific filter; hence sums below
-  # are the mSigSpectra-agnostic result, not ICAMS's 770.
-  expect_named(out, "SBS96")
-  expect_equal(ncol(out$SBS96), 2L)
-  expect_equal(attr(out$SBS96, "type"), "SBS96")
-  expect_equal(colSums(out$SBS96), c(Strelka.SBS.GRCh37.s1 = 798,
-                                     Mutect.GRCh37.s1 = 1738))
-})

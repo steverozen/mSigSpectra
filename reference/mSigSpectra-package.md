@@ -17,6 +17,16 @@ functions.
 Plotting is intentionally out of scope and is handled by the separate
 mSigPlot package.
 
+## See also
+
+Useful links:
+
+- <https://github.com/steverozen/mSigSpectra>
+
+- <https://steverozen.github.io/mSigSpectra/>
+
+- Report bugs at <https://github.com/steverozen/mSigSpectra/issues>
+
 ## Author
 
 **Maintainer**: Steve Rozen <steverozen@pm.me>

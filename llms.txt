@@ -90,7 +90,7 @@ catalogs, writes them to disk, and plots each one with mSigPlot.
 | `ReadVCFs()` / `SimpleReadVCF()`                            | [`read_vcf()`](https://steverozen.github.io/mSigSpectra/reference/read_vcf.md), [`read_vcfs()`](https://steverozen.github.io/mSigSpectra/reference/read_vcfs.md)                  |
 | `SplitListOfVCFs()`                                         | [`split_vcf()`](https://steverozen.github.io/mSigSpectra/reference/split_vcf.md)                                                                                                  |
 | `AnnotateSBSVCF()` / `AnnotateDBSVCF()` / `AnnotateIDVCF()` | `annotate_vcf(variant_type = ...)`                                                                                                                                                |
-| `VCFsToCatalogs()`                                          | [`vcfs_to_catalogs()`](https://steverozen.github.io/mSigSpectra/reference/vcfs_to_catalogs.md)                                                                                    |
+| `VCFsToCatalogs()`                                          | `vcfs_to_catalogs()`                                                                                                                                                              |
 | `as.catalog()`                                              | [`as_catalog()`](https://steverozen.github.io/mSigSpectra/reference/as_catalog.md)                                                                                                |
 | `TransformCatalog()`                                        | [`transform_catalog()`](https://steverozen.github.io/mSigSpectra/reference/transform_catalog.md)                                                                                  |
 | `ReadCatalog()` / `WriteCatalog()`                          | [`read_catalog()`](https://steverozen.github.io/mSigSpectra/reference/read_catalog.md) / [`write_catalog()`](https://steverozen.github.io/mSigSpectra/reference/write_catalog.md) |
@@ -308,8 +308,6 @@ papers:
   : Transform a catalog between counts and density
 - [`vcf_to_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
   : Build a mutational-spectrum catalog from an annotated VCF
-- [`vcfs_to_catalogs()`](https://steverozen.github.io/mSigSpectra/reference/vcfs_to_catalogs.md)
-  : Convenience wrapper: read, annotate, and catalog a set of VCF files
 - [`write_catalog()`](https://steverozen.github.io/mSigSpectra/reference/write_catalog.md)
   : Write a mutational-spectrum catalog to a file
 

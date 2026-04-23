@@ -66,7 +66,5 @@
   : Transform a catalog between counts and density
 - [`vcf_to_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
   : Build a mutational-spectrum catalog from an annotated VCF
-- [`vcfs_to_catalogs()`](https://steverozen.github.io/mSigSpectra/reference/vcfs_to_catalogs.md)
-  : Convenience wrapper: read, annotate, and catalog a set of VCF files
 - [`write_catalog()`](https://steverozen.github.io/mSigSpectra/reference/write_catalog.md)
   : Write a mutational-spectrum catalog to a file

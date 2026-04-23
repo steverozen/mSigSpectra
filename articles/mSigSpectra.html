@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mSigSpectra</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -264,53 +264,35 @@ three classification strings (<code>COSMIC_83</code>,
 <p><img src="mSigSpectra_files/figure-html/plot-id476-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
-<h2 id="multiple-samples-in-one-call">9. Multiple samples in one call<a class="anchor" aria-label="anchor" href="#multiple-samples-in-one-call"></a>
-</h2>
-<p><code><a href="../reference/vcfs_to_catalogs.html">vcfs_to_catalogs()</a></code> is a thin wrapper that reads, splits,
-annotates, and column-binds catalogs from a list of files.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcfs_to_catalogs.html">vcfs_to_catalogs</a></span><span class="op">(</span></span>
-<span>  files <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sbs_file</span>, <span class="va">mutect_file</span><span class="op">)</span>,</span>
-<span>  types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SBS96"</span>, <span class="st">"SBS192"</span><span class="op">)</span>,</span>
-<span>  ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>  region <span class="op">=</span> <span class="st">"genome"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">multi</span><span class="op">$</span><span class="va">SBS96</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 96  2</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">multi</span><span class="op">$</span><span class="va">SBS96</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Strelka.SBS.GRCh37.s1      Mutect.GRCh37.s1 </span></span>
-<span><span class="co">#&gt;                   798                  1738</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="counts-density">10. Counts ↔︎ density<a class="anchor" aria-label="anchor" href="#counts-density"></a>
+<h2 id="counts-density">9. Counts ↔︎ density<a class="anchor" aria-label="anchor" href="#counts-density"></a>
 </h2>
 <p>Convert from raw counts (per category) to mutation density (per
 megabase of context) using the shipped k-mer abundances:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cat96_density</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transform_catalog.html">transform_catalog</a></span><span class="op">(</span><span class="va">cat96</span>,</span>
 <span>                                   target_counts_or_density <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">cat96_density</span>, <span class="st">"counts_or_density"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "density"</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://steverozen.github.io/mSigPlot/reference/bar_plots.html" class="external-link">plot_SBS96</a></span><span class="op">(</span><span class="va">cat96_density</span>,</span>
 <span>           plot_title <span class="op">=</span> <span class="st">"Strelka.SBS.GRCh37.s1 — SBS96 (density)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="mSigSpectra_files/figure-html/plot-sbs96-density-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
-<h2 id="collapse-from-finer-to-coarser-resolutions">11. Collapse from finer to coarser resolutions<a class="anchor" aria-label="anchor" href="#collapse-from-finer-to-coarser-resolutions"></a>
+<h2 id="collapse-from-finer-to-coarser-resolutions">10. Collapse from finer to coarser resolutions<a class="anchor" aria-label="anchor" href="#collapse-from-finer-to-coarser-resolutions"></a>
 </h2>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cat96_from_1536</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collapse_catalog.html">collapse_catalog</a></span><span class="op">(</span><span class="va">cat1536</span>, to <span class="op">=</span> <span class="st">"SBS96"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">cat96_from_1536</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">cat96</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="catalog-io">12. Catalog I/O<a class="anchor" aria-label="anchor" href="#catalog-io"></a>
+<h2 id="catalog-io">11. Catalog I/O<a class="anchor" aria-label="anchor" href="#catalog-io"></a>
 </h2>
 <p>ICAMS-native CSV is the default and only output format today;
 SigProfiler and COSMIC formats are supported on input.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"Strelka.SBS.GRCh37.s1.SBS96.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/write_catalog.html">write_catalog</a></span><span class="op">(</span><span class="va">cat96</span>, <span class="va">out_path</span><span class="op">)</span></span>
 <span><span class="va">cat96_back</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_catalog.html">read_catalog</a></span><span class="op">(</span><span class="va">out_path</span>, region <span class="op">=</span> <span class="st">"genome"</span><span class="op">)</span></span>

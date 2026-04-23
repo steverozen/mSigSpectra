@@ -223,27 +223,7 @@ plot_ID476(cat_id476, plot_title = "Strelka.ID.GRCh37.s1 — ID476")
 
 ![](mSigSpectra_files/figure-html/plot-id476-1.png)
 
-## 9. Multiple samples in one call
-
-[`vcfs_to_catalogs()`](https://steverozen.github.io/mSigSpectra/reference/vcfs_to_catalogs.md)
-is a thin wrapper that reads, splits, annotates, and column-binds
-catalogs from a list of files.
-
-``` r
-multi <- vcfs_to_catalogs(
-  files = c(sbs_file, mutect_file),
-  types = c("SBS96", "SBS192"),
-  ref_genome = "GRCh37",
-  region = "genome"
-)
-dim(multi$SBS96)
-#> [1] 96  2
-colSums(multi$SBS96)
-#> Strelka.SBS.GRCh37.s1      Mutect.GRCh37.s1 
-#>                   798                  1738
-```
-
-## 10. Counts ↔︎ density
+## 9. Counts ↔︎ density
 
 Convert from raw counts (per category) to mutation density (per megabase
 of context) using the shipped k-mer abundances:
@@ -262,7 +242,7 @@ plot_SBS96(cat96_density,
 
 ![](mSigSpectra_files/figure-html/plot-sbs96-density-1.png)
 
-## 11. Collapse from finer to coarser resolutions
+## 10. Collapse from finer to coarser resolutions
 
 ``` r
 cat96_from_1536 <- collapse_catalog(cat1536, to = "SBS96")
@@ -271,7 +251,7 @@ all.equal(as.numeric(cat96_from_1536[, 1]),
 #> [1] TRUE
 ```
 
-## 12. Catalog I/O
+## 11. Catalog I/O
 
 ICAMS-native CSV is the default and only output format today;
 SigProfiler and COSMIC formats are supported on input.

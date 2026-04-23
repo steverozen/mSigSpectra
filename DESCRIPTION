@@ -1,7 +1,7 @@
 Package: mSigSpectra
 Type: Package
 Title: Build Mutational-Spectrum Catalogs from VCF Files
-Version: 0.0.3
+Version: 0.1.0
 Authors@R: c(person(given = "Steve",
                     family = "Rozen",
                     role = c("aut", "cre"),

@@ -10,7 +10,7 @@ test_that("end-to-end: Strelka SBS VCF -> SBS96 catalog (caller-agnostic)", {
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- annotate_sbs_or_dbs_vcf(sp$SBS, ref_genome = "GRCh37")
-  cat96 <- vcf_to_catalog(
+  cat96 <- vcf_to_sbs_catalog(
     ann, type = "SBS96", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   )
@@ -29,7 +29,7 @@ test_that("end-to-end: Mutect VCF (Mutect.GRCh37.s1) -> SBS96 = 1738 mutations",
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- annotate_sbs_or_dbs_vcf(sp$SBS, ref_genome = "GRCh37")
-  cat96 <- vcf_to_catalog(
+  cat96 <- vcf_to_sbs_catalog(
     ann, type = "SBS96", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   )
@@ -44,7 +44,7 @@ test_that("empty SBS VCF -> empty SBS96 catalog with correct shape", {
     stringsAsFactors = FALSE
   )
   ann <- annotate_sbs_or_dbs_vcf(vcf, ref_genome = "GRCh37")
-  # Empty input: vcf_to_catalog should handle by returning a zero-count matrix
+  # Empty input: vcf_to_sbs_catalog should return a zero-count matrix,
   # but it needs an input VCF with the seq.<N>bases column, so construct
   # an empty properly-shaped data.table manually:
   empty_ann <- data.table::data.table(
@@ -52,7 +52,7 @@ test_that("empty SBS VCF -> empty SBS96 catalog with correct shape", {
     REF = character(), ALT = character(),
     seq.21bases = character()
   )
-  cat96 <- vcf_to_catalog(
+  cat96 <- vcf_to_sbs_catalog(
     empty_ann, type = "SBS96", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   )

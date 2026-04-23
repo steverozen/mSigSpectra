@@ -44,5 +44,5 @@ Adds flanking sequence context via \code{\link[=add_seq_context]{add_seq_context
 transcript-ranges table is available, transcript strand via
 \code{\link[=add_transcript_strand]{add_transcript_strand()}}. The same pipeline is appropriate for SBS and
 DBS; DBS-specific validation (e.g. no \code{N} in the tetranucleotide
-context) happens downstream in \code{\link[=vcf_to_catalog]{vcf_to_catalog()}}.
+context) happens downstream in \code{\link[=vcf_to_dbs_catalog]{vcf_to_dbs_catalog()}}.
 }

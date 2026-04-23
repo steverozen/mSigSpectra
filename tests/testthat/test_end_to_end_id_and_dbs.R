@@ -9,7 +9,7 @@ test_that("end-to-end: Strelka ID VCF -> ID83 catalog", {
   expect_true(all(c("COSMIC_83", "Koh_89", "Koh_476") %in%
                     colnames(ann$annotated.vcf)))
 
-  cat <- suppressWarnings(vcf_to_catalog(
+  cat <- suppressWarnings(vcf_to_id_catalog(
     ann, type = "ID83", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   ))
@@ -28,14 +28,14 @@ test_that("end-to-end: Koh-89 and Koh-476 catalogs from the same annotated VCF",
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- suppressWarnings(annotate_id_vcf(sp$ID, ref_genome = "GRCh37"))
 
-  cat89 <- suppressWarnings(vcf_to_catalog(
+  cat89 <- suppressWarnings(vcf_to_id_catalog(
     ann, type = "ID89", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   ))
   expect_equal(attr(cat89, "type"), "ID89")
   expect_equal(nrow(cat89), 89L)
 
-  cat476 <- suppressWarnings(vcf_to_catalog(
+  cat476 <- suppressWarnings(vcf_to_id_catalog(
     ann, type = "ID476", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   ))
@@ -50,7 +50,7 @@ test_that("empty ID input -> empty ID83 catalog (shape preserved)", {
     REF = character(), ALT = character(),
     COSMIC_83 = character(), Koh_89 = character(), Koh_476 = character()
   )
-  cat <- suppressWarnings(vcf_to_catalog(
+  cat <- suppressWarnings(vcf_to_id_catalog(
     empty_ann, type = "ID83", ref_genome = "GRCh37",
     region = "genome", sample_name = "s1"
   ))
@@ -68,8 +68,8 @@ test_that("end-to-end: DBS78 from a synthetic annotated DBS VCF", {
     REF = character(), ALT = character(),
     seq.21bases = character()
   )
-  cat <- vcf_to_catalog(empty, type = "DBS78", ref_genome = "GRCh38",
-                        region = "genome", sample_name = "s1")
+  cat <- vcf_to_dbs_catalog(empty, type = "DBS78", ref_genome = "GRCh38",
+                            region = "genome", sample_name = "s1")
   expect_equal(attr(cat, "type"), "DBS78")
   expect_equal(nrow(cat), 78L)
   expect_equal(sum(cat[, 1L]), 0)

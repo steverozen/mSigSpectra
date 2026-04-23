@@ -1,7 +1,8 @@
 #' Convenience wrapper: read, annotate, and catalog a set of VCF files
 #'
 #' Thin composition of [read_vcf()] + [split_vcf()] +
-#' [annotate_sbs_or_dbs_vcf()] + [vcf_to_catalog()] for a list of files.
+#' [annotate_sbs_or_dbs_vcf()] + [vcf_to_sbs_catalog()] for a list of
+#' files.
 #'
 #' NOTE: currently only SBS catalog types are wired through; DBS and ID
 #' types will raise an error. This file lives under `development/` and is
@@ -45,9 +46,10 @@ vcfs_to_catalogs <- function(files, types, ref_genome,
                                      trans_ranges = trans_ranges,
                                      name_of_vcf = names_of_vcfs[i])
       for (t in intersect(types, c("SBS96", "SBS192", "SBS1536"))) {
-        out[[t]] <- vcf_to_catalog(ann, type = t, ref_genome = ref_genome,
-                                   region = region,
-                                   sample_name = names_of_vcfs[i])
+        out[[t]] <- vcf_to_sbs_catalog(ann, type = t,
+                                       ref_genome = ref_genome,
+                                       region = region,
+                                       sample_name = names_of_vcfs[i])
       }
     }
     if (needs_dbs || needs_id) {

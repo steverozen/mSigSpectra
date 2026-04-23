@@ -5,7 +5,7 @@
 #' transcript-ranges table is available, transcript strand via
 #' [add_transcript_strand()]. The same pipeline is appropriate for SBS and
 #' DBS; DBS-specific validation (e.g. no `N` in the tetranucleotide
-#' context) happens downstream in [vcf_to_catalog()].
+#' context) happens downstream in [vcf_to_dbs_catalog()].
 #'
 #' @param vcf A VCF as a data.frame / data.table with `CHROM`, `POS`,
 #'   `REF`, `ALT` columns. For SBS, `REF` and `ALT` are single bases; for

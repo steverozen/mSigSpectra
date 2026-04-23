@@ -24,8 +24,9 @@ knitr::opts_chunk$set(eval = eval_all)
 
 This vignette walks through the four-step **mSigSpectra** pipeline —
 `read_vcf` → `split_vcf` → `annotate_sbs_or_dbs_vcf` /
-`annotate_id_vcf` → `vcf_to_catalog` — using a real Strelka VCF that
-ships with the package. It then plots each catalog with
+`annotate_id_vcf` → `vcf_to_sbs_catalog` / `vcf_to_dbs_catalog` /
+`vcf_to_id_catalog` — using a real Strelka VCF that ships with the
+package. It then plots each catalog with
 [`mSigPlot`](https://github.com/steverozen/mSigPlot).
 
 If you do not have the BSgenome package or `mSigPlot` installed, the
@@ -114,12 +115,12 @@ A catalog is a single-column numeric matrix with attributes (no S3
 class). One call per resolution.
 
 ```{r build-sbs}
-cat96 <- vcf_to_catalog(sbs_ann, type = "SBS96", ref_genome = "GRCh37",
-                        region = "genome", sample_name = "s1")
-cat192 <- vcf_to_catalog(sbs_ann, type = "SBS192", ref_genome = "GRCh37",
-                         region = "transcript", sample_name = "s1")
-cat1536 <- vcf_to_catalog(sbs_ann, type = "SBS1536", ref_genome = "GRCh37",
-                          region = "genome", sample_name = "s1")
+cat96 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS96", ref_genome = "GRCh37",
+                            region = "genome", sample_name = "s1")
+cat192 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS192", ref_genome = "GRCh37",
+                             region = "transcript", sample_name = "s1")
+cat1536 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS1536", ref_genome = "GRCh37",
+                              region = "genome", sample_name = "s1")
 
 dim(cat96)
 sum(cat96)
@@ -155,12 +156,12 @@ id_ann <- annotate_id_vcf(id_split$ID,
                           ref_genome = "GRCh37")$annotated.vcf
 id_ann[1, c("CHROM", "POS", "REF", "ALT", "COSMIC_83", "Koh_89")]
 
-cat_id83 <- vcf_to_catalog(id_ann, type = "ID83", ref_genome = "GRCh37",
-                           region = "genome", sample_name = "s1")
-cat_id89 <- vcf_to_catalog(id_ann, type = "ID89", ref_genome = "GRCh37",
-                           region = "genome", sample_name = "s1")
-cat_id476 <- vcf_to_catalog(id_ann, type = "ID476", ref_genome = "GRCh37",
-                            region = "genome", sample_name = "s1")
+cat_id83 <- vcf_to_id_catalog(id_ann, type = "ID83", ref_genome = "GRCh37",
+                              region = "genome", sample_name = "s1")
+cat_id89 <- vcf_to_id_catalog(id_ann, type = "ID89", ref_genome = "GRCh37",
+                              region = "genome", sample_name = "s1")
+cat_id476 <- vcf_to_id_catalog(id_ann, type = "ID476", ref_genome = "GRCh37",
+                               region = "genome", sample_name = "s1")
 ```
 
 ```{r plot-id83, fig.height=3.5}
@@ -218,7 +219,8 @@ identical(as.numeric(cat96), as.numeric(cat96_back))
   for SBS / DBS.
 * `?annotate_id_vcf` — indel justification + classification (COSMIC 83
   / Koh 89 / Koh 476) + transcript strand.
-* `?vcf_to_catalog` — single-call builder dispatching on `type`.
+* `?vcf_to_sbs_catalog`, `?vcf_to_dbs_catalog`, `?vcf_to_id_catalog` —
+  per-variant-type catalog builders.
 * `?transform_catalog` / `?collapse_catalog` — counts ↔ density and
   finer-to-coarser collapse.
 * `?check_and_remove_discarded_variants` — optional defensive QC.

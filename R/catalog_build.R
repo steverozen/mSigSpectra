@@ -1,69 +1,43 @@
-#' Build a mutational-spectrum catalog from an annotated VCF
+# Accept either a bare annotated table or the list returned by
+# annotate_sbs_or_dbs_vcf() / annotate_id_vcf().
+unpack_annotated_vcf <- function(x) {
+  if (is.list(x) && !is.data.frame(x) && "annotated.vcf" %in% names(x)) {
+    return(x$annotated.vcf)
+  }
+  x
+}
+
+# -----------------------------------------------------------------------------
+# DBS catalog builder
+# -----------------------------------------------------------------------------
+
+#' Build a DBS mutational-spectrum catalog from an annotated DBS VCF
 #'
-#' Dispatches to a type-specific internal builder based on `type`.
-#' Supports SBS96 / SBS192 / SBS1536 today; DBS and ID catalog types are
-#' stubs pending the DBS- and indel-specific ports.
-#'
-#' @param annotated_vcf A VCF annotated by [annotate_sbs_or_dbs_vcf()]
-#'   (for SBS / DBS types) or [annotate_id_vcf()] (for ID types). May be
-#'   the bare annotated `data.table` or the full
-#'   `list(annotated.vcf, discarded.variants)` returned by either
-#'   annotator. For SBS types the table must contain a `seq.<N>bases`
-#'   column and (for SBS192) `trans.strand` / `bothstrand`.
-#' @param type Catalog type identifier (one of `"SBS96"`, `"SBS192"`,
-#'   `"SBS1536"`, `"DBS78"`, `"DBS136"`, `"DBS144"`, `"ID83"`, `"ID89"`,
-#'   `"ID166"`, `"ID476"`).
+#' @param annotated_vcf A DBS VCF annotated by [annotate_sbs_or_dbs_vcf()].
+#'   May be the bare annotated `data.table` or the full
+#'   `list(annotated.vcf, discarded.variants)` returned by the annotator.
+#'   Must contain a `seq.<N>bases` column; for `type = "DBS144"` also
+#'   requires `trans.strand` / `bothstrand`.
+#' @param type One of `"DBS78"`, `"DBS136"`, `"DBS144"`.
 #' @param ref_genome Optional BSgenome object or alias; recorded on the
 #'   output catalog.
 #' @param region One of `"genome"`, `"exome"`, `"transcript"`,
 #'   `"unknown"`.
-#' @param sample_name Column name for the single-sample catalog matrix
-#'   (default `"count"`).
+#' @param sample_name Column name for the single-sample catalog matrix.
 #'
 #' @return A single-column numeric matrix with catalog attributes (see
 #'   [as_catalog()]).
 #'
 #' @export
-vcf_to_catalog <- function(annotated_vcf,
-                           type = c("SBS96", "SBS192", "SBS1536",
-                                    "DBS78", "DBS136", "DBS144",
-                                    "ID83", "ID89", "ID166", "ID476"),
-                           ref_genome = NULL,
-                           region = "unknown",
-                           sample_name = "count") {
-  # Accept either a bare annotated table or the list returned by
-  # annotate_sbs_or_dbs_vcf() / annotate_id_vcf().
-  if (is.list(annotated_vcf) && !is.data.frame(annotated_vcf) &&
-      "annotated.vcf" %in% names(annotated_vcf)) {
-    annotated_vcf <- annotated_vcf$annotated.vcf
-  }
+vcf_to_dbs_catalog <- function(annotated_vcf,
+                               type = c("DBS78", "DBS136", "DBS144"),
+                               ref_genome = NULL,
+                               region = "unknown",
+                               sample_name = "count") {
+  vcf <- unpack_annotated_vcf(annotated_vcf)
   type <- match.arg(type)
   stop_if_region_illegal(region)
 
-  if (type %in% c("SBS96", "SBS192", "SBS1536")) {
-    return(vcf_to_sbs_catalog(annotated_vcf, type, ref_genome, region,
-                              sample_name))
-  }
-  if (type %in% c("DBS78", "DBS136", "DBS144")) {
-    return(vcf_to_dbs_catalog(annotated_vcf, type, ref_genome, region,
-                              sample_name))
-  }
-  if (type %in% c("ID83", "ID89", "ID476")) {
-    return(vcf_to_id_catalog(annotated_vcf, type, ref_genome, region,
-                             sample_name))
-  }
-
-  stop(
-    "vcf_to_catalog(type = '", type, "') is not yet implemented. ",
-    "Supported types: SBS96/192/1536, DBS78/136/144, ID83/89/476."
-  )
-}
-
-# -----------------------------------------------------------------------------
-# DBS catalog builders
-# -----------------------------------------------------------------------------
-
-vcf_to_dbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   if (nrow(vcf) == 0L) {
     return(empty_dbs_catalog(type, ref_genome, region, sample_name))
   }
@@ -111,8 +85,9 @@ vcf_to_dbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   } else if (type == "DBS144") {
     if (!all(c("trans.strand", "bothstrand") %in% colnames(dedup))) {
       stop(
-        "vcf_to_catalog(type = 'DBS144') requires trans.strand + bothstrand; ",
-        "run annotate_sbs_or_dbs_vcf() with a valid trans_ranges first."
+        "vcf_to_dbs_catalog(type = 'DBS144') requires trans.strand + ",
+        "bothstrand; run annotate_sbs_or_dbs_vcf() with a valid ",
+        "trans_ranges first."
       )
     }
     keep <- !is.na(dedup$trans.strand) & (dedup$bothstrand == FALSE)
@@ -161,10 +136,42 @@ empty_dbs_catalog <- function(type, ref_genome, region, sample_name) {
 # ID catalog builder
 # -----------------------------------------------------------------------------
 
-# Turn an indel-annotated VCF (with COSMIC_83 / Koh_89 / Koh_476 columns as
-# produced by annotate_id_vcf()) into a count matrix for the requested ID
-# classification scheme.
-vcf_to_id_catalog <- function(vcf, type, ref_genome, region, sample_name) {
+#' Build an ID (indel) mutational-spectrum catalog from an annotated ID VCF
+#'
+#' Turns an indel-annotated VCF (with `COSMIC_83` / `Koh_89` / `Koh_476`
+#' columns as produced by [annotate_id_vcf()]) into a count matrix for the
+#' requested ID classification scheme.
+#'
+#' @param annotated_vcf An ID VCF annotated by [annotate_id_vcf()]. May
+#'   be the bare annotated `data.table` or the full
+#'   `list(annotated.vcf, discarded.variants)` returned by the annotator.
+#'   Must contain the categorization column corresponding to `type`.
+#' @param type One of `"ID83"`, `"ID89"`, `"ID476"`.
+#' @param ref_genome Optional BSgenome object or alias; recorded on the
+#'   output catalog.
+#' @param region One of `"genome"`, `"exome"`, `"transcript"`,
+#'   `"unknown"`.
+#' @param sample_name Column name for the single-sample catalog matrix.
+#' @param FILTER_PASS If `TRUE`, retain only rows where the VCF `FILTER`
+#'   column is `"PASS"`.
+#' @param clip_le_9 If `TRUE`, drop variants with repeat count
+#'   `R > 9`, approximating PCAWG indel calling.
+#'
+#' @return A single-column numeric matrix with catalog attributes (see
+#'   [as_catalog()]).
+#'
+#' @export
+vcf_to_id_catalog <- function(annotated_vcf,
+                              type = c("ID83", "ID89", "ID476"),
+                              ref_genome = NULL,
+                              region = "unknown",
+                              sample_name = "count",
+                              FILTER_PASS = TRUE,
+                              clip_le_9 = TRUE) {
+  vcf <- unpack_annotated_vcf(annotated_vcf)
+  type <- match.arg(type)
+  stop_if_region_illegal(region)
+
   if (nrow(vcf) == 0L) {
     rns <- mSigSpectra::catalog.row.order[[if (type == "ID83") "ID" else type]]
     m <- matrix(0, nrow = length(rns), ncol = 1L,
@@ -175,7 +182,7 @@ vcf_to_id_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   col <- switch(type, ID83 = "COSMIC_83", ID89 = "Koh_89", ID476 = "Koh_476")
   if (!col %in% colnames(vcf)) {
     stop(
-      "vcf_to_catalog(type = '", type, "') requires column '", col,
+      "vcf_to_id_catalog(type = '", type, "') requires column '", col,
       "' on the input; run annotate_id_vcf() first."
     )
   }
@@ -183,22 +190,53 @@ vcf_to_id_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   df <- as.data.frame(vcf)
   res <- switch(
     type,
-    ID83  = annot_vcf_to_83_catalog(df,  sample_id = sample_name),
-    ID89  = annot_vcf_to_89_catalog(df,  sample_id = sample_name),
-    ID476 = annot_vcf_to_476_catalog(df, sample_id = sample_name)
+    ID83  = annot_vcf_to_83_catalog(df,  sample_id = sample_name,
+                                    FILTER_PASS = FILTER_PASS,
+                                    clip_le_9 = clip_le_9),
+    ID89  = annot_vcf_to_89_catalog(df,  sample_id = sample_name,
+                                    FILTER_PASS = FILTER_PASS,
+                                    clip_le_9 = clip_le_9),
+    ID476 = annot_vcf_to_476_catalog(df, sample_id = sample_name,
+                                     FILTER_PASS = FILTER_PASS,
+                                     clip_le_9 = clip_le_9)
   )
   m <- as.matrix(res)
   storage.mode(m) <- "numeric"
   as_catalog(m, type = type, ref_genome = ref_genome, region = region)
 }
 
-# Build SBS96 / SBS192 / SBS1536 from an annotated SBS VCF. Returns a
-# single catalog matrix of the requested `type`; intermediate matrices
-# for the other SBS resolutions are still computed (cheap) but not
-# returned -- this keeps the public API focused on "one call, one
-# catalog type".
+#' Build an SBS mutational-spectrum catalog from an annotated SBS VCF
+#'
+#' Returns a single catalog matrix of the requested `type`. Intermediate
+#' matrices for the other SBS resolutions are still computed (cheap) but
+#' not returned, keeping the public API focused on "one call, one catalog
+#' type".
+#'
+#' @param annotated_vcf An SBS VCF annotated by
+#'   [annotate_sbs_or_dbs_vcf()]. May be the bare annotated `data.table`
+#'   or the full `list(annotated.vcf, discarded.variants)` returned by the
+#'   annotator. Must contain a `seq.<N>bases` column; for
+#'   `type = "SBS192"` also requires `trans.strand` / `bothstrand`.
+#' @param type One of `"SBS96"`, `"SBS192"`, `"SBS1536"`.
+#' @param ref_genome Optional BSgenome object or alias; recorded on the
+#'   output catalog.
+#' @param region One of `"genome"`, `"exome"`, `"transcript"`,
+#'   `"unknown"`.
+#' @param sample_name Column name for the single-sample catalog matrix.
+#'
+#' @return A single-column numeric matrix with catalog attributes (see
+#'   [as_catalog()]).
+#'
+#' @export
+vcf_to_sbs_catalog <- function(annotated_vcf,
+                               type = c("SBS96", "SBS192", "SBS1536"),
+                               ref_genome = NULL,
+                               region = "unknown",
+                               sample_name = "count") {
+  vcf <- unpack_annotated_vcf(annotated_vcf)
+  type <- match.arg(type)
+  stop_if_region_illegal(region)
 
-vcf_to_sbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   seq_col <- find_seq_context_col(vcf)
   if (is.null(seq_col) && nrow(vcf) > 0L) {
     stop(
@@ -285,9 +323,9 @@ vcf_to_sbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   if (type == "SBS192") {
     if (!all(c("trans.strand", "bothstrand") %in% colnames(vcf))) {
       stop(
-        "vcf_to_catalog(type = 'SBS192') requires trans.strand / bothstrand ",
-        "columns on the input; run annotate_sbs_or_dbs_vcf() with a ",
-        "non-NULL trans_ranges or a supported ref_genome first."
+        "vcf_to_sbs_catalog(type = 'SBS192') requires trans.strand / ",
+        "bothstrand columns on the input; run annotate_sbs_or_dbs_vcf() ",
+        "with a non-NULL trans_ranges or a supported ref_genome first."
       )
     }
     mat192 <- build_sbs192_matrix(vcf, sample_name)

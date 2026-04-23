@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mSigSpectra</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
 <li>
 <code>annotate_vcf()</code> — adds flanking sequence context (<code><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html" class="external-link">BSgenome::getSeq</a></code>), transcript strand (<code><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html" class="external-link">GenomicRanges::findOverlaps</a></code> against shipped GENCODE tables), and — for indels — left-justifies and categorizes them (COSMIC-83 / Koh-89 / Koh-476).</li>
 <li>
-<code><a href="reference/vcf_to_catalog.html">vcf_to_catalog()</a></code> — produces a single catalog of any of these types: <code>SBS96</code>, <code>SBS192</code>, <code>SBS1536</code>, <code>DBS78</code>, <code>DBS136</code>, <code>DBS144</code>, <code>ID83</code>, <code>ID89</code>, <code>ID166</code>, <code>ID476</code>.</li>
+<code>vcf_to_catalog()</code> — produces a single catalog of any of these types: <code>SBS96</code>, <code>SBS192</code>, <code>SBS1536</code>, <code>DBS78</code>, <code>DBS136</code>, <code>DBS144</code>, <code>ID83</code>, <code>ID89</code>, <code>ID166</code>, <code>ID476</code>.</li>
 </ul>
 <p>The output is a plain numeric matrix with attributes (<code>type</code>, <code>counts_or_density</code>, <code>ref_genome</code>, <code>region</code>, <code>abundance</code>). <strong>No S3 classes.</strong> Functions key off <code>attr(x, "type")</code> via explicit checks.</p>
 </div>
@@ -96,7 +96,7 @@
 <span></span>
 <span><span class="va">ann_sbs</span> <span class="op">&lt;-</span> <span class="fu">annotate_vcf</span><span class="op">(</span><span class="va">parts</span><span class="op">$</span><span class="va">SBS</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh38"</span>,</span>
 <span>                        variant_type <span class="op">=</span> <span class="st">"SBS"</span><span class="op">)</span></span>
-<span><span class="va">sbs96</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">ann_sbs</span>, type <span class="op">=</span> <span class="st">"SBS96"</span>,</span>
+<span><span class="va">sbs96</span> <span class="op">&lt;-</span> <span class="fu">vcf_to_catalog</span><span class="op">(</span><span class="va">ann_sbs</span>, type <span class="op">=</span> <span class="st">"SBS96"</span>,</span>
 <span>                        ref_genome <span class="op">=</span> <span class="st">"GRCh38"</span>, region <span class="op">=</span> <span class="st">"genome"</span>,</span>
 <span>                        sample_name <span class="op">=</span> <span class="st">"my_sample"</span><span class="op">)</span></span>
 <span></span>
@@ -201,7 +201,7 @@
 <div class="section level3">
 <h3 id="id_5-ambiguous-reference-bases">5. Ambiguous reference bases<a class="anchor" aria-label="anchor" href="#id_5-ambiguous-reference-bases"></a>
 </h3>
-<p>Variants with non-<code>{A,C,G,T}</code> REF bases (e.g. <code>N</code>) cannot be canonicalized. <code><a href="reference/check_and_remove_discarded_variants.html">check_and_remove_discarded_variants()</a></code> removes them; <code><a href="reference/vcf_to_catalog.html">vcf_to_catalog()</a></code> ultimately drops them when the pentanucleotide context contains <code>N</code> and warns.</p>
+<p>Variants with non-<code>{A,C,G,T}</code> REF bases (e.g. <code>N</code>) cannot be canonicalized. <code><a href="reference/check_and_remove_discarded_variants.html">check_and_remove_discarded_variants()</a></code> removes them; <code>vcf_to_catalog()</code> ultimately drops them when the pentanucleotide context contains <code>N</code> and warns.</p>
 </div>
 <div class="section level3">
 <h3 id="id_6-filter-conventions-vary-by-caller">6. FILTER conventions vary by caller<a class="anchor" aria-label="anchor" href="#id_6-filter-conventions-vary-by-caller"></a>

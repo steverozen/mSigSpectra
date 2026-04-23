@@ -68,7 +68,12 @@
   : Transcript ranges for transcriptional strand annotation
 - [`transform_catalog()`](https://steverozen.github.io/mSigSpectra/reference/transform_catalog.md)
   : Transform a catalog between counts and density
-- [`vcf_to_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
-  : Build a mutational-spectrum catalog from an annotated VCF
+- [`vcf_to_dbs_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_dbs_catalog.md)
+  : Build a DBS mutational-spectrum catalog from an annotated DBS VCF
+- [`vcf_to_id_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_id_catalog.md)
+  : Build an ID (indel) mutational-spectrum catalog from an annotated ID
+  VCF
+- [`vcf_to_sbs_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_sbs_catalog.md)
+  : Build an SBS mutational-spectrum catalog from an annotated SBS VCF
 - [`write_catalog()`](https://steverozen.github.io/mSigSpectra/reference/write_catalog.md)
   : Write a mutational-spectrum catalog to a file

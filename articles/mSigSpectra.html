@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mSigSpectra</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,9 +62,10 @@
 <p>This vignette walks through the four-step
 <strong>mSigSpectra</strong> pipeline — <code>read_vcf</code> →
 <code>split_vcf</code> → <code>annotate_sbs_or_dbs_vcf</code> /
-<code>annotate_id_vcf</code> → <code>vcf_to_catalog</code> — using a
-real Strelka VCF that ships with the package. It then plots each catalog
-with <a href="https://github.com/steverozen/mSigPlot" class="external-link"><code>mSigPlot</code></a>.</p>
+<code>annotate_id_vcf</code> → <code>vcf_to_sbs_catalog</code> /
+<code>vcf_to_dbs_catalog</code> / <code>vcf_to_id_catalog</code> — using
+a real Strelka VCF that ships with the package. It then plots each
+catalog with <a href="https://github.com/steverozen/mSigPlot" class="external-link"><code>mSigPlot</code></a>.</p>
 <p>If you do not have the BSgenome package or <code>mSigPlot</code>
 installed, the chunks below will be skipped at render time. To
 install:</p>
@@ -166,12 +167,12 @@ DBS).</p>
 <p>A catalog is a single-column numeric matrix with attributes (no S3
 class). One call per resolution.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cat96</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">sbs_ann</span>, type <span class="op">=</span> <span class="st">"SBS96"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>                        region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
-<span><span class="va">cat192</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">sbs_ann</span>, type <span class="op">=</span> <span class="st">"SBS192"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>                         region <span class="op">=</span> <span class="st">"transcript"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
-<span><span class="va">cat1536</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">sbs_ann</span>, type <span class="op">=</span> <span class="st">"SBS1536"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>                          region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cat96</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_sbs_catalog.html">vcf_to_sbs_catalog</a></span><span class="op">(</span><span class="va">sbs_ann</span>, type <span class="op">=</span> <span class="st">"SBS96"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
+<span>                            region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
+<span><span class="va">cat192</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_sbs_catalog.html">vcf_to_sbs_catalog</a></span><span class="op">(</span><span class="va">sbs_ann</span>, type <span class="op">=</span> <span class="st">"SBS192"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
+<span>                             region <span class="op">=</span> <span class="st">"transcript"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
+<span><span class="va">cat1536</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_sbs_catalog.html">vcf_to_sbs_catalog</a></span><span class="op">(</span><span class="va">sbs_ann</span>, type <span class="op">=</span> <span class="st">"SBS1536"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
+<span>                              region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">cat96</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 96  1</span></span>
@@ -252,12 +253,12 @@ Like <code><a href="../reference/annotate_sbs_or_dbs_vcf.html">annotate_sbs_or_d
 <span><span class="co">#&gt;    &lt;char&gt;   &lt;int&gt; &lt;char&gt; &lt;char&gt;    &lt;char&gt;       &lt;char&gt;</span></span>
 <span><span class="co">#&gt; 1:      1 5288645     TG      T DEL:C:1:1 [Del(C):R2]A</span></span>
 <span></span>
-<span><span class="va">cat_id83</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">id_ann</span>, type <span class="op">=</span> <span class="st">"ID83"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>                           region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
-<span><span class="va">cat_id89</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">id_ann</span>, type <span class="op">=</span> <span class="st">"ID89"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>                           region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
-<span><span class="va">cat_id476</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_catalog.html">vcf_to_catalog</a></span><span class="op">(</span><span class="va">id_ann</span>, type <span class="op">=</span> <span class="st">"ID476"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
-<span>                            region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">cat_id83</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_id_catalog.html">vcf_to_id_catalog</a></span><span class="op">(</span><span class="va">id_ann</span>, type <span class="op">=</span> <span class="st">"ID83"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
+<span>                              region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
+<span><span class="va">cat_id89</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_id_catalog.html">vcf_to_id_catalog</a></span><span class="op">(</span><span class="va">id_ann</span>, type <span class="op">=</span> <span class="st">"ID89"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
+<span>                              region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span>
+<span><span class="va">cat_id476</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vcf_to_id_catalog.html">vcf_to_id_catalog</a></span><span class="op">(</span><span class="va">id_ann</span>, type <span class="op">=</span> <span class="st">"ID476"</span>, ref_genome <span class="op">=</span> <span class="st">"GRCh37"</span>,</span>
+<span>                               region <span class="op">=</span> <span class="st">"genome"</span>, sample_name <span class="op">=</span> <span class="st">"s1"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://steverozen.github.io/mSigPlot/reference/bar_plots.html" class="external-link">plot_ID83</a></span><span class="op">(</span><span class="va">cat_id83</span>, plot_title <span class="op">=</span> <span class="st">"Strelka.ID.GRCh37.s1 — ID83"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="mSigSpectra_files/figure-html/plot-id83-1.png" class="r-plt" alt="" width="100%"></p>
@@ -317,8 +318,9 @@ transcript strand for SBS / DBS.</li>
 <code><a href="../reference/annotate_id_vcf.html">?annotate_id_vcf</a></code> — indel justification + classification
 (COSMIC 83 / Koh 89 / Koh 476) + transcript strand.</li>
 <li>
-<code><a href="../reference/vcf_to_catalog.html">?vcf_to_catalog</a></code> — single-call builder dispatching on
-<code>type</code>.</li>
+<code><a href="../reference/vcf_to_sbs_catalog.html">?vcf_to_sbs_catalog</a></code>, <code><a href="../reference/vcf_to_dbs_catalog.html">?vcf_to_dbs_catalog</a></code>,
+<code><a href="../reference/vcf_to_id_catalog.html">?vcf_to_id_catalog</a></code> — per-variant-type catalog
+builders.</li>
 <li>
 <code><a href="../reference/transform_catalog.html">?transform_catalog</a></code> / <code><a href="../reference/collapse_catalog.html">?collapse_catalog</a></code> —
 counts ↔︎ density and finer-to-coarser collapse.</li>

@@ -7,7 +7,7 @@ and, when a transcript-ranges table is available, transcript strand via
 The same pipeline is appropriate for SBS and DBS; DBS-specific
 validation (e.g. no `N` in the tetranucleotide context) happens
 downstream in
-[`vcf_to_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md).
+[`vcf_to_dbs_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_dbs_catalog.md).
 
 ## Usage
 

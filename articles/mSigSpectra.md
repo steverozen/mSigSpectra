@@ -2,9 +2,9 @@
 
 This vignette walks through the four-step **mSigSpectra** pipeline —
 `read_vcf` → `split_vcf` → `annotate_sbs_or_dbs_vcf` / `annotate_id_vcf`
-→ `vcf_to_catalog` — using a real Strelka VCF that ships with the
-package. It then plots each catalog with
-[`mSigPlot`](https://github.com/steverozen/mSigPlot).
+→ `vcf_to_sbs_catalog` / `vcf_to_dbs_catalog` / `vcf_to_id_catalog` —
+using a real Strelka VCF that ships with the package. It then plots each
+catalog with [`mSigPlot`](https://github.com/steverozen/mSigPlot).
 
 If you do not have the BSgenome package or `mSigPlot` installed, the
 chunks below will be skipped at render time. To install:
@@ -110,12 +110,12 @@ A catalog is a single-column numeric matrix with attributes (no S3
 class). One call per resolution.
 
 ``` r
-cat96 <- vcf_to_catalog(sbs_ann, type = "SBS96", ref_genome = "GRCh37",
-                        region = "genome", sample_name = "s1")
-cat192 <- vcf_to_catalog(sbs_ann, type = "SBS192", ref_genome = "GRCh37",
-                         region = "transcript", sample_name = "s1")
-cat1536 <- vcf_to_catalog(sbs_ann, type = "SBS1536", ref_genome = "GRCh37",
-                          region = "genome", sample_name = "s1")
+cat96 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS96", ref_genome = "GRCh37",
+                            region = "genome", sample_name = "s1")
+cat192 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS192", ref_genome = "GRCh37",
+                             region = "transcript", sample_name = "s1")
+cat1536 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS1536", ref_genome = "GRCh37",
+                              region = "genome", sample_name = "s1")
 
 dim(cat96)
 #> [1] 96  1
@@ -205,12 +205,12 @@ id_ann[1, c("CHROM", "POS", "REF", "ALT", "COSMIC_83", "Koh_89")]
 #>    <char>   <int> <char> <char>    <char>       <char>
 #> 1:      1 5288645     TG      T DEL:C:1:1 [Del(C):R2]A
 
-cat_id83 <- vcf_to_catalog(id_ann, type = "ID83", ref_genome = "GRCh37",
-                           region = "genome", sample_name = "s1")
-cat_id89 <- vcf_to_catalog(id_ann, type = "ID89", ref_genome = "GRCh37",
-                           region = "genome", sample_name = "s1")
-cat_id476 <- vcf_to_catalog(id_ann, type = "ID476", ref_genome = "GRCh37",
-                            region = "genome", sample_name = "s1")
+cat_id83 <- vcf_to_id_catalog(id_ann, type = "ID83", ref_genome = "GRCh37",
+                              region = "genome", sample_name = "s1")
+cat_id89 <- vcf_to_id_catalog(id_ann, type = "ID89", ref_genome = "GRCh37",
+                              region = "genome", sample_name = "s1")
+cat_id476 <- vcf_to_id_catalog(id_ann, type = "ID476", ref_genome = "GRCh37",
+                               region = "genome", sample_name = "s1")
 ```
 
 ``` r
@@ -281,8 +281,10 @@ identical(as.numeric(cat96), as.numeric(cat96_back))
 - [`?annotate_id_vcf`](https://steverozen.github.io/mSigSpectra/reference/annotate_id_vcf.md)
   — indel justification + classification (COSMIC 83 / Koh 89 /
   Koh 476) + transcript strand.
-- [`?vcf_to_catalog`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
-  — single-call builder dispatching on `type`.
+- [`?vcf_to_sbs_catalog`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_sbs_catalog.md),
+  [`?vcf_to_dbs_catalog`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_dbs_catalog.md),
+  [`?vcf_to_id_catalog`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_id_catalog.md)
+  — per-variant-type catalog builders.
 - [`?transform_catalog`](https://steverozen.github.io/mSigSpectra/reference/transform_catalog.md)
   /
   [`?collapse_catalog`](https://steverozen.github.io/mSigSpectra/reference/collapse_catalog.md)

@@ -27,10 +27,9 @@ of scope.
   ([`GenomicRanges::findOverlaps`](https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html)
   against shipped GENCODE tables), and — for indels — left-justifies and
   categorizes them (COSMIC-83 / Koh-89 / Koh-476).
-- [`vcf_to_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
-  — produces a single catalog of any of these types: `SBS96`, `SBS192`,
-  `SBS1536`, `DBS78`, `DBS136`, `DBS144`, `ID83`, `ID89`, `ID166`,
-  `ID476`.
+- `vcf_to_catalog()` — produces a single catalog of any of these types:
+  `SBS96`, `SBS192`, `SBS1536`, `DBS78`, `DBS136`, `DBS144`, `ID83`,
+  `ID89`, `ID166`, `ID476`.
 
 The output is a plain numeric matrix with attributes (`type`,
 `counts_or_density`, `ref_genome`, `region`, `abundance`). **No S3
@@ -179,10 +178,8 @@ will classify them as DBS unless you filter first.
 Variants with non-`{A,C,G,T}` REF bases (e.g. `N`) cannot be
 canonicalized.
 [`check_and_remove_discarded_variants()`](https://steverozen.github.io/mSigSpectra/reference/check_and_remove_discarded_variants.md)
-removes them;
-[`vcf_to_catalog()`](https://steverozen.github.io/mSigSpectra/reference/vcf_to_catalog.md)
-ultimately drops them when the pentanucleotide context contains `N` and
-warns.
+removes them; `vcf_to_catalog()` ultimately drops them when the
+pentanucleotide context contains `N` and warns.
 
 ### 6. FILTER conventions vary by caller
 

@@ -23,12 +23,12 @@ Source:
 
 Rozen S, Jiang N, Boot A, Liu M, Wu Y, Huang MN, Chang JG (2026).
 *mSigSpectra: Build Mutational-Spectrum Catalogs from VCF Files*. R
-package version 0.0.3, <https://github.com/steverozen/mSigSpectra>.
+package version 0.1.0, <https://github.com/steverozen/mSigSpectra>.
 
     @Manual{,
       title = {mSigSpectra: Build Mutational-Spectrum Catalogs from VCF Files},
       author = {Steve Rozen and Nanhai Jiang and Arnoud Boot and Mo Liu and Yang Wu and Mi Ni Huang and Jia Geng Chang},
       year = {2026},
-      note = {R package version 0.0.3},
+      note = {R package version 0.1.0},
       url = {https://github.com/steverozen/mSigSpectra},
     }

@@ -4,9 +4,12 @@
 #' Supports SBS96 / SBS192 / SBS1536 today; DBS and ID catalog types are
 #' stubs pending the DBS- and indel-specific ports.
 #'
-#' @param annotated_vcf A VCF annotated by [annotate_vcf()]. For SBS
-#'   types, must contain a `seq.<N>bases` column and (for SBS192) a
-#'   `trans.strand` / `bothstrand` column.
+#' @param annotated_vcf A VCF annotated by [annotate_sbs_or_dbs_vcf()]
+#'   (for SBS / DBS types) or [annotate_id_vcf()] (for ID types). May be
+#'   the bare annotated `data.table` or the full
+#'   `list(annotated.vcf, discarded.variants)` returned by either
+#'   annotator. For SBS types the table must contain a `seq.<N>bases`
+#'   column and (for SBS192) `trans.strand` / `bothstrand`.
 #' @param type Catalog type identifier (one of `"SBS96"`, `"SBS192"`,
 #'   `"SBS1536"`, `"DBS78"`, `"DBS136"`, `"DBS144"`, `"ID83"`, `"ID89"`,
 #'   `"ID166"`, `"ID476"`).
@@ -28,6 +31,12 @@ vcf_to_catalog <- function(annotated_vcf,
                            ref_genome = NULL,
                            region = "unknown",
                            sample_name = "count") {
+  # Accept either a bare annotated table or the list returned by
+  # annotate_sbs_or_dbs_vcf() / annotate_id_vcf().
+  if (is.list(annotated_vcf) && !is.data.frame(annotated_vcf) &&
+      "annotated.vcf" %in% names(annotated_vcf)) {
+    annotated_vcf <- annotated_vcf$annotated.vcf
+  }
   type <- match.arg(type)
   stop_if_region_illegal(region)
 
@@ -61,7 +70,7 @@ vcf_to_dbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
 
   seq_col <- find_seq_context_col(vcf)
   if (is.null(seq_col)) {
-    stop("Input VCF has no seq.<N>bases column; run annotate_vcf() first.")
+    stop("Input VCF has no seq.<N>bases column; run annotate_sbs_or_dbs_vcf() first.")
   }
   half_width <- (nchar(vcf[[seq_col]][1]) - 1L) %/% 2L
   center_pos <- half_width + 1L
@@ -103,7 +112,7 @@ vcf_to_dbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
     if (!all(c("trans.strand", "bothstrand") %in% colnames(dedup))) {
       stop(
         "vcf_to_catalog(type = 'DBS144') requires trans.strand + bothstrand; ",
-        "run annotate_vcf() with a valid trans_ranges first."
+        "run annotate_sbs_or_dbs_vcf() with a valid trans_ranges first."
       )
     }
     keep <- !is.na(dedup$trans.strand) & (dedup$bothstrand == FALSE)
@@ -153,8 +162,8 @@ empty_dbs_catalog <- function(type, ref_genome, region, sample_name) {
 # -----------------------------------------------------------------------------
 
 # Turn an indel-annotated VCF (with COSMIC_83 / Koh_89 / Koh_476 columns as
-# produced by annotate_vcf(variant_type = "ID") + categorize_indels_in_vcf)
-# into a count matrix for the requested ID classification scheme.
+# produced by annotate_id_vcf()) into a count matrix for the requested ID
+# classification scheme.
 vcf_to_id_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   if (nrow(vcf) == 0L) {
     rns <- mSigSpectra::catalog.row.order[[if (type == "ID83") "ID" else type]]
@@ -167,7 +176,7 @@ vcf_to_id_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   if (!col %in% colnames(vcf)) {
     stop(
       "vcf_to_catalog(type = '", type, "') requires column '", col,
-      "' on the input; run annotate_vcf(variant_type = 'ID') first."
+      "' on the input; run annotate_id_vcf() first."
     )
   }
 
@@ -193,8 +202,8 @@ vcf_to_sbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
   seq_col <- find_seq_context_col(vcf)
   if (is.null(seq_col) && nrow(vcf) > 0L) {
     stop(
-      "Input VCF has no seq.<N>bases column; run annotate_vcf() first ",
-      "with variant_type = 'SBS'."
+      "Input VCF has no seq.<N>bases column; run ",
+      "annotate_sbs_or_dbs_vcf() on an SBS VCF first."
     )
   }
 
@@ -277,8 +286,8 @@ vcf_to_sbs_catalog <- function(vcf, type, ref_genome, region, sample_name) {
     if (!all(c("trans.strand", "bothstrand") %in% colnames(vcf))) {
       stop(
         "vcf_to_catalog(type = 'SBS192') requires trans.strand / bothstrand ",
-        "columns on the input; run annotate_vcf() with a non-NULL ",
-        "trans_ranges or a supported ref_genome first."
+        "columns on the input; run annotate_sbs_or_dbs_vcf() with a ",
+        "non-NULL trans_ranges or a supported ref_genome first."
       )
     }
     mat192 <- build_sbs192_matrix(vcf, sample_name)

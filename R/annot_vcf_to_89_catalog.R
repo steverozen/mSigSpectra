@@ -40,9 +40,9 @@
 annot_vcf_to_89_catalog <- function(
   annot_vcf,
   sample_id = "no_sample_id_provided",
-  FILTER_PASS = FALSE,
+  FILTER_PASS = TRUE,
   do_message = FALSE,
-  clip_le_9 = FALSE
+  clip_le_9 = TRUE
 ) {
   zero_catalog <- function() {
     rn <- mSigSpectra::catalog.row.order$ID89
@@ -51,11 +51,15 @@ annot_vcf_to_89_catalog <- function(
     m
   }
 
-  if (nrow(annot_vcf) == 0) return(zero_catalog())
+  if (nrow(annot_vcf) == 0) {
+    return(zero_catalog())
+  }
 
   cleaner_vcf <- quick_check_vcf(annot_vcf, FILTER_PASS, do_message)
 
-  if (nrow(cleaner_vcf) == 0) return(zero_catalog())
+  if (nrow(cleaner_vcf) == 0) {
+    return(zero_catalog())
+  }
 
   # Replaced dplyr with data.table for performance:
   # if (clip_le_9) {
@@ -83,7 +87,9 @@ annot_vcf_to_89_catalog <- function(
   # data.table::data.table(Koh_89 = mSigSpectra::catalog.row.order$ID89) %>%
   #   dplyr::left_join(compacted_vcf, by = "Koh_89") %>%
   #   mutate(n = if_else(is.na(n), 0L, n)) -> almost
-  all_cats <- data.table::data.table(Koh_89 = mSigSpectra::catalog.row.order$ID89)
+  all_cats <- data.table::data.table(
+    Koh_89 = mSigSpectra::catalog.row.order$ID89
+  )
   almost <- compacted_vcf[all_cats, on = "Koh_89"]
   data.table::setnafill(almost, fill = 0L, cols = "N")
 

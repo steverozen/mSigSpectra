@@ -4,9 +4,10 @@ test_that("end-to-end: Strelka ID VCF -> ID83 catalog", {
   vcf <- read_vcf("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s1.vcf",
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
-  ann <- suppressWarnings(annotate_vcf(sp$ID, ref_genome = "GRCh37",
-                                       variant_type = "ID"))
-  expect_true(all(c("COSMIC_83", "Koh_89", "Koh_476") %in% colnames(ann)))
+  ann <- suppressWarnings(annotate_id_vcf(sp$ID, ref_genome = "GRCh37"))
+  expect_true(all(c("annotated.vcf", "discarded.variants") %in% names(ann)))
+  expect_true(all(c("COSMIC_83", "Koh_89", "Koh_476") %in%
+                    colnames(ann$annotated.vcf)))
 
   cat <- suppressWarnings(vcf_to_catalog(
     ann, type = "ID83", ref_genome = "GRCh37",
@@ -25,8 +26,7 @@ test_that("end-to-end: Koh-89 and Koh-476 catalogs from the same annotated VCF",
   vcf <- read_vcf("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s1.vcf",
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
-  ann <- suppressWarnings(annotate_vcf(sp$ID, ref_genome = "GRCh37",
-                                       variant_type = "ID"))
+  ann <- suppressWarnings(annotate_id_vcf(sp$ID, ref_genome = "GRCh37"))
 
   cat89 <- suppressWarnings(vcf_to_catalog(
     ann, type = "ID89", ref_genome = "GRCh37",

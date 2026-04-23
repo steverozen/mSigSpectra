@@ -26,7 +26,7 @@
 #' @param backend VCF reader backend:
 #'   * `"fread"` (default): [data.table::fread()]. Handles uncompressed and
 #'     gzipped files; does not handle bgzipped/tabix.
-#'   * `"vcfppR"`: [vcfppR::vcftable()] — handles bgzipped, tabix, and
+#'   * `"vcfppR"`: `vcfppR::vcftable()` — handles bgzipped, tabix, and
 #'     remote files; splits multi-allelic records. The `vcfppR` package is
 #'     in `Suggests`; an informative error is raised if it is not installed.
 #' @param name_of_vcf Optional name for the VCF, used only for warning /

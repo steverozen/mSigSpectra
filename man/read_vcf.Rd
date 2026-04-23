@@ -28,7 +28,7 @@ when \code{filter} is non-trivial in that case.
 \itemize{
 \item \code{"fread"} (default): \code{\link[data.table:fread]{data.table::fread()}}. Handles uncompressed and
 gzipped files; does not handle bgzipped/tabix.
-\item \code{"vcfppR"}: \code{\link[vcfppR:vcftable]{vcfppR::vcftable()}} — handles bgzipped, tabix, and
+\item \code{"vcfppR"}: \code{vcfppR::vcftable()} — handles bgzipped, tabix, and
 remote files; splits multi-allelic records. The \code{vcfppR} package is
 in \code{Suggests}; an informative error is raised if it is not installed.
 }}

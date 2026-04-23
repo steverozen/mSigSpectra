@@ -12,7 +12,16 @@ test_that("standard_chrom_name_new returns a list with df + discarded.variants",
     CHROM = c("1", "2", "GL000001", "KI270711", "random1", "Hs37d5", "chrM", "JH001"),
     POS = 1:8
   )
-  expect_warning(out <- standard_chrom_name_new(df), "GL")
+  warnings <- testthat::capture_warnings(
+    out <- standard_chrom_name_new(df)
+  )
+  expect_length(warnings, 6)
+  expect_match(warnings, "GL",     all = FALSE)
+  expect_match(warnings, "KI",     all = FALSE)
+  expect_match(warnings, "random", all = FALSE)
+  expect_match(warnings, "Hs",     all = FALSE)
+  expect_match(warnings, "M",      all = FALSE)
+  expect_match(warnings, "JH",     all = FALSE)
   expect_equal(nrow(out$df), 2)  # "1" and "2"
   expect_equal(nrow(out$discarded.variants), 6)
   expect_true("discarded.reason" %in% names(out$discarded.variants))

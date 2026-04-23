@@ -14,9 +14,12 @@ vcf_to_catalog(
 )
 }
 \arguments{
-\item{annotated_vcf}{A VCF annotated by \code{\link[=annotate_vcf]{annotate_vcf()}}. For SBS
-types, must contain a \verb{seq.<N>bases} column and (for SBS192) a
-\code{trans.strand} / \code{bothstrand} column.}
+\item{annotated_vcf}{A VCF annotated by \code{\link[=annotate_sbs_or_dbs_vcf]{annotate_sbs_or_dbs_vcf()}}
+(for SBS / DBS types) or \code{\link[=annotate_id_vcf]{annotate_id_vcf()}} (for ID types). May be
+the bare annotated \code{data.table} or the full
+\code{list(annotated.vcf, discarded.variants)} returned by either
+annotator. For SBS types the table must contain a \verb{seq.<N>bases}
+column and (for SBS192) \code{trans.strand} / \code{bothstrand}.}
 
 \item{type}{Catalog type identifier (one of \code{"SBS96"}, \code{"SBS192"},
 \code{"SBS1536"}, \code{"DBS78"}, \code{"DBS136"}, \code{"DBS144"}, \code{"ID83"}, \code{"ID89"},

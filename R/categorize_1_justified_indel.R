@@ -274,7 +274,9 @@ categorize_1_justified_indel <- function(
     ),
     koh_extra
   )
-
+  if (retlist$R != retlist$original_reps) {
+    browser()
+  }
   retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
   retlist$Koh_89 = gen_Koh_89_string(retlist)
   if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {

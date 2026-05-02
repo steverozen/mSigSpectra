@@ -1,7 +1,4 @@
 gen_Koh_476_string = function(arglist) {
-  open_interval_format = FALSE
-  fiveplus_str = if (open_interval_format) "(5,)" else "(5,9)"
-
   if (arglist$ins_or_del == "d") {
     INS_OR_DEL = "Del"
   } else {
@@ -9,35 +6,47 @@ gen_Koh_476_string = function(arglist) {
     INS_OR_DEL = "Ins"
   }
 
+  if (arglist$L == 1) {
+    return(gen_koh_476_Leq1(arglist, INS_OR_DEL))
+  }
+  gen_koh_476_Lgt1(arglist, INS_OR_DEL)
+}
+
+gen_koh_476_Leq1 = function(arglist, INS_OR_DEL) {
+  ins_or_del_seq = arglist$ins_or_del_seq
   R = arglist$R
 
+  if (!ins_or_del_seq %in% c("A", "C", "G", "T")) {
+    return(paste0("Cannot categorize indel of ", ins_or_del_seq))
+  }
+  if (!arglist$pre %in% c("A", "C", "G", "T")) {
+    return(paste0("Cannot categorize indel preceded by  ", arglist$pre))
+  }
+  if (!arglist$post %in% c("A", "C", "G", "T")) {
+    return(paste0("Cannot categorize indel followed by  ", arglist$post))
+  }
+  R_str = if (R >= 99) "(99,)" else R
+  return(paste0(
+    arglist$pre,
+    "[",
+    INS_OR_DEL,
+    "(",
+    ins_or_del_seq,
+    "):R",
+    R_str,
+    "]",
+    arglist$post
+  ))
+}
+
+gen_koh_476_Lgt1 = function(arglist, INS_OR_DEL) {
+  open_interval_format = FALSE
+  fiveplus_str = if (open_interval_format) "(5,)" else "(5,9)"
+
+  R = arglist$R
   ins_or_del_seq = arglist$ins_or_del_seq
   L = arglist$L
   U = arglist$U
-
-  if (L == 1) {
-    if (!ins_or_del_seq %in% c("A", "C", "G", "T")) {
-      return(paste0("Cannot categorize indel of ", ins_or_del_seq))
-    }
-    if (!arglist$pre %in% c("A", "C", "G", "T")) {
-      return(paste0("Cannot categorize indel preceded by  ", arglist$pre))
-    }
-    if (!arglist$post %in% c("A", "C", "G", "T")) {
-      return(paste0("Cannot categorize indel followed by  ", arglist$post))
-    }
-    R_str = if (R >= 99) "(99,)" else R # Mo, adjust accoring to what you find in the actual data
-    return(paste0(
-      arglist$pre,
-      "[",
-      INS_OR_DEL,
-      "(",
-      ins_or_del_seq,
-      "):R",
-      R_str,
-      "]",
-      arglist$post
-    ))
-  }
 
   if (arglist$spacer_length > 0 && arglist$prime3_reps > 0) {
     return(gen_koh476_mh_str(arglist))

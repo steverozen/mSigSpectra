@@ -5,74 +5,81 @@ gen_Koh_89_string = function(arglist) {
     stopifnot(arglist$ins_or_del == "i")
     INS_OR_DEL = "Ins"
   }
+  if (nchar(arglist$ins_or_del_seq) == 1) {
+    return(gen_koh89_Leq1(arglist, INS_OR_DEL))
+  }
+  gen_koh89_Lgt1(arglist, INS_OR_DEL)
+}
 
+gen_koh89_Leq1 = function(arglist, INS_OR_DEL) {
   R = arglist$R
   ins_or_del_seq = arglist$ins_or_del_seq
-  L = nchar(ins_or_del_seq)
   pre = arglist$pre
   post = arglist$post
 
-  if (L == 1) {
-    if (!ins_or_del_seq %in% c("A", "C", "G", "T")) {
-      return(paste0("Cannot categorize indel of ", ins_or_del_seq))
-    }
-    if (!pre %in% c("A", "C", "G", "T")) {
-      return(paste0("Cannot categorize indel preceded by  ", pre))
-    }
-    if (!post %in% c("A", "C", "G", "T")) {
-      return(paste0("Cannot categorize indel followed by  ", post))
-    }
-
-    if (INS_OR_DEL == "Ins") {
-      # Lines 4 through 35 of Koh et al. sup table 6
-      if (ins_or_del_seq == "C") {
-        if (pre == "A" && R == 0 && post %in% c("A", "T")) {
-          return(paste0("A[Ins(C):R0]", post))
-        } else {
-          if (R <= 3) {
-            return("Ins(C):R(0,3)")
-          } else if (R <= 6) {
-            return("Ins(C):R(4,6)")
-          } else {
-            return("Ins(C):R(7,)")
-          }
-        }
-      } else if (ins_or_del_seq == "T") {
-        if (R <= 4) {
-          return(paste0(pre, "[Ins(T):R(0,4)]", post))
-        }
-        if (R <= 7) {
-          return(paste0(pre, "[Ins(T):R(5,7)]", post))
-        }
-        return(paste0(pre, "[Ins(T):R(8,)]", post))
-      } else {
-        browser() # an error
-      }
-    } else if (INS_OR_DEL == "Del") {
-      if (ins_or_del_seq == "C") {
-        if (R >= 6) {
-          return("Del(C):R(6,9)") ## Huh? no opening bracket here, but backet for R(1,5)
-        } else if (post == "G") {
-          return("[Del(C):R(1,5)]G")
-        }
-        R_str = if (R >= 4) "(4,5)" else R
-        return(paste0("[Del(C):R", R_str, "]", post))
-      } else if (ins_or_del_seq == "T") {
-        if (R <= 4) {
-          R_str = "1,4"
-        } else if (R <= 7) {
-          R_str = "5,7"
-        } else {
-          R_str = "8,"
-        }
-        return(paste0(pre, "[Del(T):R(", R_str, ")]", post))
-      } else {
-        browser() # A programming error
-      }
-    }
+  if (!ins_or_del_seq %in% c("A", "C", "G", "T")) {
+    return(paste0("Cannot categorize indel of ", ins_or_del_seq))
+  }
+  if (!pre %in% c("A", "C", "G", "T")) {
+    return(paste0("Cannot categorize indel preceded by  ", pre))
+  }
+  if (!post %in% c("A", "C", "G", "T")) {
+    return(paste0("Cannot categorize indel followed by  ", post))
   }
 
-  # L > 1 ################################
+  if (INS_OR_DEL == "Ins") {
+    # Lines 4 through 35 of Koh et al. sup table 6
+    if (ins_or_del_seq == "C") {
+      if (pre == "A" && R == 0 && post %in% c("A", "T")) {
+        return(paste0("A[Ins(C):R0]", post))
+      } else {
+        if (R <= 3) {
+          return("Ins(C):R(0,3)")
+        } else if (R <= 6) {
+          return("Ins(C):R(4,6)")
+        } else {
+          return("Ins(C):R(7,)")
+        }
+      }
+    } else if (ins_or_del_seq == "T") {
+      if (R <= 4) {
+        return(paste0(pre, "[Ins(T):R(0,4)]", post))
+      }
+      if (R <= 7) {
+        return(paste0(pre, "[Ins(T):R(5,7)]", post))
+      }
+      return(paste0(pre, "[Ins(T):R(8,)]", post))
+    } else {
+      browser() # an error
+    }
+  } else if (INS_OR_DEL == "Del") {
+    if (ins_or_del_seq == "C") {
+      if (R >= 6) {
+        return("Del(C):R(6,9)") ## Huh? no opening bracket here, but backet for R(1,5)
+      } else if (post == "G") {
+        return("[Del(C):R(1,5)]G")
+      }
+      R_str = if (R >= 4) "(4,5)" else R
+      return(paste0("[Del(C):R", R_str, "]", post))
+    } else if (ins_or_del_seq == "T") {
+      if (R <= 4) {
+        R_str = "1,4"
+      } else if (R <= 7) {
+        R_str = "5,7"
+      } else {
+        R_str = "8,"
+      }
+      return(paste0(pre, "[Del(T):R(", R_str, ")]", post))
+    } else {
+      stop("Programming error in gen_koh89_Leq1")
+    }
+  }
+}
+
+gen_koh89_Lgt1 = function(arglist, INS_OR_DEL) {
+  R = arglist$R
+  ins_or_del_seq = arglist$ins_or_del_seq
+  L = nchar(ins_or_del_seq)
 
   if (INS_OR_DEL == "Ins") {
     # browser()

@@ -1,7 +1,7 @@
 # Compute length of longest common prefix of two strings
 
 Fast alternative to
-[`Biostrings::lcprefix`](https://rdrr.io/pkg/Biostrings/man/pmatchPattern.html)
+[`Biostrings::lcprefix`](https://rdrr.io/pkg/Biostrings/man/lcsuffix.html)
 that avoids S4 method dispatch overhead.
 
 ## Usage

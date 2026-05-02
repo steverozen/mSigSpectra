@@ -215,10 +215,28 @@ simplify(
 #>         "DEL:T:1:0" "A[Del(T):R(1,4)]A"     "A[Del(T):R1]A" 
 simplify(
   categorize_1_justified_indel("TTATATAT", "d", ins_or_del_seq = "TATA", pos = 2))
+#> Called from: categorize_1_justified_indel("TTATATAT", "d", ins_or_del_seq = "TATA", 
+#>     pos = 2)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
 #>         COSMIC_83            Koh_89           Koh_476 
 #>      "DEL:MH:4:3" "Del(4,5):M(3,4)"         "Del4:M3" 
 simplify(
   categorize_1_justified_indel("TTATATAT", "d", ins_or_del_seq = "TATAT", pos = 2))
+#> Called from: categorize_1_justified_indel("TTATATAT", "d", ins_or_del_seq = "TATAT", 
+#>     pos = 2)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
 #>          COSMIC_83             Koh_89            Koh_476 
 #> "DEL:repeats:5+:0"       "Del(5,):R1"    "Del5:U(2,):R1" 
 ```

@@ -38,6 +38,7 @@ classes.** Functions key off `attr(x, "type")` via explicit checks.
 ## Installation
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("steverozen/mSigSpectra")
 ```
@@ -45,6 +46,7 @@ remotes::install_github("steverozen/mSigSpectra")
 You also need the BSgenome package(s) for your reference genome(s):
 
 ``` r
+
 BiocManager::install(c(
   "BSgenome.Hsapiens.1000genomes.hs37d5",   # GRCh37 / hg19
   "BSgenome.Hsapiens.UCSC.hg38",            # GRCh38 / hg38
@@ -55,12 +57,14 @@ BiocManager::install(c(
 For plotting, install mSigPlot:
 
 ``` r
+
 remotes::install_github("steverozen/mSigPlot")
 ```
 
 ## Quick example
 
 ``` r
+
 library(mSigSpectra)
 library(mSigPlot)
 
@@ -83,16 +87,16 @@ catalogs, writes them to disk, and plots each one with mSigPlot.
 
 ## Migrating from ICAMS
 
-| ICAMS                                                       | mSigSpectra                                                                                                                                                                       |
-|-------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ReadVCFs()` / `SimpleReadVCF()`                            | [`read_vcf()`](https://steverozen.github.io/mSigSpectra/reference/read_vcf.md), [`read_vcfs()`](https://steverozen.github.io/mSigSpectra/reference/read_vcfs.md)                  |
-| `SplitListOfVCFs()`                                         | [`split_vcf()`](https://steverozen.github.io/mSigSpectra/reference/split_vcf.md)                                                                                                  |
-| `AnnotateSBSVCF()` / `AnnotateDBSVCF()` / `AnnotateIDVCF()` | `annotate_vcf(variant_type = ...)`                                                                                                                                                |
-| `VCFsToCatalogs()`                                          | `vcfs_to_catalogs()`                                                                                                                                                              |
-| `as.catalog()`                                              | [`as_catalog()`](https://steverozen.github.io/mSigSpectra/reference/as_catalog.md)                                                                                                |
-| `TransformCatalog()`                                        | [`transform_catalog()`](https://steverozen.github.io/mSigSpectra/reference/transform_catalog.md)                                                                                  |
-| `ReadCatalog()` / `WriteCatalog()`                          | [`read_catalog()`](https://steverozen.github.io/mSigSpectra/reference/read_catalog.md) / [`write_catalog()`](https://steverozen.github.io/mSigSpectra/reference/write_catalog.md) |
-| `PlotCatalog()`                                             | (now in [`mSigPlot::plot_SBS96()`](https://steverozen.github.io/mSigPlot/reference/bar_plots.html) etc.)                                                                          |
+| ICAMS | mSigSpectra |
+|----|----|
+| `ReadVCFs()` / `SimpleReadVCF()` | [`read_vcf()`](https://steverozen.github.io/mSigSpectra/reference/read_vcf.md), [`read_vcfs()`](https://steverozen.github.io/mSigSpectra/reference/read_vcfs.md) |
+| `SplitListOfVCFs()` | [`split_vcf()`](https://steverozen.github.io/mSigSpectra/reference/split_vcf.md) |
+| `AnnotateSBSVCF()` / `AnnotateDBSVCF()` / `AnnotateIDVCF()` | `annotate_vcf(variant_type = ...)` |
+| `VCFsToCatalogs()` | `vcfs_to_catalogs()` |
+| `as.catalog()` | [`as_catalog()`](https://steverozen.github.io/mSigSpectra/reference/as_catalog.md) |
+| `TransformCatalog()` | [`transform_catalog()`](https://steverozen.github.io/mSigSpectra/reference/transform_catalog.md) |
+| `ReadCatalog()` / `WriteCatalog()` | [`read_catalog()`](https://steverozen.github.io/mSigSpectra/reference/read_catalog.md) / [`write_catalog()`](https://steverozen.github.io/mSigSpectra/reference/write_catalog.md) |
+| `PlotCatalog()` | (now in [`mSigPlot::plot_SBS96()`](https://steverozen.github.io/mSigPlot/reference/bar_plots.html) etc.) |
 
 UpperCamelCase is gone. S3 catalog classes (`SBS96Catalog`,
 `IndelCatalog`, …) are gone — catalogs are plain matrices with
@@ -193,6 +197,7 @@ string) explicitly.
 ### Suggested defensive pipeline
 
 ``` r
+
 vcf <- read_vcf(file, filter = "PASS")
 clean <- check_and_remove_discarded_variants(vcf, name_of_vcf = file)
 parts <- split_vcf(clean$df, name_of_vcf = file)

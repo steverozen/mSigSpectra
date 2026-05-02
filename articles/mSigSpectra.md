@@ -10,6 +10,7 @@ If you do not have the BSgenome package or `mSigPlot` installed, the
 chunks below will be skipped at render time. To install:
 
 ``` r
+
 BiocManager::install("BSgenome.Hsapiens.1000genomes.hs37d5")
 remotes::install_github("steverozen/mSigPlot")
 ```
@@ -17,6 +18,7 @@ remotes::install_github("steverozen/mSigPlot")
 ## 1. Load packages
 
 ``` r
+
 library(mSigSpectra)
 library(mSigPlot)
 ```
@@ -27,6 +29,7 @@ Three example VCFs ship with the package: a Strelka SBS file, a Strelka
 indel file, and a Mutect file (all small subsets, GRCh37 / hg19).
 
 ``` r
+
 sbs_file <- system.file(
   "extdata", "Strelka-SBS-GRCh37", "Strelka.SBS.GRCh37.s1.vcf",
   package = "mSigSpectra"
@@ -48,6 +51,7 @@ returns a `data.table` with whatever columns the VCF body contains. We
 pass `filter = "PASS"` to match the Strelka convention.
 
 ``` r
+
 sbs_vcf <- read_vcf(sbs_file, filter = "PASS")
 nrow(sbs_vcf)
 #> [1] 798
@@ -72,6 +76,7 @@ adjacent SBS pairs that the indel caller does not see; mSigSpectra
 stay as SBSs.
 
 ``` r
+
 sbs_split <- split_vcf(sbs_vcf, name_of_vcf = "Strelka.SBS.GRCh37.s1")
 sapply(sbs_split[c("SBS", "DBS", "ID")], nrow)
 #> SBS DBS  ID 
@@ -95,6 +100,7 @@ It returns a list with `annotated.vcf` (the table below) and
 `discarded.variants` (always `NULL` for SBS / DBS).
 
 ``` r
+
 sbs_ann <- annotate_sbs_or_dbs_vcf(sbs_split$SBS,
                                    ref_genome = "GRCh37")$annotated.vcf
 new_cols <- setdiff(colnames(sbs_ann), colnames(sbs_split$SBS))
@@ -110,6 +116,7 @@ A catalog is a single-column numeric matrix with attributes (no S3
 class). One call per resolution.
 
 ``` r
+
 cat96 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS96", ref_genome = "GRCh37",
                             region = "genome", sample_name = "s1")
 cat192 <- vcf_to_sbs_catalog(sbs_ann, type = "SBS192", ref_genome = "GRCh37",
@@ -168,18 +175,21 @@ catalog_attrs(cat96)
 ## 7. Plot SBS catalogs
 
 ``` r
+
 plot_SBS96(cat96, plot_title = "Strelka.SBS.GRCh37.s1 — SBS96")
 ```
 
 ![](mSigSpectra_files/figure-html/plot-sbs96-1.png)
 
 ``` r
+
 plot_SBS192(cat192, plot_title = "Strelka.SBS.GRCh37.s1 — SBS192 (stranded)")
 ```
 
 ![](mSigSpectra_files/figure-html/plot-sbs192-1.png)
 
 ``` r
+
 plot_SBS1536(cat1536, plot_title = "Strelka.SBS.GRCh37.s1 — SBS1536")
 ```
 
@@ -196,10 +206,254 @@ microhomology context, and emits the three classification strings
 it returns a list of `annotated.vcf` + `discarded.variants`.
 
 ``` r
+
 id_vcf <- read_vcf(id_file, filter = "PASS")
 id_split <- split_vcf(id_vcf, name_of_vcf = "Strelka.ID.GRCh37.s1")
 id_ann <- annotate_id_vcf(id_split$ID,
                           ref_genome = "GRCh37")$annotated.vcf
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
+#> Called from: categorize_1_justified_indel(context = ctx, ins_or_del = ins_or_del, 
+#>     ins_or_del_seq = ins_or_del_seq, pos = pos_in_ctx)
+#> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
+#> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)
+#> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {
+#>     stopifnot(R <= 8)
+#> }
+#> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)
+#> debug: return(retlist)
 id_ann[1, c("CHROM", "POS", "REF", "ALT", "COSMIC_83", "Koh_89")]
 #>     CHROM     POS    REF    ALT COSMIC_83       Koh_89
 #>    <char>   <int> <char> <char>    <char>       <char>
@@ -214,18 +468,21 @@ cat_id476 <- vcf_to_id_catalog(id_ann, type = "ID476", ref_genome = "GRCh37",
 ```
 
 ``` r
+
 plot_ID83(cat_id83, plot_title = "Strelka.ID.GRCh37.s1 — ID83")
 ```
 
 ![](mSigSpectra_files/figure-html/plot-id83-1.png)
 
 ``` r
+
 plot_ID89(cat_id89, plot_title = "Strelka.ID.GRCh37.s1 — ID89")
 ```
 
 ![](mSigSpectra_files/figure-html/plot-id89-1.png)
 
 ``` r
+
 plot_ID476(cat_id476, plot_title = "Strelka.ID.GRCh37.s1 — ID476")
 ```
 
@@ -237,6 +494,7 @@ Convert from raw counts (per category) to mutation density (per megabase
 of context) using the shipped k-mer abundances:
 
 ``` r
+
 cat96_density <- transform_catalog(cat96,
                                    target_counts_or_density = "density")
 attr(cat96_density, "counts_or_density")
@@ -244,6 +502,7 @@ attr(cat96_density, "counts_or_density")
 ```
 
 ``` r
+
 plot_SBS96(cat96_density,
            plot_title = "Strelka.SBS.GRCh37.s1 — SBS96 (density)")
 ```
@@ -253,6 +512,7 @@ plot_SBS96(cat96_density,
 ## 10. Collapse from finer to coarser resolutions
 
 ``` r
+
 cat96_from_1536 <- collapse_catalog(cat1536, to = "SBS96")
 all.equal(as.numeric(cat96_from_1536[, 1]),
           as.numeric(cat96[, 1]))
@@ -265,6 +525,7 @@ ICAMS-native CSV is the default and only output format today;
 SigProfiler and COSMIC formats are supported on input.
 
 ``` r
+
 out_path <- file.path(tempdir(), "Strelka.SBS.GRCh37.s1.SBS96.csv")
 write_catalog(cat96, out_path)
 cat96_back <- read_catalog(out_path, region = "genome")

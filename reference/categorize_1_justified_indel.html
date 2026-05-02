@@ -256,10 +256,28 @@ looks for microhomology.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         "DEL:T:1:0" "A[Del(T):R(1,4)]A"     "A[Del(T):R1]A" </span>
 <span class="r-in"><span><span class="fu">simplify</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">categorize_1_justified_indel</span><span class="op">(</span><span class="st">"TTATATAT"</span>, <span class="st">"d"</span>, ins_or_del_seq <span class="op">=</span> <span class="st">"TATA"</span>, pos <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: categorize_1_justified_indel("TTATATAT", "d", ins_or_del_seq = "TATA", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     pos = 2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     stopifnot(R &lt;= 8)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: return(retlist)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         COSMIC_83            Koh_89           Koh_476 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      "DEL:MH:4:3" "Del(4,5):M(3,4)"         "Del4:M3" </span>
 <span class="r-in"><span><span class="fu">simplify</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">categorize_1_justified_indel</span><span class="op">(</span><span class="st">"TTATATAT"</span>, <span class="st">"d"</span>, ins_or_del_seq <span class="op">=</span> <span class="st">"TATAT"</span>, pos <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: categorize_1_justified_indel("TTATATAT", "d", ins_or_del_seq = "TATAT", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     pos = 2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: retlist$Koh_89 = gen_Koh_89_string(retlist)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     stopifnot(R &lt;= 8)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: retlist$Koh_476 = gen_Koh_476_string(retlist)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> debug: return(retlist)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          COSMIC_83             Koh_89            Koh_476 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "DEL:repeats:5+:0"       "Del(5,):R1"    "Del5:U(2,):R1" </span>
 <span class="r-in"><span></span></span>

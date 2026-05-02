@@ -111,7 +111,7 @@ canonicalize_dbs <- function(ref_vec, alt_vec) {
   dbs <- paste0(ref_vec, alt_vec)
   idx <- which(!(dbs %in% mSigSpectra::catalog.row.order$DBS78))
   if (length(idx) == 0L) return(dbs)
-  dbs[idx] <- paste0(revc(ref_vec[idx]), revc(alt_vec[idx]))
+  dbs[idx] <- paste0(fastrc::fast_rc(ref_vec[idx]), fastrc::fast_rc(alt_vec[idx]))
   stopifnot(all(dbs %in% mSigSpectra::catalog.row.order$DBS78))
   dbs
 }
@@ -120,7 +120,7 @@ canonicalize_dbs <- function(ref_vec, alt_vec) {
 canonicalize_quad <- function(quad) {
   idx <- which(!(quad %in% mSigSpectra::catalog.row.order$DBS136))
   if (length(idx) == 0L) return(quad)
-  quad[idx] <- revc(quad[idx])
+  quad[idx] <- fastrc::fast_rc(quad[idx])
   stopifnot(all(quad %in% mSigSpectra::catalog.row.order$DBS136))
   quad
 }

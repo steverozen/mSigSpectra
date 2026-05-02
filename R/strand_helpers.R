@@ -1,18 +1,3 @@
-#' Reverse complement a character vector of DNA strings
-#'
-#' Thin vectorized wrapper around `Biostrings::reverseComplement()`.
-#' Handles IUPAC ambiguity codes.
-#'
-#' @param x A character vector of DNA sequences.
-#'
-#' @return A character vector of reverse complements.
-#'
-#' @export
-revc <- function(x) {
-  if (length(x) == 0L) return(character(0L))
-  as.character(Biostrings::reverseComplement(Biostrings::DNAStringSet(x)))
-}
-
 #' Normalize SBS1536 pentanucleotide + ALT strings to pyrimidine form
 #'
 #' Input strings are 6 characters: a 5-base pentanucleotide context followed
@@ -21,45 +6,51 @@ revc <- function(x) {
 #' ALT are reverse-complemented so that the center becomes `C` or `T` —
 #' the pyrimidine form used in canonical SBS96/1536 row names.
 #'
-#' @param x A character vector of 6-letter strings.
+#' @param mutstring A character vector of 6-letter strings.
 #'
 #' @keywords internal
-pyr_penta <- function(x) {
-  stopifnot(all(nchar(x) == 6L))
-  center <- substr(x, 3L, 3L)
+pyr_penta <- function(mutstring) {
+  stopifnot(all(nchar(mutstring) == 6L))
+  center <- substr(mutstring, 3L, 3L)
   needs_rc <- center %in% c("A", "G")
-  out <- x
+  out <- mutstring
   if (any(needs_rc)) {
     out[needs_rc] <- paste0(
-      revc(substr(x[needs_rc], 1L, 5L)),
-      revc(substr(x[needs_rc], 6L, 6L))
+      fastrc::fast_rc(substr(mutstring[needs_rc], 1L, 5L)),
+      fastrc::fast_rc(substr(mutstring[needs_rc], 6L, 6L))
     )
   }
   out
 }
 
-#' Reverse-complement stranded SBS96 4-character class strings
+#' Reverse complement strings that represent stranded SBSs
 #'
 #' Input is a 4-character string where characters 1-3 are the trinucleotide
 #' context and character 4 is the ALT (e.g. `"AATC"` = `AAT>ACT`).
+#' Returns the reverse complement of the first 3 characters concatenated
+#' with the reverse complement of the last character,
+#' e.g. `"AATC"` returns `"ATTG"`.
 #'
-#' @param x A character vector of 4-letter strings.
+#' @param mutstring A character vector of 4-letter strings.
 #'
 #' @keywords internal
-revc_sbs96 <- function(x) {
-  stopifnot(all(nchar(x) == 4L))
-  paste0(revc(substr(x, 1L, 3L)), revc(substr(x, 4L, 4L)))
+revc_sbs96 <- function(mutstring) {
+  stopifnot(all(nchar(mutstring) == 4L))
+  paste0(fastrc::fast_rc(substr(mutstring, 1L, 3L)), fastrc::fast_rc(substr(mutstring, 4L, 4L)))
 }
 
-#' Reverse-complement stranded DBS144 4-character class strings
+#' Reverse complement strings that represent stranded DBSs
 #'
 #' Input is a 4-character string where characters 1-2 are the REF dinucleotide
 #' and characters 3-4 are the ALT (e.g. `"AATC"` = `AA>TC`).
+#' Returns the reverse complement of the first 2 characters concatenated
+#' with the reverse complement of the last 2 characters,
+#' e.g. `"AATC"` returns `"TTGA"`.
 #'
-#' @param x A character vector of 4-letter strings.
+#' @param mutstring A character vector of 4-letter strings.
 #'
 #' @keywords internal
-revc_dbs144 <- function(x) {
-  stopifnot(all(nchar(x) == 4L))
-  paste0(revc(substr(x, 1L, 2L)), revc(substr(x, 3L, 4L)))
+revc_dbs144 <- function(mutstring) {
+  stopifnot(all(nchar(mutstring) == 4L))
+  paste0(fastrc::fast_rc(substr(mutstring, 1L, 2L)), fastrc::fast_rc(substr(mutstring, 3L, 4L)))
 }

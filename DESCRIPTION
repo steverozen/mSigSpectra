@@ -38,9 +38,9 @@ Encoding: UTF-8
 LazyData: true
 Language: en-US
 biocViews:
-Imports: Biostrings,
-    BSgenome,
+Imports: BSgenome,
     data.table,
+    fastrc,
     GenomeInfoDb,
     GenomicRanges,
     IRanges,

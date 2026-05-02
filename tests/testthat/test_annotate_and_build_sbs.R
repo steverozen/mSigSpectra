@@ -81,7 +81,7 @@ test_that("revc_sbs96 reverse-complements a 4-char SBS96 class string", {
   expect_equal(revc_sbs96(c("AATC", "CCGA")), c("ATTG", "CGGT"))
 })
 
-test_that("revc returns empty character() for empty input", {
-  expect_equal(revc(character(0)), character(0))
+test_that("fastrc::fast_rc returns empty character() for empty input", {
+  expect_equal(fastrc::fast_rc(character(0)), character(0))
 })
 

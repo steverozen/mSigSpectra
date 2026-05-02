@@ -55,7 +55,7 @@ gen_koh89_Leq1 = function(arglist, INS_OR_DEL) {
   } else if (INS_OR_DEL == "Del") {
     if (ins_or_del_seq == "C") {
       if (R >= 6) {
-        return("Del(C):R(6,9)") ## Huh? no opening bracket here, but backet for R(1,5)
+        return("Del(C):R(6,9)") ## Sic, closed interval (6,9) here
       } else if (post == "G") {
         return("[Del(C):R(1,5)]G")
       }

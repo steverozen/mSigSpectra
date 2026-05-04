@@ -1,5 +1,5 @@
 make_sbs96_cat <- function() {
-  rns <- mSigSpectra::catalog.row.order$SBS96
+  rns <- mSigSpectra::catalog_row_order()$SBS96
   m <- matrix(seq_len(96L), nrow = 96L, ncol = 1L,
               dimnames = list(rns, "sample1"))
   as_catalog(m, ref_genome = NULL, region = "genome")
@@ -17,7 +17,7 @@ test_that("write_catalog + read_catalog round-trip SBS96 losslessly (ICAMS)", {
 })
 
 test_that("round-trip DBS78", {
-  rns <- mSigSpectra::catalog.row.order$DBS78
+  rns <- mSigSpectra::catalog_row_order()$DBS78
   m <- matrix(seq_len(78L), nrow = 78L, ncol = 1L,
               dimnames = list(rns, "sample1"))
   cat_in <- as_catalog(m, ref_genome = NULL, region = "genome")
@@ -31,7 +31,7 @@ test_that("round-trip DBS78", {
 })
 
 test_that("round-trip ID83", {
-  rns <- mSigSpectra::catalog.row.order$ID
+  rns <- mSigSpectra::catalog_row_order()$ID
   m <- matrix(seq_len(83L), nrow = 83L, ncol = 1L,
               dimnames = list(rns, "sample1"))
   cat_in <- as_catalog(m, ref_genome = NULL, region = "genome")
@@ -45,7 +45,7 @@ test_that("round-trip ID83", {
 })
 
 test_that("round-trip SBS1536", {
-  rns <- mSigSpectra::catalog.row.order$SBS1536
+  rns <- mSigSpectra::catalog_row_order()$SBS1536
   m <- matrix(seq_len(1536L), nrow = 1536L, ncol = 1L,
               dimnames = list(rns, "sample1"))
   cat_in <- as_catalog(m, ref_genome = NULL, region = "genome")

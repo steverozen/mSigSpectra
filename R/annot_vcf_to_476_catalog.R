@@ -14,7 +14,7 @@
 #'     into an \code{"R(9,)"} bin.
 #'   \item Tallies counts per Koh 476 category and returns a data frame
 #'     with one row per category (using
-#'     \code{mSigSpectra::catalog.row.order$ID476}).
+#'     \code{catalog_row_order()$ID476}).
 #' }
 #'
 #' @param annot_vcf A data frame with at least columns
@@ -47,7 +47,7 @@ annot_vcf_to_476_catalog <- function(
   clip_le_9 = TRUE
 ) {
   zero_catalog <- function() {
-    rn <- mSigSpectra::catalog.row.order$ID476
+    rn <- catalog_row_order()$ID476
     m <- data.frame(x = rep(0L, length(rn)), row.names = rn)
     colnames(m) <- sample_id
     m
@@ -125,11 +125,11 @@ annot_vcf_to_476_catalog <- function(
   }
 
   # Replaced dplyr with data.table for performance:
-  # data.table::data.table(Koh_476 = mSigSpectra::catalog.row.order$ID476) %>%
+  # data.table::data.table(Koh_476 = catalog_row_order()$ID476) %>%
   #   dplyr::left_join(compacted_vcf, by = "Koh_476") %>%
   #   mutate(n = if_else(is.na(n), 0L, n)) -> almost
   all_cats <- data.table::data.table(
-    Koh_476 = mSigSpectra::catalog.row.order$ID476
+    Koh_476 = catalog_row_order()$ID476
   )
   almost <- compacted_vcf[all_cats, on = "Koh_476"]
   data.table::setnafill(almost, fill = 0L, cols = "N")

@@ -2,15 +2,18 @@
 % Please edit documentation in R/strand_helpers.R
 \name{revc_dbs144}
 \alias{revc_dbs144}
-\title{Reverse-complement stranded DBS144 4-character class strings}
+\title{Reverse complement strings that represent stranded DBSs}
 \usage{
-revc_dbs144(x)
+revc_dbs144(mutstring)
 }
 \arguments{
-\item{x}{A character vector of 4-letter strings.}
+\item{mutstring}{A character vector of 4-letter strings.}
 }
 \description{
 Input is a 4-character string where characters 1-2 are the REF dinucleotide
 and characters 3-4 are the ALT (e.g. \code{"AATC"} = \code{AA>TC}).
+Returns the reverse complement of the first 2 characters concatenated
+with the reverse complement of the last 2 characters,
+e.g. \code{"AATC"} returns \code{"TTGA"}.
 }
 \keyword{internal}

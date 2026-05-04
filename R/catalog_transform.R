@@ -241,7 +241,7 @@ collapse_catalog <- function(catalog, to = c("SBS96", "DBS78")) {
   if (to == "SBS96" && src_type == "SBS1536") {
     src_rows <- rownames(catalog)
     sbs96_rows <- paste0(substr(src_rows, 2L, 4L), substr(src_rows, 6L, 6L))
-    out_rows <- mSigSpectra::catalog.row.order$SBS96
+    out_rows <- catalog_row_order()$SBS96
     out <- matrix(
       0, nrow = length(out_rows), ncol = ncol(catalog),
       dimnames = list(out_rows, colnames(catalog))
@@ -254,7 +254,7 @@ collapse_catalog <- function(catalog, to = c("SBS96", "DBS78")) {
     # by summing into their pyrimidine-canonical SBS96 rows.
     src_rows <- rownames(catalog)
     sbs96_rows <- pyr_tri(src_rows)
-    out_rows <- mSigSpectra::catalog.row.order$SBS96
+    out_rows <- catalog_row_order()$SBS96
     out <- matrix(
       0, nrow = length(out_rows), ncol = ncol(catalog),
       dimnames = list(out_rows, colnames(catalog))
@@ -265,7 +265,7 @@ collapse_catalog <- function(catalog, to = c("SBS96", "DBS78")) {
   } else if (to == "DBS78" && src_type == "DBS144") {
     src_rows <- rownames(catalog)
     dbs78_rows <- pyr_di(src_rows)
-    out_rows <- mSigSpectra::catalog.row.order$DBS78
+    out_rows <- catalog_row_order()$DBS78
     out <- matrix(
       0, nrow = length(out_rows), ncol = ncol(catalog),
       dimnames = list(out_rows, colnames(catalog))
@@ -305,7 +305,7 @@ pyr_tri <- function(x) {
 pyr_di <- function(x) {
   stopifnot(all(nchar(x) == 4L))
   # DBS78 canonical REFs from the shipped row order
-  dbs78_refs <- unique(substr(mSigSpectra::catalog.row.order$DBS78, 1L, 2L))
+  dbs78_refs <- unique(substr(catalog_row_order()$DBS78, 1L, 2L))
   ref_di <- substr(x, 1L, 2L)
   needs_rc <- !(ref_di %in% dbs78_refs)
   out <- x

@@ -4,10 +4,10 @@
 \alias{pyr_penta}
 \title{Normalize SBS1536 pentanucleotide + ALT strings to pyrimidine form}
 \usage{
-pyr_penta(x)
+pyr_penta(mutstring)
 }
 \arguments{
-\item{x}{A character vector of 6-letter strings.}
+\item{mutstring}{A character vector of 6-letter strings.}
 }
 \description{
 Input strings are 6 characters: a 5-base pentanucleotide context followed

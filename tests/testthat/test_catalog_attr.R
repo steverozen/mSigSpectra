@@ -1,6 +1,6 @@
 make_test_sbs96 <- function() {
   m <- matrix(1, nrow = 96L, ncol = 2L,
-              dimnames = list(mSigSpectra::catalog.row.order$SBS96,
+              dimnames = list(mSigSpectra::catalog_row_order()$SBS96,
                               c("s1", "s2")))
   m
 }
@@ -21,7 +21,7 @@ test_that("as_catalog infers type for every supported nrow", {
   for (nm in names(types)) {
     n <- types[[nm]]
     key <- if (nm == "ID83") "ID" else nm
-    rns <- mSigSpectra::catalog.row.order[[key]]
+    rns <- mSigSpectra::catalog_row_order()[[key]]
     m <- matrix(1, nrow = n, ncol = 1L, dimnames = list(rns, "s1"))
     # SBS192 / DBS144 need region in {exome, transcript, unknown}; use transcript
     if (nm %in% c("SBS192", "DBS144")) {
@@ -34,7 +34,7 @@ test_that("as_catalog infers type for every supported nrow", {
 })
 
 test_that("as_catalog accepts a named numeric vector and sets colname Unknown", {
-  v <- setNames(rep(1, 96L), mSigSpectra::catalog.row.order$SBS96)
+  v <- setNames(rep(1, 96L), mSigSpectra::catalog_row_order()$SBS96)
   cat <- as_catalog(v)
   expect_equal(ncol(cat), 1L)
   expect_equal(colnames(cat), "Unknown")
@@ -45,14 +45,14 @@ test_that("as_catalog reorders rows to the canonical order", {
   m <- make_test_sbs96()
   m_shuffled <- m[sample(96L), ]
   cat <- as_catalog(m_shuffled)
-  expect_equal(rownames(cat), mSigSpectra::catalog.row.order$SBS96)
+  expect_equal(rownames(cat), mSigSpectra::catalog_row_order()$SBS96)
 })
 
 test_that("as_catalog errors on missing rownames unless infer_rownames=TRUE", {
   m <- matrix(1, nrow = 96L, ncol = 1L)
   expect_error(as_catalog(m), "rownames")
   cat <- as_catalog(m, infer_rownames = TRUE)
-  expect_equal(rownames(cat), mSigSpectra::catalog.row.order$SBS96)
+  expect_equal(rownames(cat), mSigSpectra::catalog_row_order()$SBS96)
 })
 
 test_that("as_catalog errors on unsupported nrow", {
@@ -67,7 +67,7 @@ test_that("as_catalog errors on illegal region", {
 })
 
 test_that("as_catalog for SBS192/DBS144 promotes region='genome' to 'transcript'", {
-  rns <- mSigSpectra::catalog.row.order$SBS192
+  rns <- mSigSpectra::catalog_row_order()$SBS192
   m <- matrix(1, nrow = 192L, ncol = 1L, dimnames = list(rns, "s1"))
   cat <- as_catalog(m, region = "genome")
   expect_equal(attr(cat, "region"), "transcript")
@@ -95,13 +95,13 @@ test_that("cbind_catalogs concatenates samples and preserves attributes", {
   out <- cbind_catalogs(list(a, b))
   expect_equal(ncol(out), 4L)
   expect_equal(attr(out, "type"), "SBS96")
-  expect_equal(rownames(out), mSigSpectra::catalog.row.order$SBS96)
+  expect_equal(rownames(out), mSigSpectra::catalog_row_order()$SBS96)
 })
 
 test_that("cbind_catalogs rejects catalogs of different types", {
   a <- as_catalog(make_test_sbs96())
   m192 <- matrix(1, nrow = 192L, ncol = 1L,
-                 dimnames = list(mSigSpectra::catalog.row.order$SBS192, "s1"))
+                 dimnames = list(mSigSpectra::catalog_row_order()$SBS192, "s1"))
   b <- as_catalog(m192, region = "transcript")
   expect_error(cbind_catalogs(list(a, b)), "mismatched")
 })

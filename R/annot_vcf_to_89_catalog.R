@@ -12,7 +12,7 @@
 #'   \item Removes duplicate positions (warns if ALT alleles differ).
 #'   \item Tallies counts per Koh 89 category and returns a data frame
 #'     with one row per category (using
-#'     \code{mSigSpectra::catalog.row.order$ID89}).
+#'     \code{catalog_row_order()$ID89}).
 #' }
 #'
 #' @param annot_vcf A data frame with at least columns
@@ -45,7 +45,7 @@ annot_vcf_to_89_catalog <- function(
   clip_le_9 = TRUE
 ) {
   zero_catalog <- function() {
-    rn <- mSigSpectra::catalog.row.order$ID89
+    rn <- catalog_row_order()$ID89
     m <- data.frame(x = rep(0L, length(rn)), row.names = rn)
     colnames(m) <- sample_id
     m
@@ -84,11 +84,11 @@ annot_vcf_to_89_catalog <- function(
   }
 
   # Replaced dplyr with data.table for performance:
-  # data.table::data.table(Koh_89 = mSigSpectra::catalog.row.order$ID89) %>%
+  # data.table::data.table(Koh_89 = catalog_row_order()$ID89) %>%
   #   dplyr::left_join(compacted_vcf, by = "Koh_89") %>%
   #   mutate(n = if_else(is.na(n), 0L, n)) -> almost
   all_cats <- data.table::data.table(
-    Koh_89 = mSigSpectra::catalog.row.order$ID89
+    Koh_89 = catalog_row_order()$ID89
   )
   almost <- compacted_vcf[all_cats, on = "Koh_89"]
   data.table::setnafill(almost, fill = 0L, cols = "N")

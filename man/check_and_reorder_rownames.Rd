@@ -12,7 +12,7 @@ check_and_reorder_rownames(x, type)
 \item{type}{Catalog type (e.g. \code{"SBS96"}).}
 }
 \value{
-\code{x} with rows reordered to match \code{catalog.row.order[[type]]}.
+\code{x} with rows reordered to match \code{catalog_row_order()[[type]]}.
 Errors if any canonical rowname is missing.
 }
 \description{

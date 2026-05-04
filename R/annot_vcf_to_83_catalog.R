@@ -12,7 +12,7 @@
 #'   \item Removes duplicate positions (warns if ALT alleles differ).
 #'   \item Tallies counts per COSMIC 83 category and returns a data frame
 #'     with one row per category (using
-#'     \code{mSigSpectra::catalog.row.order$ID}).
+#'     \code{catalog_row_order()$ID}).
 #' }
 #'
 #' @param annot_vcf A data frame with at least columns
@@ -45,7 +45,7 @@ annot_vcf_to_83_catalog <- function(
   clip_le_9 = TRUE
 ) {
   zero_catalog <- function() {
-    rn <- mSigSpectra::catalog.row.order$ID
+    rn <- catalog_row_order()$ID
     m <- data.frame(x = rep(0L, length(rn)), row.names = rn)
     colnames(m) <- sample_id
     m
@@ -84,11 +84,11 @@ annot_vcf_to_83_catalog <- function(
   }
 
   # Replaced dplyr with data.table for performance:
-  # data.table::data.table(COSMIC_83 = mSigSpectra::catalog.row.order$ID) %>%
+  # data.table::data.table(COSMIC_83 = catalog_row_order()$ID) %>%
   #   dplyr::left_join(compacted_vcf, by = "COSMIC_83") %>%
   #   mutate(n = if_else(is.na(n), 0L, n)) -> almost
   all_cats <- data.table::data.table(
-    COSMIC_83 = mSigSpectra::catalog.row.order$ID
+    COSMIC_83 = catalog_row_order()$ID
   )
   almost <- compacted_vcf[all_cats, on = "COSMIC_83"]
   data.table::setnafill(almost, fill = 0L, cols = "N")

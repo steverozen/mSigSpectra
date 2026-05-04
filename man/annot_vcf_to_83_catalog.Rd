@@ -48,6 +48,6 @@ The function:
 \item Removes duplicate positions (warns if ALT alleles differ).
 \item Tallies counts per COSMIC 83 category and returns a data frame
 with one row per category (using
-\code{mSigSpectra::catalog.row.order$ID}).
+\code{catalog_row_order()$ID}).
 }
 }

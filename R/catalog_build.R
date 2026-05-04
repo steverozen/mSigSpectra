@@ -75,12 +75,12 @@ vcf_to_dbs_catalog <- function(annotated_vcf,
   if (type == "DBS78") {
     canon <- canonicalize_dbs(dedup$REF, dedup$ALT)
     mat <- tabulate_to_catalog_matrix(
-      canon, mSigSpectra::catalog.row.order$DBS78, sample_name
+      canon, catalog_row_order()$DBS78, sample_name
     )
   } else if (type == "DBS136") {
     quad <- canonicalize_quad(substr(dedup[[seq_col]], quad_start, quad_end))
     mat <- tabulate_to_catalog_matrix(
-      quad, mSigSpectra::catalog.row.order$DBS136, sample_name
+      quad, catalog_row_order()$DBS136, sample_name
     )
   } else if (type == "DBS144") {
     if (!all(c("trans.strand", "bothstrand") %in% colnames(dedup))) {
@@ -99,7 +99,7 @@ vcf_to_dbs_catalog <- function(annotated_vcf,
     rev_labels <- revc_dbs144(labels)
     labels_final <- ifelse(sub$trans.strand == "-", rev_labels, labels)
     mat <- tabulate_to_catalog_matrix(
-      labels_final, mSigSpectra::catalog.row.order$DBS144, sample_name
+      labels_final, catalog_row_order()$DBS144, sample_name
     )
   }
 
@@ -109,24 +109,24 @@ vcf_to_dbs_catalog <- function(annotated_vcf,
 # Reverse-complement DBS78 REF+ALT pairs whose orientation is non-canonical.
 canonicalize_dbs <- function(ref_vec, alt_vec) {
   dbs <- paste0(ref_vec, alt_vec)
-  idx <- which(!(dbs %in% mSigSpectra::catalog.row.order$DBS78))
+  idx <- which(!(dbs %in% catalog_row_order()$DBS78))
   if (length(idx) == 0L) return(dbs)
   dbs[idx] <- paste0(fastrc::fast_rc(ref_vec[idx]), fastrc::fast_rc(alt_vec[idx]))
-  stopifnot(all(dbs %in% mSigSpectra::catalog.row.order$DBS78))
+  stopifnot(all(dbs %in% catalog_row_order()$DBS78))
   dbs
 }
 
 # Reverse-complement DBS136 tetranucleotides whose orientation is non-canonical.
 canonicalize_quad <- function(quad) {
-  idx <- which(!(quad %in% mSigSpectra::catalog.row.order$DBS136))
+  idx <- which(!(quad %in% catalog_row_order()$DBS136))
   if (length(idx) == 0L) return(quad)
   quad[idx] <- fastrc::fast_rc(quad[idx])
-  stopifnot(all(quad %in% mSigSpectra::catalog.row.order$DBS136))
+  stopifnot(all(quad %in% catalog_row_order()$DBS136))
   quad
 }
 
 empty_dbs_catalog <- function(type, ref_genome, region, sample_name) {
-  rns <- mSigSpectra::catalog.row.order[[type]]
+  rns <- catalog_row_order()[[type]]
   m <- matrix(0, nrow = length(rns), ncol = 1L,
               dimnames = list(rns, sample_name))
   as_catalog(m, type = type, ref_genome = ref_genome, region = region)
@@ -173,7 +173,7 @@ vcf_to_id_catalog <- function(annotated_vcf,
   stop_if_region_illegal(region)
 
   if (nrow(vcf) == 0L) {
-    rns <- mSigSpectra::catalog.row.order[[if (type == "ID83") "ID" else type]]
+    rns <- catalog_row_order()[[if (type == "ID83") "ID" else type]]
     m <- matrix(0, nrow = length(rns), ncol = 1L,
                 dimnames = list(rns, sample_name))
     return(as_catalog(m, type = type, ref_genome = ref_genome, region = region))
@@ -298,7 +298,7 @@ vcf_to_sbs_catalog <- function(annotated_vcf,
   # SBS1536 counts
   mat1536 <- tabulate_to_catalog_matrix(
     dedup$pyr.mut,
-    row_order = mSigSpectra::catalog.row.order$SBS1536,
+    row_order = catalog_row_order()$SBS1536,
     sample_name = sample_name
   )
 
@@ -312,9 +312,9 @@ vcf_to_sbs_catalog <- function(annotated_vcf,
   mat96_rawdt <- data.table::data.table(rn = sbs96_rows, count = mat1536[, 1L])
   mat96_dt <- mat96_rawdt[, .(count = sum(count)), by = rn]
   mat96 <- matrix(
-    mat96_dt$count[match(mSigSpectra::catalog.row.order$SBS96, mat96_dt$rn)],
+    mat96_dt$count[match(catalog_row_order()$SBS96, mat96_dt$rn)],
     ncol = 1L,
-    dimnames = list(mSigSpectra::catalog.row.order$SBS96, sample_name)
+    dimnames = list(catalog_row_order()$SBS96, sample_name)
   )
   mat96[is.na(mat96)] <- 0
 
@@ -356,7 +356,7 @@ tabulate_to_catalog_matrix <- function(values, row_order, sample_name) {
 
 empty_sbs_catalog <- function(type, ref_genome, region, sample_name) {
   key <- if (type == "ID83") "ID" else type
-  rns <- mSigSpectra::catalog.row.order[[key]]
+  rns <- catalog_row_order()[[key]]
   m <- matrix(0, nrow = length(rns), ncol = 1L,
               dimnames = list(rns, sample_name))
   as_catalog(m, type = type, ref_genome = ref_genome, region = region)
@@ -371,7 +371,7 @@ build_sbs192_matrix <- function(vcf, sample_name) {
   sub <- unique(sub, by = c("CHROM", "ALT", "POS"))
 
   if (nrow(sub) == 0L) {
-    rns <- mSigSpectra::catalog.row.order$SBS192
+    rns <- catalog_row_order()$SBS192
     return(matrix(0, nrow = length(rns), ncol = 1L,
                   dimnames = list(rns, sample_name)))
   }
@@ -390,7 +390,7 @@ build_sbs192_matrix <- function(vcf, sample_name) {
   dt <- data.table::data.table(rn = labels_final)
   dt_counts <- dt[, .(count = .N), by = rn]
 
-  rns <- mSigSpectra::catalog.row.order$SBS192
+  rns <- catalog_row_order()$SBS192
   m <- matrix(
     dt_counts$count[match(rns, dt_counts$rn)],
     ncol = 1L,

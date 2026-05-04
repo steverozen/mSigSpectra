@@ -2,15 +2,18 @@
 % Please edit documentation in R/strand_helpers.R
 \name{revc_sbs96}
 \alias{revc_sbs96}
-\title{Reverse-complement stranded SBS96 4-character class strings}
+\title{Reverse complement strings that represent stranded SBSs}
 \usage{
-revc_sbs96(x)
+revc_sbs96(mutstring)
 }
 \arguments{
-\item{x}{A character vector of 4-letter strings.}
+\item{mutstring}{A character vector of 4-letter strings.}
 }
 \description{
 Input is a 4-character string where characters 1-3 are the trinucleotide
 context and character 4 is the ALT (e.g. \code{"AATC"} = \code{AAT>ACT}).
+Returns the reverse complement of the first 3 characters concatenated
+with the reverse complement of the last character,
+e.g. \code{"AATC"} returns \code{"ATTG"}.
 }
 \keyword{internal}

@@ -108,7 +108,7 @@ read_icams_native <- function(dt) {
 
   # Canonicalize row order
   key <- if (type == "ID83") "ID" else type
-  correct <- mSigSpectra::catalog.row.order[[key]]
+  correct <- catalog_row_order()[[key]]
   if (!setequal(rownames(m), correct)) {
     stop(
       "read_catalog: catalog rownames do not match canonical order for ",
@@ -165,7 +165,7 @@ build_icams_native_rownames <- function(header_dt, type) {
   }
   if (type == "ID166") {
     # Header columns: Region, Type, Subtype, Indel_size, Repeat_MH_size.
-    # Row labels in catalog.row.order$ID166 start with the region letter
+    # Row labels in catalog_row_order()$ID166 start with the region letter
     # (e.g. "G" for genic) followed by ":" and the ID83-style key, so
     # the row label is paste(Region, Type, Subtype, Indel_size, Repeat_MH_size).
     r <- as.character(unlist(header_dt[[1L]]))
@@ -207,10 +207,10 @@ read_sigprofiler_sbs96 <- function(dt) {
   m <- as.matrix(dt[, -1L, with = FALSE])
   rownames(m) <- rns
   storage.mode(m) <- "numeric"
-  if (!setequal(rownames(m), mSigSpectra::catalog.row.order$SBS96)) {
+  if (!setequal(rownames(m), catalog_row_order()$SBS96)) {
     stop("read_sigprofiler_sbs96: row labels do not cover SBS96")
   }
-  m[mSigSpectra::catalog.row.order$SBS96, , drop = FALSE]
+  m[catalog_row_order()$SBS96, , drop = FALSE]
 }
 
 read_sigprofiler_sbs1536 <- function(dt) {
@@ -224,10 +224,10 @@ read_sigprofiler_sbs1536 <- function(dt) {
   m <- as.matrix(dt[, -1L, with = FALSE])
   rownames(m) <- rns
   storage.mode(m) <- "numeric"
-  if (!setequal(rownames(m), mSigSpectra::catalog.row.order$SBS1536)) {
+  if (!setequal(rownames(m), catalog_row_order()$SBS1536)) {
     stop("read_sigprofiler_sbs1536: row labels do not cover SBS1536")
   }
-  m[mSigSpectra::catalog.row.order$SBS1536, , drop = FALSE]
+  m[catalog_row_order()$SBS1536, , drop = FALSE]
 }
 
 read_sigprofiler_id83 <- function(dt) {
@@ -236,11 +236,11 @@ read_sigprofiler_id83 <- function(dt) {
   # assume labels are already in ICAMS ID83 form.
   labels <- as.character(unlist(dt[, 1L]))
 
-  if (all(labels %in% mSigSpectra::catalog.row.order$ID)) {
+  if (all(labels %in% catalog_row_order()$ID)) {
     m <- as.matrix(dt[, -1L, with = FALSE])
     rownames(m) <- labels
     storage.mode(m) <- "numeric"
-    return(m[mSigSpectra::catalog.row.order$ID, , drop = FALSE])
+    return(m[catalog_row_order()$ID, , drop = FALSE])
   }
 
   # Drop labels that are not part of ID83 (complex, non_matching, Ins:M*)
@@ -273,10 +273,10 @@ read_sigprofiler_id83 <- function(dt) {
   m <- as.matrix(dt[, -1L, with = FALSE])
   rownames(m) <- icams_labels
   storage.mode(m) <- "numeric"
-  if (!setequal(rownames(m), mSigSpectra::catalog.row.order$ID)) {
+  if (!setequal(rownames(m), catalog_row_order()$ID)) {
     stop("read_sigprofiler_id83: row labels do not cover ID83")
   }
-  m[mSigSpectra::catalog.row.order$ID, , drop = FALSE]
+  m[catalog_row_order()$ID, , drop = FALSE]
 }
 
 read_cosmic <- function(dt) {
@@ -328,7 +328,7 @@ write_catalog <- function(catalog, file,
   }
 
   # Reorder catalog to canonical row order.
-  correct <- mSigSpectra::catalog.row.order[[key]]
+  correct <- catalog_row_order()[[key]]
   if (!setequal(rownames(catalog), correct)) {
     stop("write_catalog: catalog rownames do not match canonical ", type)
   }

@@ -50,6 +50,6 @@ The function:
 into an \code{"R(9,)"} bin.
 \item Tallies counts per Koh 476 category and returns a data frame
 with one row per category (using
-\code{mSigSpectra::catalog.row.order$ID476}).
+\code{catalog_row_order()$ID476}).
 }
 }

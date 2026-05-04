@@ -18,9 +18,9 @@
   "counts", "density", "counts.signature", "density.signature"
 )
 
-# The `catalog.row.order` object uses key "ID" rather than "ID83"; map.
+# catalog_row_order() uses key "ID" rather than "ID83"; map.
 .catalog_row_order_key <- function(type) {
-  # catalog.row.order uses "ID" for ID83; all other names are identical.
+  # catalog_row_order() uses "ID" for ID83; all other names are identical.
   if (type == "ID83") "ID" else type
 }
 
@@ -64,13 +64,13 @@ stop_if_counts_or_density_illegal <- function(counts_or_density) {
 #' @param x A matrix with rownames.
 #' @param type Catalog type (e.g. `"SBS96"`).
 #'
-#' @return `x` with rows reordered to match `catalog.row.order[[type]]`.
+#' @return `x` with rows reordered to match `catalog_row_order()[[type]]`.
 #'   Errors if any canonical rowname is missing.
 #'
 #' @keywords internal
 check_and_reorder_rownames <- function(x, type) {
   key <- .catalog_row_order_key(type)
-  correct <- mSigSpectra::catalog.row.order[[key]]
+  correct <- catalog_row_order()[[key]]
   missing_rows <- setdiff(correct, rownames(x))
   if (length(missing_rows) > 0L) {
     stop(
@@ -182,7 +182,7 @@ infer_ref_genome_name <- function(ref_genome) {
 #' @examples
 #' m <- matrix(
 #'   1, nrow = 96, ncol = 1,
-#'   dimnames = list(catalog.row.order$SBS96, "sample1")
+#'   dimnames = list(catalog_row_order()$SBS96, "sample1")
 #' )
 #' cat96 <- as_catalog(m)
 #' attr(cat96, "type")   # "SBS96"
@@ -228,7 +228,7 @@ as_catalog <- function(x,
         "or pass infer_rownames = TRUE and ensure row order is correct."
       )
     }
-    rownames(x) <- mSigSpectra::catalog.row.order[[.catalog_row_order_key(type)]]
+    rownames(x) <- catalog_row_order()[[.catalog_row_order_key(type)]]
   } else {
     x <- check_and_reorder_rownames(x, type)
   }
@@ -277,7 +277,7 @@ is_catalog <- function(x) {
     return(FALSE)
   }
   key <- .catalog_row_order_key(type)
-  correct <- mSigSpectra::catalog.row.order[[key]]
+  correct <- catalog_row_order()[[key]]
   identical(rownames(x), correct)
 }
 

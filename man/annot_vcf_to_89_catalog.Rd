@@ -48,6 +48,6 @@ The function:
 \item Removes duplicate positions (warns if ALT alleles differ).
 \item Tallies counts per Koh 89 category and returns a data frame
 with one row per category (using
-\code{mSigSpectra::catalog.row.order$ID89}).
+\code{catalog_row_order()$ID89}).
 }
 }

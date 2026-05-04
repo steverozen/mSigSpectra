@@ -1,17 +1,3 @@
-#' Canonical row orders for catalogs
-#'
-#' Row-name orders for every catalog type supported by mSigSpectra. Exposed
-#' for users who need to build catalogs from formats not otherwise supported.
-#'
-#' @format A named list of character vectors keyed by catalog type (e.g.
-#'   `"SBS96"`, `"DBS78"`, `"ID83"`).
-#'
-#' @examples
-#' catalog.row.order$SBS96[1:5]
-#'
-#' @name catalog.row.order
-"catalog.row.order"
-
 #' Transcript ranges for transcriptional strand annotation
 #'
 #' Precomputed transcript ranges (one row per gene) used by
@@ -58,7 +44,7 @@ NULL
 if (getRversion() >= "2.15.1") {
   utils::globalVariables(c(
     "all.abundance", "trans.ranges.GRCh37", "trans.ranges.GRCh38",
-    "trans.ranges.GRCm38", "catalog.row.order",
+    "trans.ranges.GRCm38",
     "CHROM", "POS", "POS2", "POS.plus.one", "POS.y",
     "REF", "REF.x", "REF.y", "ALT", "ALT.x", "ALT.y", "ref2alt",
     "FILTER", "ID", "SampleID",

@@ -60,4 +60,4 @@ The function:
     `"R(9,)"` bin.
 
 4.  Tallies counts per Koh 476 category and returns a data frame with
-    one row per category (using `mSigSpectra::catalog.row.order$ID476`).
+    one row per category (using `catalog_row_order()$ID476`).

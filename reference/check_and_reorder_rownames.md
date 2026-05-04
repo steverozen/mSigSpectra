@@ -20,5 +20,5 @@ check_and_reorder_rownames(x, type)
 
 ## Value
 
-`x` with rows reordered to match `catalog.row.order[[type]]`. Errors if
-any canonical rowname is missing.
+`x` with rows reordered to match `catalog_row_order()[[type]]`. Errors
+if any canonical rowname is missing.

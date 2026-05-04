@@ -22,14 +22,20 @@
   transcript strand
 - [`as_catalog()`](https://steverozen.github.io/mSigSpectra/reference/as_catalog.md)
   : Turn a numeric matrix into a mutational-spectrum catalog
-- [`catalog.row.order`](https://steverozen.github.io/mSigSpectra/reference/catalog.row.order.md)
-  : Canonical row orders for catalogs
 - [`catalog_attrs()`](https://steverozen.github.io/mSigSpectra/reference/catalog_attrs.md)
   : Report the attributes of an mSigSpectra catalog
+- [`catalog_row_order()`](https://steverozen.github.io/mSigSpectra/reference/catalog_row_order.md)
+  : Return catalog row orders for all supported catalog types
 - [`categorize_1_justified_indel()`](https://steverozen.github.io/mSigSpectra/reference/categorize_1_justified_indel.md)
   : Given a indel and its sequence context, categorize it
 - [`cbind_catalogs()`](https://steverozen.github.io/mSigSpectra/reference/cbind_catalogs.md)
   : Combine catalogs across samples (column-bind)
+- [`change_476_type_ids_to_open_intervals()`](https://steverozen.github.io/mSigSpectra/reference/change_476_type_ids_to_open_intervals.md)
+  : Change 476-type indel category identifiers to use right-open repeat
+  intervals
+- [`change_89_type_ids_to_open_intervals()`](https://steverozen.github.io/mSigSpectra/reference/change_89_type_ids_to_open_intervals.md)
+  : Change 89-type indel category identifiers to use right-open repeat
+  intervals
 - [`check_and_remove_discarded_variants()`](https://steverozen.github.io/mSigSpectra/reference/check_and_remove_discarded_variants.md)
   : Check a VCF for common variant-level problems and remove the
   offenders
@@ -52,8 +58,6 @@
   : Read a VCF file into a data.table, caller-agnostically
 - [`read_vcfs()`](https://steverozen.github.io/mSigSpectra/reference/read_vcfs.md)
   : Read multiple VCF files
-- [`revc()`](https://steverozen.github.io/mSigSpectra/reference/revc.md)
-  : Reverse complement a character vector of DNA strings
 - [`seg_simple()`](https://steverozen.github.io/mSigSpectra/reference/seg_simple.md)
   : Segment a single indel sequence using Rcpp interface
 - [`segment_simple_cpp()`](https://steverozen.github.io/mSigSpectra/reference/segment_simple_cpp.md)

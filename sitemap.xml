@@ -14,10 +14,12 @@
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/annotate_id_vcf.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/annotate_sbs_or_dbs_vcf.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/as_catalog.html</loc></url>
-<url><loc>https://steverozen.github.io/mSigSpectra/reference/catalog.row.order.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/catalog_attrs.html</loc></url>
+<url><loc>https://steverozen.github.io/mSigSpectra/reference/catalog_row_order.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/categorize_1_justified_indel.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/cbind_catalogs.html</loc></url>
+<url><loc>https://steverozen.github.io/mSigSpectra/reference/change_476_type_ids_to_open_intervals.html</loc></url>
+<url><loc>https://steverozen.github.io/mSigSpectra/reference/change_89_type_ids_to_open_intervals.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/check_and_fix_chrom_names.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/check_and_fix_chrom_names_for_trans_ranges.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/check_and_remove_discarded_variants.html</loc></url>
@@ -46,7 +48,6 @@
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/read_vcfs.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/remove_rows_with_duplicated_chrom_and_pos.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/remove_rows_with_pound_sign.html</loc></url>
-<url><loc>https://steverozen.github.io/mSigSpectra/reference/revc.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/revc_dbs144.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/revc_sbs96.html</loc></url>
 <url><loc>https://steverozen.github.io/mSigSpectra/reference/seg_simple.html</loc></url>

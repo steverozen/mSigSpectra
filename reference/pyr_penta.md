@@ -9,11 +9,11 @@ the pyrimidine form used in canonical SBS96/1536 row names.
 ## Usage
 
 ``` r
-pyr_penta(x)
+pyr_penta(mutstring)
 ```
 
 ## Arguments
 
-- x:
+- mutstring:
 
   A character vector of 6-letter strings.

@@ -68,7 +68,7 @@ as_catalog(
 ``` r
 m <- matrix(
   1, nrow = 96, ncol = 1,
-  dimnames = list(catalog.row.order$SBS96, "sample1")
+  dimnames = list(catalog_row_order()$SBS96, "sample1")
 )
 cat96 <- as_catalog(m)
 attr(cat96, "type")   # "SBS96"

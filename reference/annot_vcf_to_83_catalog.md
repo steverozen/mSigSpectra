@@ -57,4 +57,4 @@ The function:
 2.  Removes duplicate positions (warns if ALT alleles differ).
 
 3.  Tallies counts per COSMIC 83 category and returns a data frame with
-    one row per category (using `mSigSpectra::catalog.row.order$ID`).
+    one row per category (using `catalog_row_order()$ID`).

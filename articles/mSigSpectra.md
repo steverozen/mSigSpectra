@@ -21,6 +21,11 @@ remotes::install_github("steverozen/mSigPlot")
 
 library(mSigSpectra)
 library(mSigPlot)
+#> 
+#> Attaching package: 'mSigPlot'
+#> The following object is masked from 'package:mSigSpectra':
+#> 
+#>     catalog_row_order
 ```
 
 ## 2. Locate test VCFs
@@ -477,16 +482,18 @@ plot_ID83(cat_id83, plot_title = "Strelka.ID.GRCh37.s1 — ID83")
 ``` r
 
 plot_ID89(cat_id89, plot_title = "Strelka.ID.GRCh37.s1 — ID89")
+#> Warning in normalize_catalog(catalog, 89, catalog_row_order()$ID89, "ID89"):
+#> Row names of catalog do not match canonical ID89 row names; returning NULL
+#> NULL
 ```
-
-![](mSigSpectra_files/figure-html/plot-id89-1.png)
 
 ``` r
 
 plot_ID476(cat_id476, plot_title = "Strelka.ID.GRCh37.s1 — ID476")
+#> Warning in normalize_catalog(catalog, 476, catalog_row_order()$ID476, "ID476"):
+#> Row names of catalog do not match canonical ID476 row names; returning NULL
+#> NULL
 ```
-
-![](mSigSpectra_files/figure-html/plot-id476-1.png)
 
 ## 9. Counts ↔︎ density
 

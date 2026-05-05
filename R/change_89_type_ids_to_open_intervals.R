@@ -17,7 +17,9 @@
 #' )
 #'
 #' @export
-change_89_type_ids_to_open_intervals = function(type_89_indel_type_identifiers) {
+change_89_type_ids_to_open_intervals = function(
+  type_89_indel_type_identifiers
+) {
   tmp = type_89_indel_type_identifiers
   tmp = gsub("Ins(2,):R(5,9)", "Ins(2,):R(5,)", x = tmp, fixed = TRUE)
   tmp = gsub("Ins(C):R(7,9)", "Ins(C):R(7,)", x = tmp, fixed = TRUE)
@@ -32,6 +34,12 @@ change_89_type_ids_to_open_intervals = function(type_89_indel_type_identifiers) 
   tmp = gsub(
     "Del(3,):U(3,):R(3,9)",
     "Del(3,):U(3,):R(3,)",
+    x = tmp,
+    fixed = TRUE
+  )
+  tmp = gsub(
+    "Del(C):R(6,9)",
+    "Del(C):R(6,)",
     x = tmp,
     fixed = TRUE
   )

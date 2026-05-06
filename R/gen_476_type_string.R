@@ -54,7 +54,7 @@ gen_476_type_Lgt1 = function(arglist, INS_OR_DEL, open_interval_format) {
   U = arglist$U
 
   if (arglist$spacer_length > 0 && arglist$prime3_reps > 0) {
-    return(gen_koh476_mh_str(arglist))
+    return(gen_476_type_mh_string(arglist))
   }
 
   if (

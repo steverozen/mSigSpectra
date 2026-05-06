@@ -1,4 +1,4 @@
-gen_COSMIC_83_string = function(arglist) {
+gen_83_type_string = function(arglist) {
   if (arglist$ins_or_del == "d") {
     INS_OR_DEL = "DEL:"
     rep_count = arglist$indel_str_count_in_ref - 1

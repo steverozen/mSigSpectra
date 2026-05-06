@@ -1,4 +1,4 @@
-gen_koh89_del_mh_str = function(arglist) {
+gen_89_type_mh_string = function(arglist) {
   stopifnot(arglist$spacer_length > 0)
   # This will be a microhomology category as
   # determined by Koh et al.'s "segment" analysis.

@@ -116,7 +116,7 @@ gen_89_type_Lgt1 = function(arglist, INS_OR_DEL) {
   stopifnot(INS_OR_DEL == "Del")
   # browser()
   if (arglist$spacer_length > 0 && arglist$prime3_reps > 0) {
-    return(gen_koh89_del_mh_str(arglist))
+    return(gen_89_type_mh_string(arglist))
   }
 
   if (arglist$spacer_length == 0 && arglist$prime3_reps == 0) {

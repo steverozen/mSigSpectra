@@ -2,7 +2,7 @@
 
 Build mutational-spectrum catalogs from VCF files.
 
-mSigSpectra is the **lean, caller-agnostic successor to
+mSigSpectra is the **lean, variant-caller-agnostic successor to
 [ICAMS](https://github.com/steverozen/ICAMS)** — it keeps the numerical
 core (VCF reading, annotation, indel justification, and SBS / DBS / ID
 catalog construction) and drops everything else. **Plotting is now handled
@@ -16,7 +16,7 @@ intentionally out of scope.
 read_vcf()  →  split_vcf()  →  annotate_vcf()  →  vcf_to_catalog()
 ```
 
-* `read_vcf()` — reads any VCF file body. **Caller-agnostic:** it does
+* `read_vcf()` — reads any VCF file body. **Variant-caller-agnostic:** it does
   not parse `FORMAT` / sample columns or extract VAF.
 * `split_vcf()` — partitions a VCF into SBS / DBS / ID sub-tables by
   `REF`/`ALT` length alone.

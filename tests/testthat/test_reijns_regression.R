@@ -1,4 +1,5 @@
-inst_dir <- system.file(package = "mSigSpectra")
+vcf_dir <- system.file("reijns_cell_data", package = "mSigSpectra")
+script_dir <- file.path("..", "..", "development", "reijns_scripts")
 
 skip_reijns <- function() {
   skip_on_cran()
@@ -7,15 +8,20 @@ skip_reijns <- function() {
     "BSgenome.Hsapiens.UCSC.hg38 not installed"
   )
   skip_if(
-    length(list.files(inst_dir, pattern = "reijns_cell.*\\.vcf$")) == 0L,
-    "reijns_cell*.vcf files not present in inst/"
+    !nzchar(vcf_dir) ||
+      length(list.files(vcf_dir, pattern = "reijns_cell.*\\.vcf$")) == 0L,
+    "reijns_cell*.vcf files not present in inst/reijns_cell_data/"
+  )
+  skip_if(
+    !file.exists(file.path(script_dir, "make_reijns_rosetta_csv.R")),
+    "development/reijns_scripts/ not present (running from installed package?)"
   )
 }
 
-source(system.file("make_reijns_rosetta_csv.R", package = "mSigSpectra"),
-       local = TRUE)
-source(system.file("make_reijns_catalog.R",     package = "mSigSpectra"),
-       local = TRUE)
+if (file.exists(file.path(script_dir, "make_reijns_rosetta_csv.R"))) {
+  source(file.path(script_dir, "make_reijns_rosetta_csv.R"), local = TRUE)
+  source(file.path(script_dir, "make_reijns_catalog.R"),     local = TRUE)
+}
 
 # ---- rosetta CSV snapshots ---------------------------------------------------
 
@@ -23,7 +29,7 @@ test_that("make_reijns_rosetta_csv keep_high_R snapshot", {
   skip_reijns()
   out <- withr::local_tempfile(fileext = ".csv")
   make_reijns_rosetta_csv(
-    vcf_dir     = inst_dir,
+    vcf_dir     = vcf_dir,
     ref_genome  = "hg38",
     out_path    = out,
     drop_high_R = FALSE
@@ -35,7 +41,7 @@ test_that("make_reijns_rosetta_csv drop_high_R snapshot", {
   skip_reijns()
   out <- withr::local_tempfile(fileext = ".csv")
   make_reijns_rosetta_csv(
-    vcf_dir     = inst_dir,
+    vcf_dir     = vcf_dir,
     ref_genome  = "hg38",
     out_path    = out,
     drop_high_R = TRUE
@@ -50,7 +56,7 @@ test_that("make_reijns_catalog keep_high_R snapshot", {
   out_keep <- withr::local_tempfile(fileext = ".tsv")
   out_drop <- withr::local_tempfile(fileext = ".tsv")
   make_reijns_catalog(
-    vcf_dir    = inst_dir,
+    vcf_dir    = vcf_dir,
     ref_genome = "hg38",
     out_keep   = out_keep,
     out_drop   = out_drop
@@ -63,7 +69,7 @@ test_that("make_reijns_catalog drop_high_R snapshot", {
   out_keep <- withr::local_tempfile(fileext = ".tsv")
   out_drop <- withr::local_tempfile(fileext = ".tsv")
   make_reijns_catalog(
-    vcf_dir    = inst_dir,
+    vcf_dir    = vcf_dir,
     ref_genome = "hg38",
     out_keep   = out_keep,
     out_drop   = out_drop

@@ -1,4 +1,4 @@
-gen_Koh_476_string = function(arglist) {
+gen_476_type_string = function(arglist) {
   open_interval_format = TRUE
 
   if (arglist$ins_or_del == "d") {
@@ -9,12 +9,12 @@ gen_Koh_476_string = function(arglist) {
   }
 
   if (arglist$L == 1) {
-    return(gen_koh_476_Leq1(arglist, INS_OR_DEL, open_interval_format))
+    return(gen_476_type_Leq1(arglist, INS_OR_DEL, open_interval_format))
   }
-  gen_koh_476_Lgt1(arglist, INS_OR_DEL, open_interval_format)
+  gen_476_type_Lgt1(arglist, INS_OR_DEL, open_interval_format)
 }
 
-gen_koh_476_Leq1 = function(arglist, INS_OR_DEL, open_interval_format) {
+gen_476_type_Leq1 = function(arglist, INS_OR_DEL, open_interval_format) {
   ins_or_del_seq = arglist$ins_or_del_seq
   R = arglist$R
 
@@ -45,7 +45,7 @@ gen_koh_476_Leq1 = function(arglist, INS_OR_DEL, open_interval_format) {
   ))
 }
 
-gen_koh_476_Lgt1 = function(arglist, INS_OR_DEL, open_interval_format) {
+gen_476_type_Lgt1 = function(arglist, INS_OR_DEL, open_interval_format) {
   fiveplus_str = if (open_interval_format) "(5,)" else "(5,9)"
 
   R = arglist$R

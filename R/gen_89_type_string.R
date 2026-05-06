@@ -1,4 +1,4 @@
-gen_Koh_89_string = function(arglist) {
+gen_89_type_string = function(arglist) {
   if (arglist$ins_or_del == "d") {
     INS_OR_DEL = "Del"
   } else {
@@ -6,12 +6,12 @@ gen_Koh_89_string = function(arglist) {
     INS_OR_DEL = "Ins"
   }
   if (nchar(arglist$ins_or_del_seq) == 1) {
-    return(gen_koh89_Leq1(arglist, INS_OR_DEL))
+    return(gen_89_type_Leq1(arglist, INS_OR_DEL))
   }
-  gen_koh89_Lgt1(arglist, INS_OR_DEL)
+  gen_89_type_Lgt1(arglist, INS_OR_DEL)
 }
 
-gen_koh89_Leq1 = function(arglist, INS_OR_DEL) {
+gen_89_type_Leq1 = function(arglist, INS_OR_DEL) {
   R = arglist$R
   ins_or_del_seq = arglist$ins_or_del_seq
   pre = arglist$pre
@@ -71,12 +71,12 @@ gen_koh89_Leq1 = function(arglist, INS_OR_DEL) {
       }
       return(paste0(pre, "[Del(T):R(", R_str, ")]", post))
     } else {
-      stop("Programming error in gen_koh89_Leq1")
+      stop("Programming error in gen_89_type_Leq1")
     }
   }
 }
 
-gen_koh89_Lgt1 = function(arglist, INS_OR_DEL) {
+gen_89_type_Lgt1 = function(arglist, INS_OR_DEL) {
   R = arglist$R
   ins_or_del_seq = arglist$ins_or_del_seq
   L = nchar(ins_or_del_seq)

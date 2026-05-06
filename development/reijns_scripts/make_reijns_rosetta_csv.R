@@ -6,7 +6,7 @@
 # Adapted from make_rosetta_csv.R; the only structural difference is that
 # it reads plain .vcf files (not .vcf.gz) produced by make_reijns_sample_vcfs.R.
 #
-# With open_interval_format = TRUE in gen_koh_476_string.R, single-base T/C
+# With open_interval_format = TRUE in gen_476_type_string.R, single-base T/C
 # repeats with R >= 9 all produce "R(9,)" in Koh_476, so R > 9 rows land in
 # the R(9,) catalog bin rather than being "uncapped".  The drop_high_R option
 # therefore acts on the numeric R column, not on the Koh_476 string.

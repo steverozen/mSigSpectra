@@ -33,6 +33,7 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/mSigSpectra.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -50,14 +51,14 @@
 <div class="page-header"><h1 id="msigspectra">mSigSpectra<a class="anchor" aria-label="anchor" href="#msigspectra"></a>
 </h1></div>
 <p>Build mutational-spectrum catalogs from VCF files.</p>
-<p>mSigSpectra is the <strong>lean, caller-agnostic successor to <a href="https://github.com/steverozen/ICAMS" class="external-link">ICAMS</a></strong> — it keeps the numerical core (VCF reading, annotation, indel justification, and SBS / DBS / ID catalog construction) and drops everything else. <strong>Plotting is now handled by the separate <a href="https://github.com/steverozen/mSigPlot" class="external-link"><code>mSigPlot</code></a> package.</strong> Shiny, PDF / zip reporting, and per-caller VAF extraction are intentionally out of scope.</p>
+<p>mSigSpectra is the <strong>lean, variant-caller-agnostic successor to <a href="https://github.com/steverozen/ICAMS" class="external-link">ICAMS</a></strong> — it keeps the numerical core (VCF reading, annotation, indel justification, and SBS / DBS / ID catalog construction) and drops everything else. <strong>Plotting is now handled by the separate <a href="https://github.com/steverozen/mSigPlot" class="external-link"><code>mSigPlot</code></a> package.</strong> Shiny, PDF / zip reporting, and per-caller VAF extraction are intentionally out of scope.</p>
 <div class="section level2">
 <h2 id="what-it-does">What it does<a class="anchor" aria-label="anchor" href="#what-it-does"></a>
 </h2>
 <pre><code>read_vcf()  →  split_vcf()  →  annotate_vcf()  →  vcf_to_catalog()</code></pre>
 <ul>
 <li>
-<code><a href="reference/read_vcf.html">read_vcf()</a></code> — reads any VCF file body. <strong>Caller-agnostic:</strong> it does not parse <code>FORMAT</code> / sample columns or extract VAF.</li>
+<code><a href="reference/read_vcf.html">read_vcf()</a></code> — reads any VCF file body. <strong>Variant-caller-agnostic:</strong> it does not parse <code>FORMAT</code> / sample columns or extract VAF.</li>
 <li>
 <code><a href="reference/split_vcf.html">split_vcf()</a></code> — partitions a VCF into SBS / DBS / ID sub-tables by <code>REF</code>/<code>ALT</code> length alone.</li>
 <li>

@@ -1,10 +1,10 @@
-# make_reijn_rosetta_csv.R
+# make_reijns_rosetta_csv.R
 #
-# Read per-sample Reijn RPE1 VCF files from a directory, annotate their
+# Read per-sample Reijns RPE1 VCF files from a directory, annotate their
 # indels with mSigSpectra (hg38), and build a flat rosetta-stone CSV.
 #
 # Adapted from make_rosetta_csv.R; the only structural difference is that
-# it reads plain .vcf files (not .vcf.gz) produced by make_reijn_sample_vcfs.R.
+# it reads plain .vcf files (not .vcf.gz) produced by make_reijns_sample_vcfs.R.
 #
 # With open_interval_format = TRUE in gen_koh_476_string.R, single-base T/C
 # repeats with R >= 9 all produce "R(9,)" in Koh_476, so R > 9 rows land in
@@ -18,7 +18,7 @@ suppressPackageStartupMessages({
   library(GenomeInfoDb)
 })
 
-# ---- helpers (identical to make_rosetta_csv.R) --------------------------------
+# ---- helpers --------------------------------
 
 shorten_long_visual <- function(x, flank_5 = 5L, flank_3 = 20L) {
   out <- x
@@ -44,15 +44,15 @@ is_single_tc_class <- function(x) {
 
 # ---- main function ------------------------------------------------------------
 
-#' Build a rosetta-stone CSV from Reijn RPE1 per-sample indel VCFs
+#' Build a rosetta-stone CSV from Reijns RPE1 per-sample indel VCFs
 #'
-#' Reads every \code{.vcf} file in \code{vcf_dir}, annotates indels with
-#' \code{\link{annotate_id_vcf}} using the hg38 genome, then builds a flat
-#' CSV mapping 476-type / 89-type / 83-type identifiers with example
+#' Reads every \code{reijns_cell_*.vcf} file in \code{vcf_dir}, annotates
+#' indels with \code{\link{annotate_id_vcf}} using the hg38 genome, then builds
+#' a flat CSV mapping 476-type / 89-type / 83-type identifiers with example
 #' \code{long_visual} strings per pair.  The per-sample VCF files are
-#' produced by \code{make_reijn_sample_vcfs.R}.
+#' produced by \code{make_reijns_sample_vcfs.R}.
 #'
-#' @param vcf_dir Directory containing \code{reijn_cell_*.vcf} files.
+#' @param vcf_dir Directory containing \code{reijns_cell_*.vcf} files.
 #' @param ref_genome BSgenome object or alias; \code{"hg38"} by default.
 #' @param out_path Output CSV path.
 #' @param drop_high_R If \code{TRUE}, drop rows where the numeric repeat count
@@ -62,7 +62,7 @@ is_single_tc_class <- function(x) {
 #' @param n_examples Maximum example rows per (476-type, 89-type) pair for
 #'   non-single-base T/C classes.
 #' @param n_singletc Example rows per pair for single-base T/C classes.
-make_reijn_rosetta_csv <- function(
+make_reijns_rosetta_csv <- function(
   vcf_dir = NULL,
   ref_genome = "hg38",
   out_path = NULL,
@@ -78,7 +78,7 @@ make_reijn_rosetta_csv <- function(
     vcf_dir <- if (length(m)) dirname(normalizePath(m[1])) else getwd()
   }
   if (is.null(out_path)) {
-    out_path <- file.path(vcf_dir, "reijn_rosetta.csv")
+    out_path <- file.path(vcf_dir, "reijns_rosetta.csv")
   }
 
   keep_cols <- c(
@@ -106,11 +106,11 @@ make_reijn_rosetta_csv <- function(
 
   vcf_files <- sort(list.files(
     vcf_dir,
-    pattern = "reijn_cell.*\\.vcf$",
+    pattern = "reijns_cell.*\\.vcf$",
     full.names = TRUE
   ))
   if (length(vcf_files) == 0L) {
-    stop("No reijn_cell*.vcf files found in: ", vcf_dir)
+    stop("No reijns_cell*.vcf files found in: ", vcf_dir)
   }
   message("Found ", length(vcf_files), " VCF file(s) in ", vcf_dir)
 
@@ -122,7 +122,7 @@ make_reijn_rosetta_csv <- function(
 
   for (i in seq_along(vcf_files)) {
     f <- vcf_files[i]
-    s <- sub("reijn_cell_", "", sub("\\.vcf$", "", basename(f)))
+    s <- sub("reijns_cell_", "", sub("\\.vcf$", "", basename(f)))
     message("Processing ", basename(f))
 
     raw <- mSigSpectra::read_vcf(f, filter = "PASS", name_of_vcf = s)

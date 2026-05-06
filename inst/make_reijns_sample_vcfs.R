@@ -3,7 +3,7 @@
 #
 # Split Reijn.rpe1.vcfs.with.annotation.txt into one per-sample VCF file,
 # keeping only the standard VCF columns (CHROM through FORMAT).
-# Output files are named reijn_mut_cell_<Sample>.vcf.
+# Output files are named reijns_cell_<Sample>.vcf.
 
 suppressPackageStartupMessages(library(argparser))
 suppressPackageStartupMessages(library(data.table))
@@ -29,7 +29,7 @@ vcf_cols <- colnames(dt)[1:9]  # CHROM POS ID REF ALT QUAL FILTER INFO FORMAT
 
 for (s in unique(dt$Sample)) {
   sub <- dt[Sample == s, ..vcf_cols]
-  out <- file.path(args$out_dir, paste0("reijn_cell_", s, ".vcf"))
+  out <- file.path(args$out_dir, paste0("reijns_cell_", s, ".vcf"))
   writeLines(paste0("#", paste(vcf_cols, collapse = "\t")), out)
   data.table::fwrite(sub, out, sep = "\t", col.names = FALSE,
                      append = TRUE, quote = FALSE)

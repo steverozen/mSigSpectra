@@ -239,9 +239,10 @@ plot_ID83(cat_id83, plot_title = "Strelka.ID.GRCh37.s1 — ID83")
 ``` r
 
 plot_ID89(cat_id89, plot_title = "Strelka.ID.GRCh37.s1 — ID89")
+#> Warning in normalize_catalog(catalog, 89, catalog_row_order()$ID89, "ID89"):
+#> Row names of catalog do not match canonical ID89 row names; returning NULL
+#> NULL
 ```
-
-![](mSigSpectra_files/figure-html/plot-id89-1.png)
 
 ``` r
 

@@ -1,4 +1,6 @@
 gen_Koh_476_string = function(arglist) {
+  open_interval_format = TRUE
+
   if (arglist$ins_or_del == "d") {
     INS_OR_DEL = "Del"
   } else {
@@ -7,12 +9,12 @@ gen_Koh_476_string = function(arglist) {
   }
 
   if (arglist$L == 1) {
-    return(gen_koh_476_Leq1(arglist, INS_OR_DEL))
+    return(gen_koh_476_Leq1(arglist, INS_OR_DEL, open_interval_format))
   }
-  gen_koh_476_Lgt1(arglist, INS_OR_DEL)
+  gen_koh_476_Lgt1(arglist, INS_OR_DEL, open_interval_format)
 }
 
-gen_koh_476_Leq1 = function(arglist, INS_OR_DEL) {
+gen_koh_476_Leq1 = function(arglist, INS_OR_DEL, open_interval_format) {
   ins_or_del_seq = arglist$ins_or_del_seq
   R = arglist$R
 
@@ -25,7 +27,11 @@ gen_koh_476_Leq1 = function(arglist, INS_OR_DEL) {
   if (!arglist$post %in% c("A", "C", "G", "T")) {
     return(paste0("Cannot categorize indel followed by  ", arglist$post))
   }
-  R_str = if (R >= 99) "(99,)" else R
+  if (open_interval_format) {
+    R_str = if (R >= 9) "(9,)" else R
+  } else {
+    R_str = if (R >= 99) "(99,)" else R
+  }
   return(paste0(
     arglist$pre,
     "[",
@@ -39,8 +45,7 @@ gen_koh_476_Leq1 = function(arglist, INS_OR_DEL) {
   ))
 }
 
-gen_koh_476_Lgt1 = function(arglist, INS_OR_DEL) {
-  open_interval_format = FALSE
+gen_koh_476_Lgt1 = function(arglist, INS_OR_DEL, open_interval_format) {
   fiveplus_str = if (open_interval_format) "(5,)" else "(5,9)"
 
   R = arglist$R
@@ -108,7 +113,11 @@ gen_koh_476_Lgt1 = function(arglist, INS_OR_DEL) {
         if (R < 5) {
           return(paste0("*Del5:U1:R", R))
         }
-        return("Del5:U1:R(5,9)")
+        if (open_interval_format) {
+          return("Del5:U1:R(5,)")
+        } else {
+          return("Del5:U1:R(5,9)")
+        }
       } else {
         R_str = if (R >= 5) fiveplus_str else R
         return(paste0("Del", L, ":U", U, ":R", R_str))

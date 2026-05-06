@@ -81,7 +81,7 @@ justify_id_vcf <-
     }
     df <- retval$df
     discarded.variants <-
-      rbind(discarded.variants, retval$discarded.variants)
+      rbind(discarded.variants, retval$discarded.variants, fill = TRUE)
 
     # Remove variants which have the same number of bases
     # for REF and ALT alleles
@@ -91,7 +91,7 @@ justify_id_vcf <-
       df1.to.remove <- df[idx, ]
       df1.to.remove$discarded.reason <-
         "ID variant with same number of bases for REF and ALT alleles"
-      discarded.variants <- rbind(discarded.variants, df1.to.remove)
+      discarded.variants <- rbind(discarded.variants, df1.to.remove, fill = TRUE)
     } else {
       df1 <- df
     }
@@ -104,7 +104,7 @@ justify_id_vcf <-
       df2 <- df1[-idx1, ]
       df2.to.remove <- df1[idx1, ]
       df2.to.remove$discarded.reason <- "Variant has empty REF or ALT alleles"
-      discarded.variants <- rbind(discarded.variants, df2.to.remove)
+      discarded.variants <- rbind(discarded.variants, df2.to.remove, fill = TRUE)
     } else {
       df2 <- df1
     }
@@ -118,7 +118,7 @@ justify_id_vcf <-
       df3.to.remove <- df2[complex.indels.to.remove, ]
       df3.to.remove$discarded.reason <- "Complex indel"
       discarded.variants <-
-        rbind(discarded.variants, df3.to.remove)
+        rbind(discarded.variants, df3.to.remove, fill = TRUE)
     } else {
       df3 <- df2
     }
@@ -130,7 +130,7 @@ justify_id_vcf <-
       df3 <- df3[-has_na_to_remove, ]
       dfx.to.remove$discarded.reason <- "REF or ALT is NA"
       discarded.variants <-
-        rbind(discarded.variants, dfx.to.remove)
+        rbind(discarded.variants, dfx.to.remove, fill = TRUE)
       rm(dfx.to.remove)
     }
 

@@ -22,10 +22,12 @@ categorize_indels_in_vcf <- function(vcf) {
 
     out[[i]] <- tryCatch(
       categorize_1_justified_indel(
-        context = ctx,
-        ins_or_del = ins_or_del,
+        context        = ctx,
+        ins_or_del     = ins_or_del,
         ins_or_del_seq = ins_or_del_seq,
-        pos = pos_in_ctx
+        pos            = pos_in_ctx,
+        chrom          = vcf$CHROM[i],
+        genomic_pos    = vcf$POS[i]
       ),
       error = function(e) list(
         COSMIC_83 = NA_character_,

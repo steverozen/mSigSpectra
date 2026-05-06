@@ -48,7 +48,9 @@ categorize_1_justified_indel <- function(
   context,
   ins_or_del,
   ins_or_del_seq,
-  pos
+  pos,
+  chrom       = NULL,
+  genomic_pos = NULL
 ) {
   if (ins_or_del == "i") {
     start_of_slice3 = pos
@@ -60,7 +62,15 @@ categorize_1_justified_indel <- function(
     if (
       paste0(ins_or_del_seq, slice3) != stringi::stri_sub(context, from = pos)
     ) {
-      browser()
+      stop(
+        "Deletion sequence does not match context at pos ",
+        pos,
+        ": ins_or_del_seq='",
+        ins_or_del_seq,
+        "' context='",
+        context,
+        "'"
+      )
     }
   }
   koh_extra = seg_simple(
@@ -143,6 +153,21 @@ categorize_1_justified_indel <- function(
   if (ins_or_del_seq_len == 1) {
     R = indel_str_count_in_ref
     U = 1L
+    # If post equals the repeated base the regex backtracked because the
+    # homopolymer run extends to the edge of the extracted sequence context,
+    # so the base immediately following the repeat is unknown.
+    if (post == ins_or_del_seq) {
+      message(
+        "Cannot determine the base following the poly-",
+        ins_or_del_seq,
+        " run\n",
+        "The sequence context does not extend past the end of the repeat",
+        if (!is.null(chrom)) paste0(" at ", chrom, ":", genomic_pos),
+        " (pos=", pos, ", context length=", nchar(context), ").\n",
+        " Increase the context_width_multiplier argument in justify_id_vcf()."
+      )
+      return(indel_all_na_return("Context_too_short"))
+    }
     if (ins_or_del_seq %in% c("A", "G")) {
       pre = fastrc::fast_rc(post)
       ins_or_del_seq = fastrc::fast_rc(ins_or_del_seq)
@@ -179,7 +204,7 @@ categorize_1_justified_indel <- function(
     # We are using nomenclature from Koh et al. again here.
     R = (nchar(R_match[1, 1]) / U)
     if (is.na(R)) {
-      browser() # This is a programming error
+      stop("R is NA: programming error in repeat-count computation")
     }
 
     R_outside_ins_or_del_seq = R - U_seq_count_in_indel_seq
@@ -199,7 +224,7 @@ categorize_1_justified_indel <- function(
         # Check for micrhomology based on the ins_or_del_seq alone
         mh = lcprefix_fast(ins_or_del_seq, post_all)
         if (length(R) == 0) {
-          browser() # This is programming error
+          stop("R has length 0: programming error in repeat-count computation")
         }
         if (R == 1) {
           koh_mh = mh
@@ -274,9 +299,6 @@ categorize_1_justified_indel <- function(
     ),
     koh_extra
   )
-  if (retlist$R != retlist$original_reps) {
-    browser()
-  }
   retlist$COSMIC_83 = gen_COSMIC_83_string(retlist)
   retlist$Koh_89 = gen_Koh_89_string(retlist)
   if (retlist$Koh_89 == "Del(2,8):U(1,2):R(2,4)") {

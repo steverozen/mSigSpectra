@@ -44,7 +44,7 @@ remove_rows_with_duplicated_chrom_and_pos <- function(df, name_of_vcf = NULL) {
     to_remove <- df[dups_exact, ]
     to_remove$discarded.reason <-
       "Variant with same CHROM, POS, REF and ALT as another variant"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     df <- df[-dups_exact, ]
   }
 
@@ -61,7 +61,7 @@ remove_rows_with_duplicated_chrom_and_pos <- function(df, name_of_vcf = NULL) {
     to_remove <- df[c(dups_alt, dups_fwd), ]
     to_remove$discarded.reason <-
       "Variant with same CHROM, POS, REF but different ALT"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     df <- df[-c(dups_alt, dups_fwd), ]
   }
 
@@ -105,20 +105,20 @@ check_and_remove_discarded_variants <- function(vcf,
   if (length(idx) > 0L) {
     to_remove <- vcf[idx, ]
     to_remove$discarded.reason <- "Variant with same REF and ALT"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     vcf <- vcf[-idx, ]
   }
 
   ret <- remove_rows_with_pound_sign(vcf, name_of_vcf = name_of_vcf)
   vcf <- ret$df
   if (!is.null(ret$discarded.variants)) {
-    discarded <- rbind(discarded, ret$discarded.variants)
+    discarded <- rbind(discarded, ret$discarded.variants, fill = TRUE)
   }
 
   ret <- remove_rows_with_duplicated_chrom_and_pos(vcf, name_of_vcf = name_of_vcf)
   vcf <- ret$df
   if (!is.null(ret$discarded.variants)) {
-    discarded <- rbind(discarded, ret$discarded.variants)
+    discarded <- rbind(discarded, ret$discarded.variants, fill = TRUE)
   }
 
   if (is.null(chr_names_to_process)) {
@@ -131,7 +131,7 @@ check_and_remove_discarded_variants <- function(vcf,
   }
   vcf <- ret$df
   if (!is.null(ret$discarded.variants)) {
-    discarded <- rbind(discarded, ret$discarded.variants)
+    discarded <- rbind(discarded, ret$discarded.variants, fill = TRUE)
   }
 
   # Multiple-ALT rows
@@ -144,7 +144,7 @@ check_and_remove_discarded_variants <- function(vcf,
     )
     to_remove <- vcf[multi_alt, ]
     to_remove$discarded.reason <- "Variant with multiple alternative alleles"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     vcf <- vcf[-multi_alt, ]
   }
 
@@ -157,7 +157,7 @@ check_and_remove_discarded_variants <- function(vcf,
     )
     to_remove <- vcf[long_sub, ]
     to_remove$discarded.reason <- "Variant involves three or more nucleotides"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     vcf <- vcf[-long_sub, ]
   }
 
@@ -174,7 +174,7 @@ check_and_remove_discarded_variants <- function(vcf,
     )
     to_remove <- vcf[complex_idx, ]
     to_remove$discarded.reason <- "Complex indel"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     vcf <- vcf[-complex_idx, ]
   }
 
@@ -191,7 +191,7 @@ check_and_remove_discarded_variants <- function(vcf,
     )
     to_remove <- vcf[wrong_dbs, ]
     to_remove$discarded.reason <- "Wrong DBS variant"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     vcf <- vcf[-wrong_dbs, ]
   }
 
@@ -204,7 +204,7 @@ check_and_remove_discarded_variants <- function(vcf,
     )
     to_remove <- vcf[amb_ref, ]
     to_remove$discarded.reason <- "Variant has ambiguous REF base"
-    discarded <- rbind(discarded, to_remove)
+    discarded <- rbind(discarded, to_remove, fill = TRUE)
     vcf <- vcf[-amb_ref, ]
   }
 

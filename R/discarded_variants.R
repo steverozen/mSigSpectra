@@ -98,6 +98,7 @@ check_and_remove_discarded_variants <- function(vcf,
                                                 chr_names_to_process = NULL) {
   if (nrow(vcf) == 0L) return(list(df = vcf))
 
+  vcf <- data.table::as.data.table(vcf)
   discarded <- vcf[0, ]
 
   # Same REF and ALT

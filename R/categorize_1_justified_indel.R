@@ -49,7 +49,7 @@ categorize_1_justified_indel <- function(
   ins_or_del,
   ins_or_del_seq,
   pos,
-  chrom       = NULL,
+  chrom = NULL,
   genomic_pos = NULL
 ) {
   if (ins_or_del == "i") {
@@ -158,13 +158,17 @@ categorize_1_justified_indel <- function(
     # so the base immediately following the repeat is unknown.
     if (post == ins_or_del_seq) {
       message(
-        "Cannot determine the base following the poly-",
+        "\nCannot determine the base following the poly-",
         ins_or_del_seq,
         " run\n",
         "The sequence context does not extend past the end of the repeat",
         if (!is.null(chrom)) paste0(" at ", chrom, ":", genomic_pos),
-        " (pos=", pos, ", context length=", nchar(context), ").\n",
-        " Increase the context_width_multiplier argument in justify_id_vcf()."
+        " (pos=",
+        pos,
+        ", context length=",
+        nchar(context),
+        ")\n",
+        "You can increase the context_width_multiplier argument in justify_id_vcf()\n"
       )
       return(indel_all_na_return("Context_too_short"))
     }

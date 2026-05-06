@@ -31,7 +31,7 @@ test_that("split_vcf returns NULL discarded when no rows are discarded", {
 })
 
 test_that("split_vcf works on a real Strelka ID VCF (all rows classified as ID)", {
-  vcf <- read_vcf("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s1.vcf")
+  vcf <- read_vcf(extdata("Strelka-ID-GRCh37", "Strelka.ID.GRCh37.s1.vcf"))
   out <- suppressWarnings(split_vcf(vcf))
   expect_equal(nrow(out$SBS), 0L)
   expect_equal(nrow(out$DBS), 0L)
@@ -41,7 +41,7 @@ test_that("split_vcf works on a real Strelka ID VCF (all rows classified as ID)"
 })
 
 test_that("split_vcf works on a real Strelka SBS VCF (all rows classified as SBS)", {
-  vcf <- read_vcf("testdata/Strelka-SBS-GRCh37/Strelka.SBS.GRCh37.s1.vcf")
+  vcf <- read_vcf(extdata("Strelka-SBS-GRCh37", "Strelka.SBS.GRCh37.s1.vcf"))
   out <- suppressWarnings(split_vcf(vcf))
   expect_gt(nrow(out$SBS), 0L)
   expect_equal(nrow(out$ID), 0L)

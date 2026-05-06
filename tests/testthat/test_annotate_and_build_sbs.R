@@ -6,7 +6,7 @@ test_that("end-to-end: Strelka SBS VCF -> SBS96 catalog (caller-agnostic)", {
   # caller-specific merge in favor of a single caller-agnostic path, so the
   # SBS count here is 798 = 770 + 28. That is the correct mSigSpectra
   # output; it is not a bug vs the ICAMS oracle.
-  vcf <- read_vcf("testdata/Strelka-SBS-GRCh37/Strelka.SBS.GRCh37.s1.vcf",
+  vcf <- read_vcf(extdata("Strelka-SBS-GRCh37", "Strelka.SBS.GRCh37.s1.vcf"),
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- annotate_sbs_or_dbs_vcf(sp$SBS, ref_genome = "GRCh37")
@@ -25,7 +25,7 @@ test_that("end-to-end: Strelka SBS VCF -> SBS96 catalog (caller-agnostic)", {
 test_that("end-to-end: Mutect VCF (Mutect.GRCh37.s1) -> SBS96 = 1738 mutations", {
   skip_if("" == system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
 
-  vcf <- read_vcf("testdata/Mutect-GRCh37/Mutect.GRCh37.s1.vcf",
+  vcf <- read_vcf(extdata("Mutect-GRCh37", "Mutect.GRCh37.s1.vcf"),
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- annotate_sbs_or_dbs_vcf(sp$SBS, ref_genome = "GRCh37")

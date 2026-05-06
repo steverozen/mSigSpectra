@@ -1,7 +1,7 @@
 test_that("end-to-end: Strelka ID VCF -> ID83 catalog", {
   skip_if("" == system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
 
-  vcf <- read_vcf("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s1.vcf",
+  vcf <- read_vcf(extdata("Strelka-ID-GRCh37", "Strelka.ID.GRCh37.s1.vcf"),
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- suppressWarnings(annotate_id_vcf(sp$ID, ref_genome = "GRCh37"))
@@ -23,7 +23,7 @@ test_that("end-to-end: Strelka ID VCF -> ID83 catalog", {
 test_that("end-to-end: Koh-89 and Koh-476 catalogs from the same annotated VCF", {
   skip_if("" == system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
 
-  vcf <- read_vcf("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s1.vcf",
+  vcf <- read_vcf(extdata("Strelka-ID-GRCh37", "Strelka.ID.GRCh37.s1.vcf"),
                   filter = "PASS")
   sp <- suppressWarnings(split_vcf(vcf))
   ann <- suppressWarnings(annotate_id_vcf(sp$ID, ref_genome = "GRCh37"))

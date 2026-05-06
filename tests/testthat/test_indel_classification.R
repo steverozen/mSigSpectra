@@ -90,7 +90,7 @@ test_that("seg_simple returns the expected structure for an AT-repeat deletion",
 test_that("justify_id_vcf end-to-end on a real Strelka ID VCF", {
   skip_if("" == system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
   vcf <- read_vcf(
-    "testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s1.vcf",
+    extdata("Strelka-ID-GRCh37", "Strelka.ID.GRCh37.s1.vcf"),
     filter = "PASS"
   )
   # Keep only the first 20 rows to keep this test fast.

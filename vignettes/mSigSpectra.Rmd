@@ -16,8 +16,12 @@ knitr::opts_chunk$set(
   dpi = 100,
   out.width = "100%"
 )
-have_bsgenome <- nzchar(system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
-have_msigplot <- nzchar(system.file(package = "mSigPlot"))
+can_load <- function(pkg) {
+  nzchar(system.file(package = pkg)) &&
+    isTRUE(tryCatch({ loadNamespace(pkg); TRUE }, error = function(e) FALSE))
+}
+have_bsgenome <- can_load("BSgenome.Hsapiens.1000genomes.hs37d5")
+have_msigplot <- can_load("mSigPlot")
 eval_all <- have_bsgenome && have_msigplot
 knitr::opts_chunk$set(eval = eval_all)
 ```

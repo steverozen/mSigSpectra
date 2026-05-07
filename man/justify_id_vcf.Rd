@@ -30,7 +30,7 @@ a well-known name for reference genome in BSgenome}
 that cannot be processed are discarded.}
 
 \item{explain_indels}{If 0, do not explain, if 1, explain indels that were
-justifed (via messages), if 2, geenrate messages for all indels.}
+justified (via messages), if 2, generate messages for all indels.}
 
 \item{context_width_multiplier}{Used to guess how much sequence on each side
 of an indel is needed to categorize it.}

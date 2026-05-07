@@ -13,7 +13,7 @@ DBS136, DBS144, ID (83-category COSMIC indels), ID166, ID89, ID476.
 \description{
 Returns a named list containing the canonical row ordering for each
 catalog type. These are used for validation and ordering of mutation
-catalogs. The result is cached after the first call.
+catalogs.
 }
 \details{
 Row names use a compact 4-letter format for SBS types: e.g. \code{ACAA}

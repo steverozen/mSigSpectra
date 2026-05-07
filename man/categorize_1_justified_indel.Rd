@@ -4,20 +4,33 @@
 \alias{categorize_1_justified_indel}
 \title{Given a indel and its sequence context, categorize it}
 \usage{
-categorize_1_justified_indel(context, ins_or_del, ins_or_del_seq, pos)
+categorize_1_justified_indel(
+  context,
+  ins_or_del,
+  ins_or_del_seq,
+  pos,
+  chrom = NULL,
+  genomic_pos = NULL
+)
 }
 \arguments{
 \item{context}{The sequence surrounding the indel PRIOR to the insertion
 or deletion.}
 
-\item{ins_or_del}{A singgle character, with "i" denoting
-an insertion and "d" denotine an deletion.}
+\item{ins_or_del}{A single character, with "i" denoting
+an insertion and "d" denoting a deletion.}
 
-\item{ins_or_del_seq}{The the sequence that was inserted or deleted.}
+\item{ins_or_del_seq}{The sequence that was inserted or deleted.}
 
 \item{pos}{For deletions, the 1-based position of the start of the
 deleted sequence; for insertions, the position immediately to the right
 of where the insertion occurs.}
+
+\item{chrom}{Optional chromosome name; used only to enrich error
+messages when the deletion sequence does not match the context.}
+
+\item{genomic_pos}{Optional genomic position; used only to enrich
+error messages when the deletion sequence does not match the context.}
 }
 \value{
 A string that is the canonical representation

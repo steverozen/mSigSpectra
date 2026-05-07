@@ -9,15 +9,15 @@ change_476_type_ids_to_open_intervals(type_476_indel_type_identifiers)
 \arguments{
 \item{type_476_indel_type_identifiers}{Character vector of 476-type indel
 category identifiers, e.g. as returned by
-\code{\link[=categorize_indels_in_vcf]{categorize_indels_in_vcf()}}.}
+\code{categorize_indels_in_vcf()}.}
 }
 \value{
-Character vector the same length as the input, with \verb{:R(5,9)} at the
-end of each string replaced by \verb{:R(5,)}.
+Character vector the same length as the input, with \verb{:R(X,9)} at the
+end of each string replaced by \verb{:R(X,)}.
 }
 \description{
-Replaces bounded repeat-count suffixes like \verb{:R(5,9)} with right-open
-equivalents like \verb{:R(5,)}, making the classification agnostic as to whether
+Replaces bounded repeat-count suffixes like \verb{:R(X,9)} with right-open
+equivalents like \verb{:R(X,)}, making the classification agnostic as to whether
 repeats longer than 9 were discarded from the input data.
 }
 \examples{

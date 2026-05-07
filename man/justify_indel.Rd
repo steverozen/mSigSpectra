@@ -21,7 +21,7 @@ A list with elements
 \itemize{
 \item leftmost_pos
 \item del_string
-\item del_string_plus del_string plus one base to the left the poisiton of that
+\item del_string_plus del_string plus one base to the left the position of that
 base to the left is leftmost_pos - 1
 \item edge_warning See the third example. We are not sure how far to the left we
 could have moved the indel if we had more context on the left.
@@ -38,7 +38,7 @@ if this is not the case.
 Dually, pos is the 1-based position in short string in front o which one can
 make an insertion to get long_str.
 
-This funcition moves pos as far to left as possible so that a deletion at
+This function moves pos as far to left as possible so that a deletion at
 that position still results in an edit of long_str to generate short_str.
 }
 \examples{

@@ -13,7 +13,7 @@
 #' Dually, pos is the 1-based position in short string in front o which one can
 #' make an insertion to get long_str.
 #'
-#' This funcition moves pos as far to left as possible so that a deletion at
+#' This function moves pos as far to left as possible so that a deletion at
 #' that position still results in an edit of long_str to generate short_str.
 #'
 #' @param long_str A single character string
@@ -30,7 +30,7 @@
 #'
 #' * del_string
 #'
-#' * del_string_plus del_string plus one base to the left the poisiton of that
+#' * del_string_plus del_string plus one base to the left the position of that
 #' base to the left is leftmost_pos - 1
 #'
 #' * edge_warning See the third example. We are not sure how far to the left we

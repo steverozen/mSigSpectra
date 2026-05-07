@@ -37,13 +37,13 @@
 #'
 #' @param explain_indels 0 stay silent,
 #' if 1, print explanation of there was a change in POS,
-#' if 3, aways print
+#' if 3, always print
 #'
 #' @return A data.frame with:
 #'   \itemize{
 #'     \item All original columns from the input vcf
 #'     \item Updated POS values (decremented by pos_shift)
-#'     \item Updated REF and ALT values if the positon of the indel has been moved
+#'     \item Updated REF and ALT values if the position of the indel has been moved
 #'     \item Updated seq.context.width values (decremented by pos_shift)
 #'     \item New column 'pos_shift': Amount the position was moved (usually 0)
 #'   }

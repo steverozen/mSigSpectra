@@ -7,7 +7,7 @@
   `vcf_to_sbs_catalog()` / `vcf_to_dbs_catalog()` /
   `vcf_to_id_catalog()`.
 * Supports SBS, DBS, and indel (ID) catalogs for GRCh37, GRCh38,
-  and GRCm38 reference genomes, including transcript-strand
-  annotation where transcript-ranges tables are available.
+  and GRCm38 reference genomes or any BSgenome genome.
+  Adds transcript-strand annotation where transcript-ranges info is available.
 * Ships example Strelka and Mutect VCFs in `inst/extdata/` and a
   vignette demonstrating the full pipeline.

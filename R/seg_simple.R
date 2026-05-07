@@ -27,7 +27,6 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
 #' # Simple AT repeat
 #' result <- seg_simple("d", "ATATAT", "ATATGG")
 #' print(result)
@@ -35,7 +34,6 @@
 #' # CG repeat
 #' result <- seg_simple("d", "CGCGCG", "CGCGAA")
 #' print(result)
-#' }
 #'
 #' @export
 seg_simple <- function(ins_or_del, string, context) {

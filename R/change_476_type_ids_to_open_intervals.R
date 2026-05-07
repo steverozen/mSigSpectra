@@ -6,7 +6,7 @@
 #'
 #' @param type_476_indel_type_identifiers Character vector of 476-type indel
 #'   category identifiers, e.g. as returned by
-#'   [categorize_indels_in_vcf()].
+#'   `categorize_indels_in_vcf()`.
 #'
 #' @return Character vector the same length as the input, with `:R(X,9)` at the
 #'   end of each string replaced by `:R(X,)`.

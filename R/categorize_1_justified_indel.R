@@ -14,14 +14,20 @@
 #' @param context The sequence surrounding the indel PRIOR to the insertion
 #' or deletion.
 #'
-#' @param ins_or_del A singgle character, with "i" denoting
-#' an insertion and "d" denotine an deletion.
+#' @param ins_or_del A single character, with "i" denoting
+#' an insertion and "d" denoting a deletion.
 #'
-#' @param ins_or_del_seq The the sequence that was inserted or deleted.
+#' @param ins_or_del_seq The sequence that was inserted or deleted.
 #'
 #' @param pos For deletions, the 1-based position of the start of the
 #' deleted sequence; for insertions, the position immediately to the right
 #' of where the insertion occurs.
+#'
+#' @param chrom Optional chromosome name; used only to enrich error
+#' messages when the deletion sequence does not match the context.
+#'
+#' @param genomic_pos Optional genomic position; used only to enrich
+#' error messages when the deletion sequence does not match the context.
 #'
 #' @return A string that is the canonical representation
 #'  of the given deletion type. Return \code{NA}

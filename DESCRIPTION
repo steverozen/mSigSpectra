@@ -31,6 +31,7 @@ Description: Reads variant call files (VCFs) in a caller-agnostic way,
     and in both counts and density representations. Successor to the
     numerical core of the 'ICAMS' package with plotting, Shiny, and PDF
     reporting removed; plotting is provided separately by 'mSigPlot'.
+    Used in the preparation of Rozen et al. (2026)<doi:10.5281/zenodo.18451842>.
 License: GPL-3 | file LICENSE
 URL: https://github.com/steverozen/mSigSpectra, https://steverozen.github.io/mSigSpectra/
 BugReports: https://github.com/steverozen/mSigSpectra/issues

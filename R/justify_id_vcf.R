@@ -16,7 +16,7 @@
 #' that cannot be processed are discarded.
 #'
 #' @param explain_indels If 0, do not explain, if 1, explain indels that were
-#'  justifed (via messages), if 2, geenrate messages for all indels.
+#'  justified (via messages), if 2, generate messages for all indels.
 #'
 #' @param context_width_multiplier Used to guess how much sequence on each side
 #' of an indel is needed to categorize it.

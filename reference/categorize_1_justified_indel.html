@@ -43,7 +43,14 @@ to document the underlying logic.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">categorize_1_justified_indel</span><span class="op">(</span><span class="va">context</span>, <span class="va">ins_or_del</span>, <span class="va">ins_or_del_seq</span>, <span class="va">pos</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">categorize_1_justified_indel</span><span class="op">(</span></span>
+<span>  <span class="va">context</span>,</span>
+<span>  <span class="va">ins_or_del</span>,</span>
+<span>  <span class="va">ins_or_del_seq</span>,</span>
+<span>  <span class="va">pos</span>,</span>
+<span>  chrom <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  genomic_pos <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -56,18 +63,28 @@ or deletion.</p></dd>
 
 
 <dt id="arg-ins-or-del">ins_or_del<a class="anchor" aria-label="anchor" href="#arg-ins-or-del"></a></dt>
-<dd><p>A singgle character, with "i" denoting
-an insertion and "d" denotine an deletion.</p></dd>
+<dd><p>A single character, with "i" denoting
+an insertion and "d" denoting a deletion.</p></dd>
 
 
 <dt id="arg-ins-or-del-seq">ins_or_del_seq<a class="anchor" aria-label="anchor" href="#arg-ins-or-del-seq"></a></dt>
-<dd><p>The the sequence that was inserted or deleted.</p></dd>
+<dd><p>The sequence that was inserted or deleted.</p></dd>
 
 
 <dt id="arg-pos">pos<a class="anchor" aria-label="anchor" href="#arg-pos"></a></dt>
 <dd><p>For deletions, the 1-based position of the start of the
 deleted sequence; for insertions, the position immediately to the right
 of where the insertion occurs.</p></dd>
+
+
+<dt id="arg-chrom">chrom<a class="anchor" aria-label="anchor" href="#arg-chrom"></a></dt>
+<dd><p>Optional chromosome name; used only to enrich error
+messages when the deletion sequence does not match the context.</p></dd>
+
+
+<dt id="arg-genomic-pos">genomic_pos<a class="anchor" aria-label="anchor" href="#arg-genomic-pos"></a></dt>
+<dd><p>Optional genomic position; used only to enrich
+error messages when the deletion sequence does not match the context.</p></dd>
 
 </dl></div>
     <div class="section level2">

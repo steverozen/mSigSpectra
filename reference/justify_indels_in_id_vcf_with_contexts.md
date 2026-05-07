@@ -42,7 +42,7 @@ justify_indels_in_id_vcf_with_contexts(vcf, explain_indels = 1)
 - explain_indels:
 
   0 stay silent, if 1, print explanation of there was a change in POS,
-  if 3, aways print
+  if 3, always print
 
 ## Value
 
@@ -52,7 +52,7 @@ A data.frame with:
 
 - Updated POS values (decremented by pos_shift)
 
-- Updated REF and ALT values if the positon of the indel has been moved
+- Updated REF and ALT values if the position of the indel has been moved
 
 - Updated seq.context.width values (decremented by pos_shift)
 

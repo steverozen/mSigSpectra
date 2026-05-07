@@ -2,7 +2,7 @@
 
 Returns a named list containing the canonical row ordering for each
 catalog type. These are used for validation and ordering of mutation
-catalogs. The result is cached after the first call.
+catalogs.
 
 ## Usage
 

@@ -1,7 +1,7 @@
 # Change 476-type indel category identifiers to use right-open repeat intervals
 
-Replaces bounded repeat-count suffixes like `:R(5,9)` with right-open
-equivalents like `:R(5,)`, making the classification agnostic as to
+Replaces bounded repeat-count suffixes like `:R(X,9)` with right-open
+equivalents like `:R(X,)`, making the classification agnostic as to
 whether repeats longer than 9 were discarded from the input data.
 
 ## Usage
@@ -19,8 +19,8 @@ change_476_type_ids_to_open_intervals(type_476_indel_type_identifiers)
 
 ## Value
 
-Character vector the same length as the input, with `:R(5,9)` at the end
-of each string replaced by `:R(5,)`.
+Character vector the same length as the input, with `:R(X,9)` at the end
+of each string replaced by `:R(X,)`.
 
 ## Examples
 

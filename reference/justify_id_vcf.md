@@ -41,8 +41,8 @@ justify_id_vcf(
 
 - explain_indels:
 
-  If 0, do not explain, if 1, explain indels that were justifed (via
-  messages), if 2, geenrate messages for all indels.
+  If 0, do not explain, if 1, explain indels that were justified (via
+  messages), if 2, generate messages for all indels.
 
 - context_width_multiplier:
 

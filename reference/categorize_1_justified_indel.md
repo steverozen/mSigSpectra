@@ -6,7 +6,14 @@ document the underlying logic.
 ## Usage
 
 ``` r
-categorize_1_justified_indel(context, ins_or_del, ins_or_del_seq, pos)
+categorize_1_justified_indel(
+  context,
+  ins_or_del,
+  ins_or_del_seq,
+  pos,
+  chrom = NULL,
+  genomic_pos = NULL
+)
 ```
 
 ## Arguments
@@ -17,18 +24,28 @@ categorize_1_justified_indel(context, ins_or_del, ins_or_del_seq, pos)
 
 - ins_or_del:
 
-  A singgle character, with "i" denoting an insertion and "d" denotine
-  an deletion.
+  A single character, with "i" denoting an insertion and "d" denoting a
+  deletion.
 
 - ins_or_del_seq:
 
-  The the sequence that was inserted or deleted.
+  The sequence that was inserted or deleted.
 
 - pos:
 
   For deletions, the 1-based position of the start of the deleted
   sequence; for insertions, the position immediately to the right of
   where the insertion occurs.
+
+- chrom:
+
+  Optional chromosome name; used only to enrich error messages when the
+  deletion sequence does not match the context.
+
+- genomic_pos:
+
+  Optional genomic position; used only to enrich error messages when the
+  deletion sequence does not match the context.
 
 ## Value
 

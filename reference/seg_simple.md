@@ -79,13 +79,65 @@ possible repeat unit sizes and selects the best segmentation based on:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 # Simple AT repeat
 result <- seg_simple("d", "ATATAT", "ATATGG")
 print(result)
+#> $unit
+#> [1] "AT"
+#> 
+#> $unit_length
+#> [1] 2
+#> 
+#> $internal_rep
+#> [1] "ATAT"
+#> 
+#> $internal_reps
+#> [1] 2
+#> 
+#> $spacer
+#> [1] ""
+#> 
+#> $spacer_length
+#> [1] 0
+#> 
+#> $prime3_rep
+#> [1] "ATAT"
+#> 
+#> $prime3_reps
+#> [1] 2
+#> 
+#> $original_reps
+#> [1] 5
+#> 
 
 # CG repeat
 result <- seg_simple("d", "CGCGCG", "CGCGAA")
 print(result)
-} # }
+#> $unit
+#> [1] "CG"
+#> 
+#> $unit_length
+#> [1] 2
+#> 
+#> $internal_rep
+#> [1] "CGCG"
+#> 
+#> $internal_reps
+#> [1] 2
+#> 
+#> $spacer
+#> [1] ""
+#> 
+#> $spacer_length
+#> [1] 0
+#> 
+#> $prime3_rep
+#> [1] "CGCG"
+#> 
+#> $prime3_reps
+#> [1] 2
+#> 
+#> $original_reps
+#> [1] 5
+#> 
 ```

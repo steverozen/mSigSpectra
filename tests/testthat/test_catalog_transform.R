@@ -14,6 +14,7 @@ test_that("transform_catalog counts -> density scales by inverse abundance", {
 })
 
 test_that("transform_catalog counts -> counts.signature normalizes columns to 1", {
+  skip_if("" == system.file(package = "BSgenome.Hsapiens.UCSC.hg38"))
   rns <- mSigSpectra::catalog_row_order()$SBS96
   m <- matrix(runif(96L * 2L, 1, 10), nrow = 96L, ncol = 2L,
               dimnames = list(rns, c("s1", "s2")))
@@ -24,6 +25,7 @@ test_that("transform_catalog counts -> counts.signature normalizes columns to 1"
 })
 
 test_that("transform_catalog density -> density is a null op", {
+  skip_if("" == system.file(package = "BSgenome.Hsapiens.UCSC.hg38"))
   rns <- mSigSpectra::catalog_row_order()$SBS96
   m <- matrix(1, nrow = 96L, ncol = 1L, dimnames = list(rns, "s1"))
   cat <- as_catalog(m, ref_genome = "GRCh38", region = "genome",
@@ -35,6 +37,7 @@ test_that("transform_catalog density -> density is a null op", {
 })
 
 test_that("collapse_catalog SBS1536 -> SBS96 sums pentanucleotides into trinucleotides", {
+  skip_if("" == system.file(package = "BSgenome.Hsapiens.UCSC.hg38"))
   rns <- mSigSpectra::catalog_row_order()$SBS1536
   m <- matrix(1, nrow = 1536L, ncol = 1L, dimnames = list(rns, "s1"))
   cat <- as_catalog(m, ref_genome = "GRCh38", region = "genome")

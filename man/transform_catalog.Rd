@@ -29,7 +29,7 @@ A new catalog (plain matrix with attributes).
 \description{
 Converts between counts (raw mutation counts per category) and density
 (mutations per megabase of context) representations, and between
-catalog ↔ signature (column-normalized) forms. The transformation is
+catalog <-> signature (column-normalized) forms. The transformation is
 expressed by multiplying each category's count by
 \code{target_abundance[source.n.mer] / source_abundance[source.n.mer]},
 where \code{source.n.mer} is the reference context encoded in the row name

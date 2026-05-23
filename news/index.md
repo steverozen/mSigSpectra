@@ -1,6 +1,6 @@
 # Changelog
 
-## mSigSpectra 0.1.1
+## mSigSpectra 0.1.2
 
 - Initial CRAN submission.
 - Provides a four-step pipeline for building mutational-spectrum

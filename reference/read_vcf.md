@@ -9,12 +9,7 @@ renamed to `CHROM`.
 ## Usage
 
 ``` r
-read_vcf(
-  file,
-  filter = TRUE,
-  backend = c("fread", "vcfppR"),
-  name_of_vcf = NULL
-)
+read_vcf(file, filter = TRUE, name_of_vcf = NULL)
 ```
 
 ## Arguments
@@ -36,21 +31,6 @@ read_vcf(
     no `FILTER` column are always kept; a warning is emitted when
     `filter` is non-trivial in that case.
 
-- backend:
-
-  VCF reader backend:
-
-  - `"fread"` (default):
-    [`data.table::fread()`](https://rdrr.io/pkg/data.table/man/fread.html).
-    Handles uncompressed and gzipped files; does not handle
-    bgzipped/tabix.
-
-  - `"vcfppR"`:
-    [`vcfppR::vcftable()`](https://rdrr.io/pkg/vcfppR/man/vcftable.html)
-    — handles bgzipped, tabix, and remote files; splits multi-allelic
-    records. The `vcfppR` package is in `Suggests`; an informative error
-    is raised if it is not installed.
-
 - name_of_vcf:
 
   Optional name for the VCF, used only for warning / error messages.
@@ -66,3 +46,8 @@ A `data.table` with one row per variant.
 caller produced the VCF. It does not parse `FORMAT`/sample columns and
 does not extract VAF or read depth. The only caller-dependent semantics
 is the default value of the `filter` argument (see below).
+
+Uses
+[`data.table::fread()`](https://rdrr.io/pkg/data.table/man/fread.html)
+to parse the VCF body. Handles uncompressed and gzipped files; does not
+handle bgzipped/tabix.

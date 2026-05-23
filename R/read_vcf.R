@@ -15,7 +15,9 @@
 #' does not extract VAF or read depth. The only caller-dependent semantics
 #' is the default value of the `filter` argument (see below).
 #'
-#' Uses [data.table::fread()] to parse the VCF body. Handles uncompressed
+#' Uses [data.table::fread()] with
+#' `check.names=FALSE`, `na.strings = ""``,
+#' `fill = TRUE`, to parse the VCF body. Handles uncompressed
 #' and gzipped files; does not handle bgzipped/tabix.
 #'
 #' @param file Path or URL to the VCF file.
@@ -29,7 +31,8 @@
 #' @param name_of_vcf Optional name for the VCF, used only for warning /
 #'   error messages. Defaults to the filename with extension stripped.
 #'
-#' @return A `data.table` with one row per variant.
+#' @return A `data.table` with one row per variant. The name of the first
+#'   column is 'CHROM', not '#CHROM'. Other column names
 #'
 #' @export
 read_vcf <- function(file, filter = TRUE, name_of_vcf = NULL) {
@@ -79,7 +82,8 @@ read_vcf_fread <- function(file) {
       file,
       na.strings = "",
       skip = "#CHROM",
-      fill = TRUE
+      fill = TRUE,
+      check.names = FALSE,
     )),
     error = function(e) {
       stop(

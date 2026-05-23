@@ -35,15 +35,6 @@ test_that("read_vcf reads a Strelka ID VCF", {
   expect_true(any(nchar(out$REF) != nchar(out$ALT)))
 })
 
-test_that("read_vcf backend='vcfppR' errors informatively when vcfppR missing", {
-  skip_if(system.file(package = "vcfppR") != "")
-  expect_error(
-    read_vcf(extdata("Mutect-GRCh37", "Mutect.GRCh37.s1.vcf"),
-             backend = "vcfppR"),
-    "vcfppR"
-  )
-})
-
 test_that("read_vcf errors on a non-VCF input file", {
   tmp <- tempfile(fileext = ".txt")
   writeLines(c("this is not a VCF"), tmp)

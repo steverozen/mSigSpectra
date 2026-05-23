@@ -4,12 +4,7 @@
 \alias{read_vcf}
 \title{Read a VCF file into a data.table, caller-agnostically}
 \usage{
-read_vcf(
-  file,
-  filter = TRUE,
-  backend = c("fread", "vcfppR"),
-  name_of_vcf = NULL
-)
+read_vcf(file, filter = TRUE, name_of_vcf = NULL)
 }
 \arguments{
 \item{file}{Path or URL to the VCF file.}
@@ -22,15 +17,6 @@ the union of passing values across common callers.
 \item A character vector: keep rows where \code{FILTER \%in\% filter}.
 Rows with no \code{FILTER} column are always kept; a warning is emitted
 when \code{filter} is non-trivial in that case.
-}}
-
-\item{backend}{VCF reader backend:
-\itemize{
-\item \code{"fread"} (default): \code{\link[data.table:fread]{data.table::fread()}}. Handles uncompressed and
-gzipped files; does not handle bgzipped/tabix.
-\item \code{"vcfppR"}: \code{vcfppR::vcftable()} — handles bgzipped, tabix, and
-remote files; splits multi-allelic records. The \code{vcfppR} package is
-in \code{Suggests}; an informative error is raised if it is not installed.
 }}
 
 \item{name_of_vcf}{Optional name for the VCF, used only for warning /
@@ -50,4 +36,7 @@ or more sample columns), with \verb{#CHROM} renamed to \code{CHROM}.
 caller produced the VCF. It does not parse \code{FORMAT}/sample columns and
 does not extract VAF or read depth. The only caller-dependent semantics
 is the default value of the \code{filter} argument (see below).
+
+Uses \code{\link[data.table:fread]{data.table::fread()}} to parse the VCF body. Handles uncompressed
+and gzipped files; does not handle bgzipped/tabix.
 }

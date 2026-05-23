@@ -1,4 +1,4 @@
-# mSigSpectra 0.1.1
+# mSigSpectra 0.1.2
 
 * Initial CRAN submission.
 * Provides a four-step pipeline for building mutational-spectrum
@@ -11,3 +11,4 @@
   Adds transcript-strand annotation where transcript-ranges info is available.
 * Ships example Strelka and Mutect VCFs in `inst/extdata/` and a
   vignette demonstrating the full pipeline.
+

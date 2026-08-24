@@ -1,9 +1,9 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   mSigSpectra: mSigSpectra.html
-last_built: 2026-06-26T22:10Z
+last_built: 2026-08-24T22:11Z
 urls:
   reference: https://steverozen.github.io/mSigSpectra/reference
   article: https://steverozen.github.io/mSigSpectra/articles

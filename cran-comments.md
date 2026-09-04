@@ -1,6 +1,6 @@
 # Submission
 
-This is the initial CRAN submission of mSigSpectra 0.1.1.
+This is the initial CRAN submission of mSigSpectra 0.1.2.
 
 mSigSpectra reads variant call files (VCFs) in a caller-agnostic way,
 annotates variants with flanking sequence context and transcriptional
@@ -14,7 +14,7 @@ for GRCh37, GRCh38, and GRCm38.
 r-lib/actions/check-r-package GitHub Actions matrix
 (macOS-latest release, Windows-latest release, Ubuntu-latest devel /
 release / oldrel-1; run
-https://github.com/steverozen/mSigSpectra/actions/runs/25525958885),
+https://github.com/steverozen/mSigSpectra/actions/runs/33872949804),
 and 0 ERRORs / 0 WARNINGs on a local `R CMD check --as-cran` run on
 the built tarball with the four CRAN incoming-feasibility env vars
 enabled (`_R_CHECK_CRAN_INCOMING_`,
@@ -34,7 +34,7 @@ New submission
 No suitable spell-checker program found
 ```
 
-The "New submission" line is expected — this is the first CRAN
+The "New submission" line is expected, this is the first CRAN
 submission of mSigSpectra. The "No suitable spell-checker program
 found" line is emitted because the GH Actions runners do not have
 aspell installed; it is not a defect of the package.

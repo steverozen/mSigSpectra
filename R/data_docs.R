@@ -8,9 +8,9 @@
 #' @format A [data.table::data.table] with columns `chrom`, `start`, `end`,
 #'   `strand`, `Ensembl.gene.ID`, `gene.symbol`. One-based coordinates.
 #'
-#' @source <ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_30/GRCh37_mapping/gencode.v30lift37.annotation.gff3.gz>
-#' @source <ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_30/gencode.v30.annotation.gff3.gz>
-#' @source <ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M21/gencode.vM21.annotation.gff3.gz>
+#' @source <https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_30/GRCh37_mapping/gencode.v30lift37.annotation.gff3.gz>
+#' @source <https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_30/gencode.v30.annotation.gff3.gz>
+#' @source <https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M21/gencode.vM21.annotation.gff3.gz>
 #'
 #' @name trans.ranges
 NULL

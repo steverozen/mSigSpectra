@@ -35,6 +35,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Steve Rozen \email{steverozen@pm.me}
   \item Nanhai Jiang
   \item Arnoud Boot
   \item Mo Liu

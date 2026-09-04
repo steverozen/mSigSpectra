@@ -33,16 +33,24 @@ export(vcf_to_id_catalog)
 export(vcf_to_sbs_catalog)
 export(write_catalog)
 import(data.table)
-importFrom(BSgenome,getSeq)
-importFrom(BSgenome,seqnames)
+importFrom(BSgenome,
+  getSeq,
+  seqnames
+)
 importFrom(GenomicRanges,GRanges)
 importFrom(IRanges,IRanges)
 importFrom(Rcpp,sourceCpp)
-importFrom(data.table,as.data.table)
-importFrom(data.table,rbindlist)
-importFrom(stats,end)
-importFrom(stats,start)
+importFrom(data.table,
+  as.data.table,
+  rbindlist
+)
+importFrom(stats,
+  end,
+  start
+)
 importFrom(stringi,stri_sub_replace)
-importFrom(utils,capture.output)
-importFrom(utils,write.csv)
+importFrom(utils,
+  capture.output,
+  write.csv
+)
 useDynLib(mSigSpectra, .registration = TRUE)

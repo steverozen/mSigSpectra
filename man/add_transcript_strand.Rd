@@ -25,7 +25,7 @@ semantics: variants outside any transcript have \code{NA} values).
 }
 \description{
 For each variant, finds overlapping transcripts in \code{trans_ranges} via
-\code{\link[GenomicRanges:findOverlaps-methods]{GenomicRanges::findOverlaps()}} with \code{type = "within"}, and appends
+\code{\link[GenomicRanges:findOverlaps]{GenomicRanges::findOverlaps()}} with \code{type = "within"}, and appends
 columns \code{trans.start.pos}, \code{trans.end.pos}, \code{trans.strand},
 \code{trans.Ensembl.gene.ID}, \code{trans.gene.symbol}, plus \code{bothstrand} (TRUE if
 the variant falls on transcripts from both strands) and \code{count} (number

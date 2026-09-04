@@ -23,7 +23,8 @@ when \code{filter} is non-trivial in that case.
 error messages. Defaults to the filename with extension stripped.}
 }
 \value{
-A \code{data.table} with one row per variant.
+A \code{data.table} with one row per variant. The name of the first
+column is 'CHROM', not '#CHROM'. Other column names
 }
 \description{
 Reads the \emph{body} of a VCF file (lines after \verb{#CHROM}) into a \code{data.table}.
@@ -37,6 +38,7 @@ caller produced the VCF. It does not parse \code{FORMAT}/sample columns and
 does not extract VAF or read depth. The only caller-dependent semantics
 is the default value of the \code{filter} argument (see below).
 
-Uses \code{\link[data.table:fread]{data.table::fread()}} to parse the VCF body. Handles uncompressed
+Uses \code{\link[data.table:fread]{data.table::fread()}} with
+\code{check.names=FALSE}, \verb{na.strings = ""``, }fill = TRUE`, to parse the VCF body. Handles uncompressed
 and gzipped files; does not handle bgzipped/tabix.
 }

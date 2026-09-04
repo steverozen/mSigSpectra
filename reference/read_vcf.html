@@ -77,7 +77,8 @@ error messages. Defaults to the filename with extension stripped.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>data.table</code> with one row per variant.</p>
+    <p>A <code>data.table</code> with one row per variant. The name of the first
+column is 'CHROM', not '#CHROM'. Other column names</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -85,7 +86,8 @@ error messages. Defaults to the filename with extension stripped.</p></dd>
 caller produced the VCF. It does not parse <code>FORMAT</code>/sample columns and
 does not extract VAF or read depth. The only caller-dependent semantics
 is the default value of the <code>filter</code> argument (see below).</p>
-<p>Uses <code><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">data.table::fread()</a></code> to parse the VCF body. Handles uncompressed
+<p>Uses <code><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">data.table::fread()</a></code> with
+<code>check.names=FALSE</code>, <code>na.strings = ""``, </code>fill = TRUE`, to parse the VCF body. Handles uncompressed
 and gzipped files; does not handle bgzipped/tabix.</p>
     </div>
 

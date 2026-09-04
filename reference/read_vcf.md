@@ -38,7 +38,8 @@ read_vcf(file, filter = TRUE, name_of_vcf = NULL)
 
 ## Value
 
-A `data.table` with one row per variant.
+A `data.table` with one row per variant. The name of the first column is
+'CHROM', not '#CHROM'. Other column names
 
 ## Details
 
@@ -49,5 +50,6 @@ is the default value of the `filter` argument (see below).
 
 Uses
 [`data.table::fread()`](https://rdrr.io/pkg/data.table/man/fread.html)
-to parse the VCF body. Handles uncompressed and gzipped files; does not
+with `check.names=FALSE`, ``` na.strings = ""``,  ```fill = TRUE\`, to
+parse the VCF body. Handles uncompressed and gzipped files; does not
 handle bgzipped/tabix.

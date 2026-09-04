@@ -46,7 +46,7 @@ of overlapping transcripts).'></head><body>
 
     <div class="ref-description section level2">
     <p>For each variant, finds overlapping transcripts in <code>trans_ranges</code> via
-<code><a href="https://rdrr.io/pkg/GenomicRanges/man/findOverlaps-methods.html" class="external-link">GenomicRanges::findOverlaps()</a></code> with <code>type = "within"</code>, and appends
+<code><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html" class="external-link">GenomicRanges::findOverlaps()</a></code> with <code>type = "within"</code>, and appends
 columns <code>trans.start.pos</code>, <code>trans.end.pos</code>, <code>trans.strand</code>,
 <code>trans.Ensembl.gene.ID</code>, <code>trans.gene.symbol</code>, plus <code>bothstrand</code> (TRUE if
 the variant falls on transcripts from both strands) and <code>count</code> (number

@@ -33,6 +33,8 @@ Useful links:
 
 Authors:
 
+- Steve Rozen <steverozen@pm.me>
+
 - Nanhai Jiang
 
 - Arnoud Boot

@@ -1,7 +1,7 @@
 # Annotate a VCF data frame with transcript strand information
 
 For each variant, finds overlapping transcripts in `trans_ranges` via
-[`GenomicRanges::findOverlaps()`](https://rdrr.io/pkg/GenomicRanges/man/findOverlaps-methods.html)
+[`GenomicRanges::findOverlaps()`](https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html)
 with `type = "within"`, and appends columns `trans.start.pos`,
 `trans.end.pos`, `trans.strand`, `trans.Ensembl.gene.ID`,
 `trans.gene.symbol`, plus `bothstrand` (TRUE if the variant falls on

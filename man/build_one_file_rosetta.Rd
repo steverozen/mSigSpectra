@@ -13,7 +13,7 @@ build_one_file_rosetta(
   show_details = FALSE,
   one_singletc = FALSE,
   n_examples = 20,
-  sort_by_count = FALSE
+  sort_by_count = TRUE
 )
 }
 \arguments{
@@ -42,7 +42,8 @@ for classes other than single-base C/T indels.}
 
 \item{sort_by_count}{If \code{TRUE}, order the (\code{Koh_476}, \code{Koh_89}) blocks by
 descending \code{n_indels} (the number of indels in the input VCF with that
-pair) instead of by the canonical ID476 row order. LibreOffice and Excel
+pair) instead of by the canonical ID476 row order (ties broken by that
+order). LibreOffice and Excel
 cannot sort a range containing merged cells, so this is the way to get
 a count-sorted table.}
 }

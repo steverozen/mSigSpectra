@@ -24,7 +24,8 @@
 #'   for classes other than single-base C/T indels.
 #' @param sort_by_count If `TRUE`, order the (`Koh_476`, `Koh_89`) blocks by
 #'   descending `n_indels` (the number of indels in the input VCF with that
-#'   pair) instead of by the canonical ID476 row order. LibreOffice and Excel
+#'   pair) instead of by the canonical ID476 row order (ties broken by that
+#'   order). LibreOffice and Excel
 #'   cannot sort a range containing merged cells, so this is the way to get
 #'   a count-sorted table.
 #'
@@ -40,7 +41,7 @@ build_one_file_rosetta <- function(
   show_details = FALSE,
   one_singletc = FALSE,
   n_examples = 20,
-  sort_by_count = FALSE
+  sort_by_count = TRUE
 ) {
   if (!is.null(out_path) && !requireNamespace("openxlsx2", quietly = TRUE)) {
     stop("Package 'openxlsx2' is required to write the Excel file")

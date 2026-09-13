@@ -317,8 +317,9 @@ build_one_file_rosetta <- function(
 }
 
 # Render one long_visual string as openxlsx2 rich text.
-# When brackets=FALSE, bracket characters (<>{}[]) are omitted from the output
-# but their contents retain full styling (color, bold, underline).
+# When brackets=FALSE, the [] and {} delimiters are omitted from the output
+# but their contents retain full styling (color, bold, underline). The <>
+# around the indel itself are always kept.
 .rich_long_visual <- function(s, brackets = TRUE, mono_font, cyan) {
   fmt_txt <- openxlsx2::fmt_txt
   if (is.na(s) || !nzchar(s)) {

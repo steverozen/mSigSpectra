@@ -86,6 +86,7 @@ build_one_file_rosetta <- function(
       df[[m]] <- NA_character_
     }
   }
+  df$long_visual <- .revcomp_single_tc_long_visual(df$long_visual, df$Koh_476)
   df$long_visual <- .shorten_long_visual(df$long_visual, flank_5, flank_3)
   full <- data.table::as.data.table(df[, keep_cols, drop = FALSE])
 
@@ -270,6 +271,37 @@ build_one_file_rosetta <- function(
     substr(pre, pmax(1, nchar(pre) - flank_5 + 1), nchar(pre)),
     mid,
     substr(post, 1, flank_3)
+  )
+  out
+}
+
+.revcomp <- function(x) {
+  chartr("ACGTacgt", "TGCAtgca", stringi::stri_reverse(x))
+}
+
+# For single-base C/T classes, long_visual may show the indel as called on the
+# reference strand, e.g. "pre <G>[GG] post" for class G[Del(C):R3]A. Reverse
+# complement those so the shown base is the C or T of the class label:
+# the flanks swap and are reverse complemented, and the middle token is
+# complemented in place (its repeat run is a single base, so order is kept).
+.revcomp_single_tc_long_visual <- function(long_visual, koh_476) {
+  out <- long_visual
+  parts <- strsplit(long_visual, " ", fixed = TRUE)
+  n_parts <- vapply(parts, length, integer(1))
+  mid <- ifelse(n_parts == 3L, vapply(parts, `[`, character(1), 2), NA)
+  flip <- .is_single_tc_class(koh_476) &
+    !is.na(mid) &
+    grepl("^<[AG]>", mid)
+  idx <- which(flip)
+  if (length(idx) == 0) {
+    return(out)
+  }
+  pre <- vapply(parts[idx], `[`, character(1), 1)
+  post <- vapply(parts[idx], `[`, character(1), 3)
+  out[idx] <- paste(
+    .revcomp(post),
+    chartr("ACGT", "TGCA", mid[idx]),
+    .revcomp(pre)
   )
   out
 }

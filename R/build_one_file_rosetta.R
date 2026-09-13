@@ -22,6 +22,11 @@
 #'   instead of 5.
 #' @param n_examples Maximum number of examples per (`Koh_476`, `Koh_89`) pair
 #'   for classes other than single-base C/T indels.
+#' @param sort_by_count If `TRUE`, order the (`Koh_476`, `Koh_89`) blocks by
+#'   descending `n_indels` (the number of indels in the input VCF with that
+#'   pair) instead of by the canonical ID476 row order. LibreOffice and Excel
+#'   cannot sort a range containing merged cells, so this is the way to get
+#'   a count-sorted table.
 #'
 #' @return Invisibly, a `data.table` with the rows written to the workbook.
 #'
@@ -34,7 +39,8 @@ build_one_file_rosetta <- function(
   cap_9 = TRUE,
   show_details = FALSE,
   one_singletc = FALSE,
-  n_examples = 20
+  n_examples = 20,
+  sort_by_count = FALSE
 ) {
   if (!is.null(out_path) && !requireNamespace("openxlsx2", quietly = TRUE)) {
     stop("Package 'openxlsx2' is required to write the Excel file")
@@ -99,6 +105,8 @@ build_one_file_rosetta <- function(
   pairs <- unique(full[, c("Koh_476", "Koh_89"), with = FALSE])
   data.table::setorder(pairs, Koh_476, Koh_89)
   message("Found ", nrow(pairs), " (Koh_476, Koh_89) pairs")
+  # Number of indels (after the cap-9 filter) with each pair.
+  pair_counts <- full[, .(n_indels = .N), by = .(Koh_476, Koh_89)]
 
   # ---- Step 3: pick examples and build the table ----
   n_examples_singletc <- if (one_singletc) 1L else 5L
@@ -161,6 +169,13 @@ build_one_file_rosetta <- function(
     all.x = TRUE,
     sort = FALSE
   )
+  doc <- merge(
+    doc,
+    pair_counts,
+    by = c("Koh_476", "Koh_89"),
+    all.x = TRUE,
+    sort = FALSE
+  )
   doc[, example_n := seq_len(.N), by = .(Koh_476, Koh_89)]
 
   # Convert to open-interval labels first, because catalog_row_order()$ID476
@@ -178,7 +193,18 @@ build_one_file_rosetta <- function(
       paste(not_in_order, collapse = ", ")
     )
   }
-  data.table::setorder(doc, .row_ord, Koh_89, example_n, na.last = TRUE)
+  if (sort_by_count) {
+    data.table::setorder(
+      doc,
+      -n_indels,
+      .row_ord,
+      Koh_89,
+      example_n,
+      na.last = TRUE
+    )
+  } else {
+    data.table::setorder(doc, .row_ord, Koh_89, example_n, na.last = TRUE)
+  }
   doc[, .row_ord := NULL]
 
   # Collapse spaces in every long_visual.
@@ -198,7 +224,15 @@ build_one_file_rosetta <- function(
   }
 
   doc <- doc[,
-    c("Koh_476", "Koh_89", "COSMIC_83", "example_n", "long_visual", extra_cols),
+    c(
+      "Koh_476",
+      "Koh_89",
+      "COSMIC_83",
+      "n_indels",
+      "example_n",
+      "long_visual",
+      extra_cols
+    ),
     with = FALSE
   ]
   if (!show_details) {
@@ -356,14 +390,32 @@ build_one_file_rosetta <- function(
   # Pre-compute column indices before renaming.
   long_col <- which(names(doc) == "long_visual")
   cosmic_col <- which(names(doc) == "COSMIC_83")
-  block_cols <- match(c("Koh_476", "Koh_89", "COSMIC_83"), names(doc))
+  block_cols <- match(
+    c("Koh_476", "Koh_89", "COSMIC_83", "n_indels"),
+    names(doc)
+  )
+  count_col <- which(names(doc) == "n_indels")
   numeric_cols <- which(sapply(doc, is.numeric))
 
   # Rename display headers.
   data.table::setnames(
     doc,
-    old = c("Koh_476", "Koh_89", "COSMIC_83", "example_n", "long_visual"),
-    new = c("476-type", "89-type", "83-type", "Example n", "Indel in context")
+    old = c(
+      "Koh_476",
+      "Koh_89",
+      "COSMIC_83",
+      "n_indels",
+      "example_n",
+      "long_visual"
+    ),
+    new = c(
+      "476-type",
+      "89-type",
+      "83-type",
+      "N indels",
+      "Example n",
+      "Indel in context"
+    )
   )
 
   # Write the non-rich columns first (long_col filled in by rich-text pass).
@@ -431,7 +483,8 @@ build_one_file_rosetta <- function(
 
   wb$freeze_pane(first_row = TRUE)
 
-  # Vertically merge 476-type / 89-type / 83-type across each pair's block.
+  # Vertically merge 476-type / 89-type / 83-type / N indels across each
+  # pair's block.
   key <- paste(doc[["476-type"]], doc[["89-type"]], sep = "\r")
   runs <- rle(key)
   ends <- cumsum(runs$lengths)
@@ -445,11 +498,12 @@ build_one_file_rosetta <- function(
     }
   }
 
-  # Column widths: numeric columns 4 wide, others by content.
+  # Column widths: numeric columns 4 wide (N indels 7), others by content.
   col_widths <- c(
-    17, 18, 16, 3, 70, 12, 12, 10, 8, 8, 12, 8, 8, 8, 10, 8, 8, 8, 8
+    17, 18, 16, 7, 3, 70, 12, 12, 10, 8, 8, 12, 8, 8, 8, 10, 8, 8, 8, 8
   )
   col_widths[numeric_cols] <- 4
+  col_widths[count_col] <- 7
   wb$set_col_widths(
     cols = seq_along(doc),
     widths = col_widths[seq_along(doc)]

@@ -12,7 +12,8 @@ build_one_file_rosetta(
   cap_9 = TRUE,
   show_details = FALSE,
   one_singletc = FALSE,
-  n_examples = 20
+  n_examples = 20,
+  sort_by_count = FALSE
 )
 }
 \arguments{
@@ -38,6 +39,12 @@ instead of 5.}
 
 \item{n_examples}{Maximum number of examples per (\code{Koh_476}, \code{Koh_89}) pair
 for classes other than single-base C/T indels.}
+
+\item{sort_by_count}{If \code{TRUE}, order the (\code{Koh_476}, \code{Koh_89}) blocks by
+descending \code{n_indels} (the number of indels in the input VCF with that
+pair) instead of by the canonical ID476 row order. LibreOffice and Excel
+cannot sort a range containing merged cells, so this is the way to get
+a count-sorted table.}
 }
 \value{
 Invisibly, a \code{data.table} with the rows written to the workbook.

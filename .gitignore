@@ -13,3 +13,6 @@ docs/
 inst/doc/
 /doc/
 /Meta/
+
+# LibreOffice lock files
+.~lock.*#

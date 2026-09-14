@@ -20,7 +20,7 @@ types <- list(
 for (id in names(vcfs)) {
   out <- file.path(out_dir, paste0(id, "_context_counts.xlsx"))
   d <- build_476_context_counts(
-    vcfs[[id]], types[[id]], out, left_num = 2, right_num = 2
+    vcfs[[id]], types[[id]], out, left_num = 2, right_num = 5
   )
   cat("\n==", id, "rows =", nrow(d), "\n")
   print(d[, utils::head(.SD, 4), by = Koh_476][, .(Koh_476, n_indels, context, n)])

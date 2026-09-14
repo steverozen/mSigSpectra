@@ -4,11 +4,9 @@
 # Like build_one_file_rosetta(), this reads one annotated indel VCF (as written
 # by annotate_id_vcf()). Unlike it, it looks at *all* rows of the requested
 # Koh_476 types (no example sampling), trims each long_visual to left_num
-# characters left of "<" and right_num 3' flank characters after the indel
-# token ("[...]" repeat text after ">" is dropped, "{...}" microhomology
-# text is kept), and
-# counts
-# each distinct trimmed string.
+# characters left of "<" and right_num characters after ">" (any "[...]"
+# repeat or "{...}" microhomology text after ">" is kept and counts toward
+# right_num), and counts each distinct trimmed string.
 #
 # Usage: devtools::load_all(); source("development/build_476_context_counts.R")
 
@@ -22,11 +20,10 @@
 #'   written and only the table is returned.
 #' @param left_num Number of characters to keep to the left of `<`. If `NULL`,
 #'   keep the whole 5' flank.
-#' @param right_num Number of 3' flank characters to keep after the indel
-#'   token. Square-bracketed repeat text after `>` (for example `[AG]`) is
-#'   dropped. Curly-braced microhomology text (for example `{A}`) is kept
-#'   and does not count toward `right_num`. If `NULL`, keep the whole 3'
-#'   flank.
+#' @param right_num Number of characters to keep after `>`. Any bracketed
+#'   repeat or microhomology text after `>` (for example `[AG]` or `{A}`) is
+#'   kept and counts toward `right_num`. If `NULL`, keep everything after
+#'   `>`.
 #' @param cap_9 If `TRUE`, drop single-base C/T rows whose repeat count is 10
 #'   or more and rewrite `R9` as `R(9,)`, as in build_one_file_rosetta().
 #'
@@ -109,10 +106,9 @@ build_476_context_counts <- function(
 # long_visual is "<5'-flank> <indel-token> <3'-flank>", where the indel token
 # is "<...>" possibly followed by bracketed repeat or microhomology text such
 # as "[AG]" or "{A}". Keep the last left_num characters of the 5' flank, the
-# "<...>" token with any "[...]" repeat text after ">" dropped (but "{...}"
-# microhomology text kept), and the first
-# right_num characters of the 3' flank. Rows without the three-part form are returned with spaces
-# removed but otherwise untouched.
+# "<...>" token, and the first right_num characters of everything after ">"
+# (bracketed text, then the 3' flank). Rows without the three-part form are
+# returned with spaces removed but otherwise untouched.
 .trim_context <- function(x, left_num = NULL, right_num = NULL) {
   out <- gsub(" ", "", x, fixed = TRUE)
   parts <- strsplit(x, " ", fixed = TRUE)
@@ -121,9 +117,11 @@ build_476_context_counts <- function(
   pre <- vapply(good, `[`, character(1), 1)
   mid <- vapply(good, `[`, character(1), 2)
   post <- vapply(good, `[`, character(1), 3)
-  # Drop the square-bracketed repeat text after ">", e.g. "[AG]", but keep
-  # curly-braced microhomology text such as "{A}".
-  mid <- gsub("\\[[^]]*\\]", "", mid)
+  # Move any text after ">" (e.g. "[AG]" or "{A}") into post so it counts
+  # toward right_num.
+  gt <- regexpr(">", mid, fixed = TRUE)
+  post <- paste0(substring(mid, gt + 1L), post)
+  mid <- substr(mid, 1L, gt)
   if (!is.null(left_num)) {
     pre <- substr(pre, pmax(1, nchar(pre) - left_num + 1), nchar(pre))
   }

@@ -31,7 +31,7 @@ for GRCh37, GRCh38, and GRCm38.
 r-lib/actions/check-r-package GitHub Actions matrix
 (macOS-latest release, Windows-latest release, Ubuntu-latest devel /
 release / oldrel-1; run
-https://github.com/steverozen/mSigSpectra/actions/runs/33872949804),
+https://github.com/steverozen/mSigSpectra/actions/runs/35125181543),
 and 0 ERRORs / 0 WARNINGs on a local `R CMD check --as-cran` run on
 the built tarball with the four CRAN incoming-feasibility env vars
 enabled (`_R_CHECK_CRAN_INCOMING_`,

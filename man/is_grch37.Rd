@@ -9,6 +9,10 @@ is_grch37(x)
 \arguments{
 \item{x}{A BSgenome object or a character identifier.}
 }
+\value{
+A single logical value, \code{TRUE} if \code{x} identifies that genome,
+otherwise \code{FALSE}.
+}
 \description{
 Is this reference genome GRCh37 (1000 Genomes hs37d5)?
 }

@@ -56,6 +56,9 @@ infer_trans_ranges <- function(ref_genome, trans_ranges = NULL) {
 #'
 #' @param x A BSgenome object or a character identifier.
 #'
+#' @return A single logical value, `TRUE` if `x` identifies that genome,
+#'   otherwise `FALSE`.
+#'
 #' @keywords internal
 is_grch37 <- function(x) {
   if (is.null(x)) return(FALSE)
@@ -66,6 +69,9 @@ is_grch37 <- function(x) {
 #'
 #' @param x A BSgenome object or a character identifier.
 #'
+#' @return A single logical value, `TRUE` if `x` identifies that genome,
+#'   otherwise `FALSE`.
+#'
 #' @keywords internal
 is_grch38 <- function(x) {
   if (is.null(x)) return(FALSE)
@@ -75,6 +81,9 @@ is_grch38 <- function(x) {
 #' Is this reference genome GRCm38 (UCSC mm10)?
 #'
 #' @param x A BSgenome object or a character identifier.
+#'
+#' @return A single logical value, `TRUE` if `x` identifies that genome,
+#'   otherwise `FALSE`.
 #'
 #' @keywords internal
 is_grcm38 <- function(x) {

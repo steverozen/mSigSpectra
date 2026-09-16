@@ -9,6 +9,10 @@ revc_dbs144(mutstring)
 \arguments{
 \item{mutstring}{A character vector of 4-letter strings.}
 }
+\value{
+A character vector the same length as \code{mutstring} containing
+the reverse-complemented strings.
+}
 \description{
 Input is a 4-character string where characters 1-2 are the REF dinucleotide
 and characters 3-4 are the ALT (e.g. \code{"AATC"} = \code{AA>TC}).

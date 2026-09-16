@@ -6,6 +6,10 @@
 \usage{
 stop_if_counts_or_density_illegal(counts_or_density)
 }
+\value{
+\code{NULL}, invisibly. Called for its side effect of raising an
+error when \code{counts_or_density} is not a legal value.
+}
 \description{
 Validate a counts_or_density argument
 }

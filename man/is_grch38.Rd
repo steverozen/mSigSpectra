@@ -9,6 +9,10 @@ is_grch38(x)
 \arguments{
 \item{x}{A BSgenome object or a character identifier.}
 }
+\value{
+A single logical value, \code{TRUE} if \code{x} identifies that genome,
+otherwise \code{FALSE}.
+}
 \description{
 Is this reference genome GRCh38 (UCSC hg38)?
 }

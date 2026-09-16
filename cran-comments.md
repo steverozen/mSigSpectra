@@ -1,6 +1,23 @@
-# Submission
+# Resubmission
 
-This is the initial CRAN submission of mSigSpectra 0.1.2.
+This is a resubmission of mSigSpectra (now 0.1.3) addressing the CRAN
+review of 0.1.2 (Leonore Hochhauser, 2026-09-15). Each point and its
+resolution:
+
+* **Explain all acronyms in the Description.** VCF, SBS, DBS, ID
+  (indel), and PDF are now spelled out on first use, in both Title and
+  Description.
+* **Quote package / software names.** `'ICAMS'`, `'shiny'`, and
+  `'mSigPlot'` are single-quoted in the Description.
+* **License.** `License: GPL-3`. The `+ file LICENSE` component and the
+  `LICENSE` file have been removed.
+* **Missing `\value` tags** in `check_and_remove_discarded_variants.Rd`,
+  `is_catalog.Rd`, and `subset_catalog.Rd`. Added, describing the class
+  and meaning of each return value. `\value` was also added to every
+  internal helper's Rd file.
+* **`print()` in `R/quick_check_vcf.R`.** The multiple-ALT warning text
+  is now built with `sprintf()` / `paste()` and passed to `warning()`.
+  There are no remaining `print()` / `cat()` calls in the package code.
 
 mSigSpectra reads variant call files (VCFs) in a caller-agnostic way,
 annotates variants with flanking sequence context and transcriptional
@@ -45,21 +62,25 @@ The local check (with aspell installed) additionally reports:
 
 ```
 Possibly misspelled words in DESCRIPTION:
-  DBS (29:59, 30:42)
-  Rozen (34:32)
-  SBS (29:54, 30:26)
-  VCF (3:48)
-  VCFs (27:40)
-  al (34:41)
-  et (34:38)
-  indel (29:64)
-  transcriptional (28:59)
+  DBS (31:54, 33:22, 33:29, 33:37)
+  Rozen (37:58)
+  SBS (31:20, 32:67, 33:5, 33:13)
+  VCF (28:41)
+  al (37:67)
+  et (37:64)
+  indels (32:31)
+  transcriptional (29:59)
 ```
 
-All of these are intentional: `DBS`, `SBS`, `VCF`, `VCFs`, `indel`,
-and `transcriptional` are standard domain terms in mutational-
-signature analysis; `Rozen` is the maintainer's surname; `et al` is
-part of a Nik-Zainal et al. citation in the Description field.
+All of these are intentional. `VCF`, `SBS`, `DBS`, and `indels` are
+now defined on first use in the Description and then used as
+abbreviations. `transcriptional` is a standard term. `Rozen` is the
+maintainer's surname and `et al` is part of the citation.
+
+Two further local NOTEs are artifacts of the local machine, not the
+package: "Compilation used the following non-portable flag(s):
+'-march=native'" comes from the local `~/.R/Makevars`, and "no command
+'tidy' found" reflects a missing HTML Tidy binary.
 
 ## Reverse dependencies
 

@@ -6,6 +6,11 @@
 \usage{
 infer_ref_genome_name(ref_genome)
 }
+\value{
+A single character string giving the canonical 'BSgenome'
+package name, e.g. \code{"BSgenome.Hsapiens.UCSC.hg38"}. Errors if
+\code{ref_genome} is not recognized.
+}
 \description{
 Map a character ref_genome argument to its canonical BSgenome package name
 }

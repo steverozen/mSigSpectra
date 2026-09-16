@@ -21,7 +21,7 @@
 #' @return A data frame deduplicated by position, with a \code{pos_id}
 #'   column added.
 #'
-#' @importFrom utils capture.output
+#' @importFrom utils head
 #'
 #' @keywords internal
 quick_check_vcf <- function(
@@ -68,9 +68,20 @@ quick_check_vcf <- function(
   multiple_alts <- vcf_with_pos_id[pos_id %in% multi_pos, .(pos_id, REF, ALT)]
 
   if (nrow(multiple_alts) > 0) {
+    max_show <- 20L
+    shown <- head(multiple_alts, max_show)
+    listing <- paste(
+      sprintf("%s REF=%s ALT=%s", shown$pos_id, shown$REF, shown$ALT),
+      collapse = "; "
+    )
+    if (nrow(multiple_alts) > max_show) {
+      listing <- paste0(
+        listing, "; ... (", nrow(multiple_alts) - max_show, " more)"
+      )
+    }
     warning(
-      "Differences in 'ALT'; only 1 ALT value chosen arbitrarily at the following positions: ",
-      paste(capture.output(print(multiple_alts)), collapse = '\n')
+      "Differences in 'ALT'; only 1 ALT value chosen arbitrarily at ",
+      "the following positions: ", listing
     )
   }
 

@@ -9,6 +9,11 @@ is_catalog(x)
 \arguments{
 \item{x}{Any R object.}
 }
+\value{
+A single logical value: \code{TRUE} if \code{x} is a numeric matrix
+carrying the catalog attributes with the canonical row names for
+its \code{type}, otherwise \code{FALSE}.
+}
 \description{
 Returns \code{TRUE} if \code{x} is a numeric matrix with the five catalog
 attributes (\code{type}, \code{counts_or_density}, \code{ref_genome}, \code{region},

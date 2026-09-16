@@ -8,6 +8,9 @@
 #'
 #' @param mutstring A character vector of 6-letter strings.
 #'
+#' @return A character vector the same length as `mutstring`, with each
+#'   element in pyrimidine-centered form.
+#'
 #' @keywords internal
 pyr_penta <- function(mutstring) {
   stopifnot(all(nchar(mutstring) == 6L))
@@ -33,6 +36,9 @@ pyr_penta <- function(mutstring) {
 #'
 #' @param mutstring A character vector of 4-letter strings.
 #'
+#' @return A character vector the same length as `mutstring` containing
+#'   the reverse-complemented strings.
+#'
 #' @keywords internal
 revc_sbs96 <- function(mutstring) {
   stopifnot(all(nchar(mutstring) == 4L))
@@ -48,6 +54,9 @@ revc_sbs96 <- function(mutstring) {
 #' e.g. `"AATC"` returns `"TTGA"`.
 #'
 #' @param mutstring A character vector of 4-letter strings.
+#'
+#' @return A character vector the same length as `mutstring` containing
+#'   the reverse-complemented strings.
 #'
 #' @keywords internal
 revc_dbs144 <- function(mutstring) {

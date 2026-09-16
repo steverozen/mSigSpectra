@@ -6,6 +6,10 @@
 \usage{
 infer_abundance(x, ref_genome, region, counts_or_density)
 }
+\value{
+A named integer vector of k-mer counts (the abundance for
+the catalog's context size), or \code{NULL} if no abundance applies.
+}
 \description{
 Looks up the appropriate entry of \code{all.abundance} keyed on
 \code{ref_genome} and \code{region}. Returns \code{NULL} if no entry is found,

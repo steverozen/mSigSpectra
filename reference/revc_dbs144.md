@@ -17,3 +17,8 @@ revc_dbs144(mutstring)
 - mutstring:
 
   A character vector of 4-letter strings.
+
+## Value
+
+A character vector the same length as `mutstring` containing the
+reverse-complemented strings.

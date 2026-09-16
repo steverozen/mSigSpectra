@@ -10,3 +10,8 @@ COMPOSITE (which has no meaningful abundance).
 ``` r
 infer_abundance(x, ref_genome, region, counts_or_density)
 ```
+
+## Value
+
+A named integer vector of k-mer counts (the abundance for the catalog's
+context size), or `NULL` if no abundance applies.

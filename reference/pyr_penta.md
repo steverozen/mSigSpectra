@@ -17,3 +17,8 @@ pyr_penta(mutstring)
 - mutstring:
 
   A character vector of 6-letter strings.
+
+## Value
+
+A character vector the same length as `mutstring`, with each element in
+pyrimidine-centered form.

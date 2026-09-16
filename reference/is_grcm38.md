@@ -13,3 +13,8 @@ is_grcm38(x)
 - x:
 
   A BSgenome object or a character identifier.
+
+## Value
+
+A single logical value, `TRUE` if `x` identifies that genome, otherwise
+`FALSE`.

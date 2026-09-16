@@ -31,7 +31,7 @@ Variants whose REF base is not in {A, C, G, T}.
 
     <a class="navbar-brand me-2" href="../index.html">mSigSpectra</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,10 +98,12 @@ names to keep (overrides the default non-standard-contig filter).</p></dd>
 
 </dl></div>
     <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Each discarded row gains a <code>discarded.reason</code> column. Returns a list
-with <code>df</code> (retained rows) and optionally <code>discarded.variants</code>
-(discarded rows).</p>
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A list with element <code>df</code>, the retained rows of <code>vcf</code> (same
+class as the input), and, only when at least one row was removed,
+element <code>discarded.variants</code>, a data.table of the removed rows with
+an added character column <code>discarded.reason</code> explaining why each
+row was discarded.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

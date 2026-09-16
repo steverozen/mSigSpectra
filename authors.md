@@ -22,13 +22,14 @@ Source:
 [`DESCRIPTION`](https://github.com/steverozen/mSigSpectra/blob/main/DESCRIPTION)
 
 Rozen S, Jiang N, Boot A, Liu M, Wu Y, Huang MN, Chang JG (2026).
-*mSigSpectra: Build Mutational-Spectrum Catalogs from VCF Files*. R
-package version 0.1.2, <https://github.com/steverozen/mSigSpectra>.
+*mSigSpectra: Build Mutational-Spectrum Catalogs from Variant Call
+Format Files*. R package version 0.1.3,
+<https://github.com/steverozen/mSigSpectra>.
 
     @Manual{,
-      title = {mSigSpectra: Build Mutational-Spectrum Catalogs from VCF Files},
+      title = {mSigSpectra: Build Mutational-Spectrum Catalogs from Variant Call Format Files},
       author = {Steve Rozen and Nanhai Jiang and Arnoud Boot and Mo Liu and Yang Wu and Mi Ni Huang and Jia Geng Chang},
       year = {2026},
-      note = {R package version 0.1.2},
+      note = {R package version 0.1.3},
       url = {https://github.com/steverozen/mSigSpectra},
     }

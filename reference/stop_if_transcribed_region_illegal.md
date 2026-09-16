@@ -14,3 +14,8 @@ stop_if_transcribed_region_illegal(region)
 - region:
 
   Character string to check.
+
+## Value
+
+`NULL`, invisibly. Called for its side effect of raising an error when
+`region` is not legal for a stranded catalog.

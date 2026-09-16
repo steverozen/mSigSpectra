@@ -15,3 +15,9 @@ is_catalog(x)
 - x:
 
   Any R object.
+
+## Value
+
+A single logical value: `TRUE` if `x` is a numeric matrix carrying the
+catalog attributes with the canonical row names for its `type`,
+otherwise `FALSE`.

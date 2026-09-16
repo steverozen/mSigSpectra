@@ -46,8 +46,10 @@ check_and_remove_discarded_variants(
   Optional character vector of chromosome names to keep (overrides the
   default non-standard-contig filter).
 
-## Details
+## Value
 
-Each discarded row gains a `discarded.reason` column. Returns a list
-with `df` (retained rows) and optionally `discarded.variants` (discarded
-rows).
+A list with element `df`, the retained rows of `vcf` (same class as the
+input), and, only when at least one row was removed, element
+`discarded.variants`, a data.table of the removed rows with an added
+character column `discarded.reason` explaining why each row was
+discarded.

@@ -9,6 +9,10 @@ revc_sbs96(mutstring)
 \arguments{
 \item{mutstring}{A character vector of 4-letter strings.}
 }
+\value{
+A character vector the same length as \code{mutstring} containing
+the reverse-complemented strings.
+}
 \description{
 Input is a 4-character string where characters 1-3 are the trinucleotide
 context and character 4 is the ALT (e.g. \code{"AATC"} = \code{AAT>ACT}).

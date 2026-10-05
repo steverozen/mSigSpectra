@@ -46,6 +46,9 @@ infer_catalog_type <- function(n_rows) {
 
 #' Validate a counts_or_density argument
 #'
+#' @return `NULL`, invisibly. Called for its side effect of raising an
+#'   error when `counts_or_density` is not a legal value.
+#'
 #' @keywords internal
 stop_if_counts_or_density_illegal <- function(counts_or_density) {
   if (is.null(counts_or_density)) return(invisible(NULL))
@@ -89,6 +92,9 @@ check_and_reorder_rownames <- function(x, type) {
 #' if the catalog is a signature / density catalog with a flat abundance,
 #' or if the catalog is COMPOSITE (which has no meaningful abundance).
 #'
+#' @return A named integer vector of k-mer counts (the abundance for
+#'   the catalog's context size), or `NULL` if no abundance applies.
+#'
 #' @keywords internal
 infer_abundance <- function(x, ref_genome, region, counts_or_density) {
   stop_if_region_illegal(region)
@@ -126,6 +132,10 @@ is_density <- function(counts_or_density) {
 }
 
 #' Map a character ref_genome argument to its canonical BSgenome package name
+#'
+#' @return A single character string giving the canonical 'BSgenome'
+#'   package name, e.g. `"BSgenome.Hsapiens.UCSC.hg38"`. Errors if
+#'   `ref_genome` is not recognized.
 #'
 #' @keywords internal
 infer_ref_genome_name <- function(ref_genome) {
@@ -266,6 +276,10 @@ as_catalog <- function(x,
 #'
 #' @param x Any R object.
 #'
+#' @return A single logical value: `TRUE` if `x` is a numeric matrix
+#'   carrying the catalog attributes with the canonical row names for
+#'   its `type`, otherwise `FALSE`.
+#'
 #' @export
 is_catalog <- function(x) {
   if (!is.matrix(x) || !is.numeric(x)) return(FALSE)
@@ -351,6 +365,12 @@ cbind_catalogs <- function(catalogs) {
 #' @param x A catalog.
 #' @param rows,cols Numeric, logical, or character indices (see
 #'   [base::Extract]). If `NULL`, all rows / columns are kept.
+#'
+#' @return A catalog (numeric matrix) containing the selected rows and
+#'   columns, with the `type`, `counts_or_density`, `ref_genome`, and
+#'   `region` attributes of `x` preserved. The `abundance` attribute is
+#'   preserved only when all rows are kept, because it is not
+#'   meaningful for a subset of mutation types.
 #'
 #' @export
 subset_catalog <- function(x, rows = NULL, cols = NULL) {

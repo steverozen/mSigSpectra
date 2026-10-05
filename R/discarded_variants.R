@@ -4,6 +4,10 @@
 #' equals `"#CHROM"` (e.g. when a concatenated VCF keeps the header line
 #' of each input). Drop those rows and record them in `discarded.variants`.
 #'
+#' @return A list with element `df` (the retained rows) and, only when
+#'   rows were removed, element `discarded.variants` (the removed rows
+#'   with an added character column `discarded.reason`).
+#'
 #' @keywords internal
 remove_rows_with_pound_sign <- function(df, name_of_vcf = NULL) {
   idx <- which(df$CHROM == "#CHROM")
@@ -27,6 +31,10 @@ remove_rows_with_pound_sign <- function(df, name_of_vcf = NULL) {
 #' 1. Rows with identical (CHROM, POS, REF, ALT): keep one copy, discard the rest.
 #' 2. Rows sharing (CHROM, POS, REF) but different ALT: discard all (treated as
 #'    unresolved multiallelic / inconsistent records).
+#'
+#' @return A list with element `df` (the retained rows) and, only when
+#'   rows were removed, element `discarded.variants` (the removed rows
+#'   with an added character column `discarded.reason`).
 #'
 #' @keywords internal
 remove_rows_with_duplicated_chrom_and_pos <- function(df, name_of_vcf = NULL) {
@@ -83,14 +91,16 @@ remove_rows_with_duplicated_chrom_and_pos <- function(df, name_of_vcf = NULL) {
 #' * Wrong DBS rows where REF and ALT share a base at the same position.
 #' * Variants whose REF base is not in `{A, C, G, T}`.
 #'
-#' Each discarded row gains a `discarded.reason` column. Returns a list
-#' with `df` (retained rows) and optionally `discarded.variants`
-#' (discarded rows).
-#'
 #' @param vcf A VCF as a data.frame / data.table.
 #' @param name_of_vcf Optional name, used in warning messages.
 #' @param chr_names_to_process Optional character vector of chromosome
 #'   names to keep (overrides the default non-standard-contig filter).
+#'
+#' @return A list with element `df`, the retained rows of `vcf` (same
+#'   class as the input), and, only when at least one row was removed,
+#'   element `discarded.variants`, a data.table of the removed rows with
+#'   an added character column `discarded.reason` explaining why each
+#'   row was discarded.
 #'
 #' @export
 check_and_remove_discarded_variants <- function(vcf,

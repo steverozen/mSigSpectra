@@ -12,6 +12,13 @@ subset_catalog(x, rows = NULL, cols = NULL)
 \item{rows, cols}{Numeric, logical, or character indices (see
 \link[base:Extract]{base::Extract}). If \code{NULL}, all rows / columns are kept.}
 }
+\value{
+A catalog (numeric matrix) containing the selected rows and
+columns, with the \code{type}, \code{counts_or_density}, \code{ref_genome}, and
+\code{region} attributes of \code{x} preserved. The \code{abundance} attribute is
+preserved only when all rows are kept, because it is not
+meaningful for a subset of mutation types.
+}
 \description{
 Base \code{[} on a matrix drops attributes other than \code{dim} / \code{dimnames}.
 Use \code{subset_catalog()} when you want to keep the catalog's type /

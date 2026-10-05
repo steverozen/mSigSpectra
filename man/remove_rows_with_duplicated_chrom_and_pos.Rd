@@ -6,6 +6,11 @@
 \usage{
 remove_rows_with_duplicated_chrom_and_pos(df, name_of_vcf = NULL)
 }
+\value{
+A list with element \code{df} (the retained rows) and, only when
+rows were removed, element \code{discarded.variants} (the removed rows
+with an added character column \code{discarded.reason}).
+}
 \description{
 Two passes:
 \enumerate{

@@ -69,6 +69,9 @@ stop_if_region_illegal <- function(region) {
 #'
 #' @param region Character string to check.
 #'
+#' @return `NULL`, invisibly. Called for its side effect of raising an
+#'   error when `region` is not legal for a stranded catalog.
+#'
 #' @keywords internal
 stop_if_transcribed_region_illegal <- function(region) {
   if (!region %in% c("transcript", "exome", "unknown")) {

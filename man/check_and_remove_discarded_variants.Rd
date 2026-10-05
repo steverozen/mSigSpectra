@@ -18,6 +18,13 @@ check_and_remove_discarded_variants(
 \item{chr_names_to_process}{Optional character vector of chromosome
 names to keep (overrides the default non-standard-contig filter).}
 }
+\value{
+A list with element \code{df}, the retained rows of \code{vcf} (same
+class as the input), and, only when at least one row was removed,
+element \code{discarded.variants}, a data.table of the removed rows with
+an added character column \code{discarded.reason} explaining why each
+row was discarded.
+}
 \description{
 Removes:
 \itemize{
@@ -32,9 +39,4 @@ Removes:
 \item Wrong DBS rows where REF and ALT share a base at the same position.
 \item Variants whose REF base is not in \verb{\{A, C, G, T\}}.
 }
-}
-\details{
-Each discarded row gains a \code{discarded.reason} column. Returns a list
-with \code{df} (retained rows) and optionally \code{discarded.variants}
-(discarded rows).
 }

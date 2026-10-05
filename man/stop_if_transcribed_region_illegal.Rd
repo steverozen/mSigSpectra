@@ -9,6 +9,10 @@ stop_if_transcribed_region_illegal(region)
 \arguments{
 \item{region}{Character string to check.}
 }
+\value{
+\code{NULL}, invisibly. Called for its side effect of raising an
+error when \code{region} is not legal for a stranded catalog.
+}
 \description{
 SBS192, DBS144 and similar stranded catalogs cannot be built from
 \code{region = "genome"}, since variants outside transcripts have no strand.

@@ -9,6 +9,10 @@ pyr_penta(mutstring)
 \arguments{
 \item{mutstring}{A character vector of 6-letter strings.}
 }
+\value{
+A character vector the same length as \code{mutstring}, with each
+element in pyrimidine-centered form.
+}
 \description{
 Input strings are 6 characters: a 5-base pentanucleotide context followed
 by a 1-base ALT (e.g. \code{"ATGCTT"} = \code{ATGCT>T}). If the center of the

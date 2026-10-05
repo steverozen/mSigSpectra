@@ -19,7 +19,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/steverozen/mSigSpectra/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/steverozen/mSigSpectra/blob/v0.1.3/DESCRIPTION)
 
 Rozen S, Jiang N, Boot A, Liu M, Wu Y, Huang MN, Chang JG (2026).
 *mSigSpectra: Build Mutational-Spectrum Catalogs from Variant Call

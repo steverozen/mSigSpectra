@@ -2,6 +2,8 @@
 
 ## mSigSpectra 0.1.3
 
+CRAN release: 2026-09-27
+
 - Changes requested in the CRAN review of 0.1.2:
   - `License` field is now `GPL-3` and the redundant `LICENSE` file has
     been removed.

@@ -17,6 +17,9 @@ write_mini_vcf <- function(rows) {
   for (m in setdiff(cols, names(df))) {
     df[[m]] <- NA_character_
   }
+  if ("FILTER" %in% names(df)) {
+    cols <- c("FILTER", cols)
+  }
   path <- tempfile(fileext = ".annotated.indel.vcf")
   utils::write.table(
     df[, cols],
@@ -150,6 +153,26 @@ test_that("cap_9 drops R10+ single-base rows and rewrites R9 as R(9,)", {
   ))
   expect_true("A[Del(C):R12]T" %in% d0$Koh_476)
   expect_equal(unique(d0[Koh_476 == "A[Del(C):R9]T", n_indels]), 2L)
+})
+
+test_that("build_one_file_rosetta keeps only PASS rows when pass_only", {
+  rows <- data.frame(
+    FILTER = c("PASS", ".", "GERMLINE_PON"),
+    Koh_476 = c("A[Del(C):R1]T", "A[Del(C):R1]T", "A[Del(C):R1]T"),
+    Koh_89 = "[Del(C):R1]T",
+    COSMIC_83 = "DEL:C:1:0",
+    long_visual = c("AAAAA <C> TTTTT", "GGGGA <C> TGGGG", "CCCCA <C> TCCCC"),
+    ins_or_del_seq = "C",
+    stringsAsFactors = FALSE
+  )
+  path <- write_mini_vcf(rows)
+
+  d <- suppressMessages(build_one_file_rosetta(path))
+  expect_equal(unique(d$n_indels), 2L)
+  expect_false("CCCCA<C>TCCCC" %in% d$long_visual)
+
+  d_all <- suppressMessages(build_one_file_rosetta(path, pass_only = FALSE))
+  expect_equal(unique(d_all$n_indels), 3L)
 })
 
 test_that("build_one_file_rosetta writes an xlsx with merged blocks", {

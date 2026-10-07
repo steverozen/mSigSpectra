@@ -13,7 +13,8 @@ build_one_file_rosetta(
   show_details = FALSE,
   one_singletc = FALSE,
   n_examples = 20,
-  sort_by_count = TRUE
+  sort_by_count = TRUE,
+  pass_only = TRUE
 )
 }
 \arguments{
@@ -46,6 +47,10 @@ pair) instead of by the canonical ID476 row order (ties broken by that
 order). LibreOffice and Excel
 cannot sort a range containing merged cells, so this is the way to get
 a count-sorted table.}
+
+\item{pass_only}{If \code{TRUE}, keep only indels whose \code{FILTER} value is
+\code{PASS} (or \code{.}, meaning no filters were applied). If the VCF has no
+\code{FILTER} column, all indels are kept and a message says so.}
 }
 \value{
 Invisibly, a \code{data.table} with the rows written to the workbook.

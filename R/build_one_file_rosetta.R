@@ -28,6 +28,9 @@
 #'   order). LibreOffice and Excel
 #'   cannot sort a range containing merged cells, so this is the way to get
 #'   a count-sorted table.
+#' @param pass_only If `TRUE`, keep only indels whose `FILTER` value is
+#'   `PASS` (or `.`, meaning no filters were applied). If the VCF has no
+#'   `FILTER` column, all indels are kept and a message says so.
 #'
 #' @return Invisibly, a `data.table` with the rows written to the workbook.
 #'
@@ -41,7 +44,8 @@ build_one_file_rosetta <- function(
   show_details = FALSE,
   one_singletc = FALSE,
   n_examples = 20,
-  sort_by_count = TRUE
+  sort_by_count = TRUE,
+  pass_only = TRUE
 ) {
   if (!is.null(out_path) && !requireNamespace("openxlsx2", quietly = TRUE)) {
     stop("Package 'openxlsx2' is required to write the Excel file")
@@ -79,6 +83,15 @@ build_one_file_rosetta <- function(
     quote = "",
     comment.char = ""
   )
+  if (pass_only) {
+    if ("FILTER" %in% colnames(df)) {
+      keep <- df$FILTER %in% c("PASS", ".")
+      message("Dropping ", sum(!keep), " of ", nrow(df), " non-PASS rows")
+      df <- df[keep, , drop = FALSE]
+    } else {
+      message("No FILTER column, so keeping all rows")
+    }
+  }
   missing <- setdiff(keep_cols, colnames(df))
   if (length(missing) > 0) {
     warning(vcf_path, " is missing columns: ", paste(missing, collapse = ", "))

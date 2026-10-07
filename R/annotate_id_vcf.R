@@ -30,7 +30,8 @@
 #'   * `annotated.vcf`: the input VCF with new columns `seq.context`,
 #'     `seq.context.width`, `pos_shift`, `COSMIC_83`, `Koh_89`, `Koh_476`,
 #'     and (when transcript ranges are available) `trans.strand` /
-#'     `bothstrand`.
+#'     `bothstrand`. If the environment variable `MSIGSPECTRA_ADD_DNA_REGION`
+#'     is `TRUE`, also `dna.region` (see [add_dna_region()]).
 #'   * `discarded.variants`: rows that could not be justified, or `NULL` if
 #'     none were discarded.
 #'
@@ -76,5 +77,40 @@ annotate_id_vcf <- function(vcf,
   indel_info_df <- data.table::rbindlist(cats, fill = TRUE)
   ann <- cbind(ann, indel_info_df)
 
+  # Experimental: add dna.region only when the environment variable
+  # MSIGSPECTRA_ADD_DNA_REGION is TRUE, until we know what it breaks.
+  if (isTRUE(as.logical(Sys.getenv("MSIGSPECTRA_ADD_DNA_REGION", "FALSE")))) {
+    ann <- add_dna_region(ann)
+  }
+
   list(annotated.vcf = ann, discarded.variants = discarded)
+}
+
+#' Label each variant as genic or intergenic
+#'
+#' Port of the `dna.region` column that ICAMS computes in
+#' `CreateOneColIDMatrix()`. A variant is genic (`"G"`) if it falls within a
+#' transcript, that is, if `trans.strand` is `"+"` or `"-"`, and intergenic
+#' (`"I"`) otherwise. A variant within transcripts on both strands is genic.
+#'
+#' [annotate_id_vcf()] calls this only when the environment variable
+#' `MSIGSPECTRA_ADD_DNA_REGION` is `TRUE`.
+#'
+#' @param vcf A `data.frame` / `data.table` annotated by
+#'   [add_transcript_strand()], so that it has a `trans.strand` column.
+#'
+#' @return `vcf` as a `data.table` with a `dna.region` column added at the
+#'   end. If `vcf` has no `trans.strand` column, it is returned unchanged
+#'   with a message, because genic and intergenic cannot be told apart.
+#'
+#' @export
+add_dna_region <- function(vcf) {
+  vcf <- data.table::as.data.table(vcf)
+  if (!"trans.strand" %in% colnames(vcf)) {
+    message("No trans.strand column, so dna.region was not added")
+    return(vcf)
+  }
+  vcf <- rename_column_if_present(vcf, "dna.region")
+  vcf[, dna.region := ifelse(trans.strand %in% c("+", "-"), "G", "I")]
+  vcf
 }

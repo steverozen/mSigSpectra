@@ -202,3 +202,28 @@ test_that("build_one_file_rosetta writes an xlsx with merged blocks", {
     gsub("[][{}]", "", d$long_visual)
   )
 })
+
+test_that("pass_only says so and keeps all rows when there is no FILTER", {
+  rows <- data.frame(
+    Koh_476 = "A[Del(C):R1]T",
+    Koh_89 = "[Del(C):R1]T",
+    COSMIC_83 = "DEL:C:1:0",
+    long_visual = c("AAAAA <C> TTTTT", "GGGGA <C> TGGGG"),
+    ins_or_del_seq = "C",
+    stringsAsFactors = FALSE
+  )
+  path <- write_mini_vcf(rows)
+  expect_message(
+    d <- build_one_file_rosetta(path),
+    "No FILTER column, so keeping all rows"
+  )
+  expect_equal(unique(d$n_indels), 2L)
+})
+
+test_that("pass_only does not change a VCF whose rows are all PASS", {
+  d_pass <- suppressMessages(build_one_file_rosetta(hepg2_vcf()))
+  d_all <- suppressMessages(
+    build_one_file_rosetta(hepg2_vcf(), pass_only = FALSE)
+  )
+  expect_equal(d_pass, d_all)
+})

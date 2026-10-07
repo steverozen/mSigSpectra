@@ -51,7 +51,8 @@ A list with:
 \item \code{annotated.vcf}: the input VCF with new columns \code{seq.context},
 \code{seq.context.width}, \code{pos_shift}, \code{COSMIC_83}, \code{Koh_89}, \code{Koh_476},
 and (when transcript ranges are available) \code{trans.strand} /
-\code{bothstrand}.
+\code{bothstrand}. If the environment variable \code{MSIGSPECTRA_ADD_DNA_REGION}
+is \code{TRUE}, also \code{dna.region} (see \code{\link[=add_dna_region]{add_dna_region()}}).
 \item \code{discarded.variants}: rows that could not be justified, or \code{NULL} if
 none were discarded.
 }
